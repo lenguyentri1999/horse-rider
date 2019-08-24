@@ -1,0 +1,7 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "horse-rider",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}

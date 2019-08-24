@@ -1,5 +1,8 @@
 {
   "name": "horse-rider",
-  "integrations": {},
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
   "type": "angular"
 }
