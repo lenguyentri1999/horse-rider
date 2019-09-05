@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { RegisteredUser } from 'src/models/user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,14 +10,23 @@ import { NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   constructor(
-    protected navCtrl: NavController,
+    protected authService: AuthService,
   ) { }
 
   ngOnInit() {
   }
 
-  redirect() {
-    this.navCtrl.navigateRoot('/tabs/tabs/tab1');
+  login(form) {
+    const userInfo: RegisteredUser = {
+      email: form.value.email,
+      password: form.value.password
+    };
+    const r = this.authService.login(userInfo);
+    if (r) {
+      alert('Login success');
+      return;
+    }
+    alert('Login failed');
   }
 
 }

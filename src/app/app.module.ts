@@ -11,7 +11,9 @@ import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +23,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFireAuthGuardModule,
     AngularFireDatabaseModule,
   ],
   providers: [
