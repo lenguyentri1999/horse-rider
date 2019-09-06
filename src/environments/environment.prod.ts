@@ -1,14 +1,14 @@
-const version = '1.0';
-export const environment = {
-  production: true,
-  firebase: {
-    apiKey: 'AIzaSyA9WtOMm-vC_4oTp89ixutagUJWpYR3Ry0',
-    authDomain: 'horse-riding-app.firebaseapp.com',
-    databaseURL: 'https://horse-riding-app.firebaseio.com',
-    projectId: 'horse-riding-app',
-    storageBucket: '',
-    messagingSenderId: '215364264641',
-    appId: '1:215364264641:web:75095f272cfe5cba'
-  },
-  firebasePath: `App/Prod/v${version}/`
-};
+// const version = '1';
+// export const environment = {
+//   production: true,
+//   firebase: {
+//     apiKey: 'AIzaSyA9WtOMm-vC_4oTp89ixutagUJWpYR3Ry0',
+//     authDomain: 'horse-riding-app.firebaseapp.com',
+//     databaseURL: 'https://horse-riding-app.firebaseio.com',
+//     projectId: 'horse-riding-app',
+//     storageBucket: '',
+//     messagingSenderId: '215364264641',
+//     appId: '1:215364264641:web:75095f272cfe5cba'
+//   },
+//   firebasePath: `App/Dev/v${version}/`
+// };
