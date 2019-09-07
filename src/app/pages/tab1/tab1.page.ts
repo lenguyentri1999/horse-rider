@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
+import { Router, NavigationExtras } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -11,10 +13,21 @@ export class Tab1Page {
   camps: Array<Camp>;
 
   constructor(
-    protected campService: CampService
+    protected campService: CampService,
+    protected router: Router,
+    protected navCtrl: NavController,
   ) {
     this.campService.getAll().subscribe(camps =>
       this.camps = camps
     );
+  }
+
+  goToCampInfo(camp: Camp) {
+    const navExtras: NavigationExtras = {
+      state: {
+        camp
+      }
+    };
+    this.navCtrl.navigateForward(`camp-info`, navExtras);
   }
 }
