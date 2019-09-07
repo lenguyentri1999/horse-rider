@@ -12,11 +12,12 @@ const routes: Routes = [
   // },
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
   },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule', ...canActivate(redirectLoggedInToTabs)},
-  { path: 'register', loadChildren: './register/register.module#RegisterPageModule', ...canActivate(redirectLoggedInToTabs) }
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule', ...canActivate(redirectLoggedInToTabs)},
+  { path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule', ...canActivate(redirectLoggedInToTabs) },
+  { path: 'camp-info', loadChildren: './pages/camp-info/camp-info.module#CampInfoPageModule' }
 ];
 @NgModule({
   imports: [

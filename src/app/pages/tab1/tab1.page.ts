@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CampService } from '../services/camp.service';
+import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 
 @Component({
