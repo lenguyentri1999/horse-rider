@@ -7,4 +7,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-3 *ngFor="let camp of camps">
+        <app-camp-card [camp]="camp"></app-camp-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
