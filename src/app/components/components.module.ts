@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { CampCardComponent } from './camp-card/camp-card.component';
 import { IonicModule } from '@ionic/angular';
 import { ReviewComponent } from './review/review.component';
+import { IonicRatingModule } from 'ionic-rating';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,6 +14,8 @@ import { ReviewComponent } from './review/review.component';
   imports: [
     CommonModule,
     IonicModule,
+    IonicRatingModule,
+    ReactiveFormsModule,
   ],
   exports: [
     CampCardComponent,

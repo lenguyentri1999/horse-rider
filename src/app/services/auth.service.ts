@@ -21,4 +21,5 @@ export class AuthService {
     const r = await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
     return r;
   }
+
 }

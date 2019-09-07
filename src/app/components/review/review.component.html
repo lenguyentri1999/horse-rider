@@ -1,1 +1,4 @@
-<ion-textarea placeholder="Write your review here..."></ion-textarea>
+<ng-container *ngIf="isEditMode">
+    <ion-rating [rate]="review.rate" (rateChange)="onRateChange($event)"></ion-rating>
+    <ion-textarea placeholder="Write your review here..."></ion-textarea>
+</ng-container>
