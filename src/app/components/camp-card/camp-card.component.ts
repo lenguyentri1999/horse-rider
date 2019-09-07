@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Camp } from 'src/models/camp';
 
 @Component({
   selector: 'app-camp-card',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./camp-card.component.scss'],
 })
 export class CampCardComponent implements OnInit {
+  @Input() camp: Camp;
 
   constructor() { }
 

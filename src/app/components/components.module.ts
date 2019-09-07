@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CampCardComponent } from './camp-card/camp-card.component';
+import { IonicModule } from '@ionic/angular';
 
 
 
@@ -9,7 +10,8 @@ import { CampCardComponent } from './camp-card/camp-card.component';
     CampCardComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    IonicModule,
   ],
   exports: [
     CampCardComponent
