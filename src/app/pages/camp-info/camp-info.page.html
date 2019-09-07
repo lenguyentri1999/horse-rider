@@ -5,6 +5,6 @@
 </ion-header>
 
 <ion-content>
-  <app-review></app-review>
+  <app-review [isEditMode]="true" (submitReview)="submitReview(review)"></app-review>
 
 </ion-content>

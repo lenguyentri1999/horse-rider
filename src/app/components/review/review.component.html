@@ -1,4 +1,10 @@
 <ng-container *ngIf="isEditMode">
-    <ion-rating [rate]="review.rate" (rateChange)="onRateChange($event)"></ion-rating>
-    <ion-textarea placeholder="Write your review here..."></ion-textarea>
+    <ion-rating [rate]="reviewToSubmit.rating" (rateChange)="onRateChange($event)"></ion-rating>
+    <ion-textarea name="description" [(ngModel)]="reviewToSubmit.description" placeholder="Write your review here..."></ion-textarea>
+    <ion-button>Submit</ion-button>
+</ng-container>
+
+<ng-container *ngIf="!isEditMode">
+    <!-- <ion-rating [rate]="review.rating" (rateChange)="onRateChange($event)"></ion-rating>
+    <ion-textarea name="description" [(ngModel)]="review.description"></ion-textarea> -->
 </ng-container>
