@@ -22,4 +22,7 @@ export class AuthService {
     return r;
   }
 
+  public logout() {
+    this.afAuth.auth.signOut();
+  }
 }
