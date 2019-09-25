@@ -9,8 +9,18 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class AuthService {
 
   constructor(
-    public afAuth: AngularFireAuth
+    protected afAuth: AngularFireAuth
   ) { }
+
+  private isAuthenticated(): boolean {
+    return this.afAuth.auth.currentUser != null;
+  }
+
+  public getUserId(): string {
+    return this.isAuthenticated()
+    ? this.afAuth.auth.currentUser.uid
+    : '';
+  }
 
   public async register(user: RegisteredUser): Promise<firebase.auth.UserCredential> {
     const r = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
