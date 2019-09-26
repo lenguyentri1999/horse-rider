@@ -14,6 +14,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { DbService } from './services/db.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,8 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    DbService
   ],
   bootstrap: [AppComponent]
 })

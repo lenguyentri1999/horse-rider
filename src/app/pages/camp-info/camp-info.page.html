@@ -5,6 +5,6 @@
 </ion-header>
 
 <ion-content>
-  <app-review [isEditMode]="true" (submitReview)="submitReview(review)"></app-review>
+  <app-review [isEditMode]="true" [camp]="camp" (submitReview)="submitReview($event)"></app-review>
 
 </ion-content>
