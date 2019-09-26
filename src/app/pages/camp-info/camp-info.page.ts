@@ -21,8 +21,10 @@ export class CampInfoPage implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(_ => {
       const state = this.router.getCurrentNavigation().extras.state;
+
       if (state && state.camp) {
         this.camp = state.camp;
+
       } else {
         throw new Error('Must pass state with key camp to camp-info.ts');
       }
@@ -30,6 +32,6 @@ export class CampInfoPage implements OnInit {
   }
 
   submitReview(review: Review) {
-
+    this.reviewService.submitReview(review);
   }
 }

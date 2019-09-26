@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Review } from 'src/models/review';
 import { Camp } from 'src/models/camp';
 import { AuthService } from 'src/app/services/auth.service';
+import { chain } from 'fp-ts/lib/Option';
 
 @Component({
   selector: 'app-review',
@@ -25,7 +26,8 @@ export class ReviewComponent implements OnInit {
 
   constructor(
     protected authService: AuthService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
 
@@ -35,7 +37,7 @@ export class ReviewComponent implements OnInit {
         rating: 5,
         description: '',
         campID: this.camp.id,
-        userID: ''
+        userID: this.authService.getUserId()
       };
 
       this.readyToEdit = Promise.resolve(true);
