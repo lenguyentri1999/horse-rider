@@ -15,6 +15,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { DbService } from './services/db.service';
+import { ReviewService } from './services/review.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,8 @@ import { DbService } from './services/db.service';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    DbService
+    DbService,
+    ReviewService,
   ],
   bootstrap: [AppComponent]
 })

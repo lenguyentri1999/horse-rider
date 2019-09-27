@@ -1,9 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Review } from 'src/models/review';
 import { Camp } from 'src/models/camp';
 import { AuthService } from 'src/app/services/auth.service';
-import { chain } from 'fp-ts/lib/Option';
 
 @Component({
   selector: 'app-review',
@@ -33,18 +31,11 @@ export class ReviewComponent implements OnInit {
 
     if (this.isEditMode) {
       // User is creating new review
-      this.reviewToSubmit = {
-        rating: 5,
-        description: '',
-        campID: this.camp.id,
-        userID: this.authService.getUserId()
-      };
-
+      this.reviewToSubmit = new Review(5, '', this.camp.id, this.authService.getUserId(), new Date());
       this.readyToEdit = Promise.resolve(true);
 
     } else {
-      console.log()
-      //
+      this.readyToView = Promise.resolve(true);
     }
   }
 
