@@ -7,4 +7,13 @@
 <ion-content>
   <app-review [isEditMode]="true" [camp]="camp" (submitReview)="submitReview($event)"></app-review>
 
+  <h1>Reviews</h1>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-3 *ngFor="let review of campReviews">
+        <app-review [isEditMode]="false" [review]="review"></app-review>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

@@ -8,11 +8,6 @@ import * as firebase from 'firebase';
   providedIn: 'root'
 })
 
-export interface WriteObj {
-  ref: string;
-  value: object;
-}
-
 export class DbService {
 
   constructor(
