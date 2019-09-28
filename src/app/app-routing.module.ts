@@ -17,7 +17,8 @@ const routes: Routes = [
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule', ...canActivate(redirectLoggedInToTabs)},
   { path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule', ...canActivate(redirectLoggedInToTabs) },
-  { path: 'camp-info', loadChildren: './pages/camp-info/camp-info.module#CampInfoPageModule' }
+  { path: 'camp-info', loadChildren: './pages/camp-info/camp-info.module#CampInfoPageModule' },
+  { path: 'landing', loadChildren: './pages/landing/landing.module#LandingPageModule' }
 ];
 @NgModule({
   imports: [

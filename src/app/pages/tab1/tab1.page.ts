@@ -4,6 +4,7 @@ import { Camp } from 'src/models/camp';
 import { Router, NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { MapboxService } from 'src/app/services/mapbox.service';
 
 @Component({
   selector: 'app-tab1',
@@ -17,7 +18,8 @@ export class Tab1Page {
     protected campService: CampService,
     protected router: Router,
     protected navCtrl: NavController,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected mapboxService: MapboxService,
   ) {
     this.campService.getAll().subscribe(camps =>
       this.camps = camps
@@ -31,5 +33,10 @@ export class Tab1Page {
       }
     };
     this.navCtrl.navigateForward(`camp-info`, navExtras);
+  }
+
+  autocomplete($event) {
+    const query = $event.detail.value;
+    this.mapboxService.autocomplete(query);
   }
 }
