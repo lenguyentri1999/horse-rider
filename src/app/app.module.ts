@@ -17,6 +17,8 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { DbService } from './services/db.service';
 import { ReviewService } from './services/review.service';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -28,6 +30,7 @@ import { ReviewService } from './services/review.service';
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
     AngularFireDatabaseModule,
+    HttpClientModule,
   ],
   providers: [
     StatusBar,
