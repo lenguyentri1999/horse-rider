@@ -15,6 +15,7 @@
 
 <ion-content>
 
+  <!-- Maybe you could use ion grid for aligning the pictures and the autocomplete -->
   <ion-auto-complete [options]="{ placeholder : 'Explore camps' }"></ion-auto-complete>
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" [dataProvider]="mapboxService"></ion-auto-complete>
   <img src="assets/landing.jpg">
