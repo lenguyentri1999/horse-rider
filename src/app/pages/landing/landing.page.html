@@ -1,9 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>landing</ion-title>
+    <ion-title>Logo goes here</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>About</ion-button>
+      <ion-button>Trails</ion-button>
+      <ion-button>Camps</ion-button>
+      <ion-button>Help</ion-button>
+      <ion-button>Log in</ion-button>
+      <ion-button>Sign up</ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-auto-complete [options]="{ placeholder : 'Explore camps' }"></ion-auto-complete>
+  <ion-auto-complete [options]="{ placeholder : 'Your location' }" [dataProvider]="mapboxService"></ion-auto-complete>
+  <img src="assets/landing.jpg">
 
 </ion-content>

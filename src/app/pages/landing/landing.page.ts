@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MapboxService } from 'src/app/services/mapbox.service';
 
 @Component({
   selector: 'app-landing',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    protected mapboxService: MapboxService
+  ) { }
 
   ngOnInit() {
   }
