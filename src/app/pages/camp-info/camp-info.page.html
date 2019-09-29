@@ -6,6 +6,8 @@
 
 <ion-content>
   
+  <p>Average rating: {{avgRating | async}}</p>
+
   <app-review [isEditMode]="true" [camp]="camp" (submitReview)="submitReview($event)"></app-review>
 
   <h1>Reviews</h1>

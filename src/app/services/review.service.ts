@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
 import { Review } from 'src/models/review';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { IByCampID } from 'src/models/firebase/IByCampID';
 import { IByUserID } from 'src/models/firebase/IByUserID';
 import { IByID } from 'src/models/firebase/IByID';
@@ -33,12 +33,36 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
       throw new Error(err);
     }
   }
+
   getByUserID(userID: string): Observable<Review[]> {
     throw new Error('Method not implemented.');
   }
 
   getByID(id: string): Observable<Review> {
     return this.db.getObjectValues<Review>(`reviews/${id}`);
+  }
+
+  getAllReviewRatings(campID: string): Observable<number[]> {
+    try {
+      const ids = this.getAllCampReviewIds(campID);
+      const ratings = ids.pipe(
+        flatMap(arr => {
+          if (arr.length === 0) {
+            return of([]);
+          }
+
+          let observables: Observable<number>[] = [];
+          observables = arr.map(id => this.getReviewRating(id));
+
+          return combineLatest(observables);
+        })
+      );
+
+      return ratings;
+
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   submitReview(review: Review) {
@@ -54,6 +78,10 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
     writes[refByCampID] = true;
 
     this.db.batchWrite(writes);
+  }
+
+  private getReviewRating(id: string): Observable<number> {
+    return this.db.getObjectValues<number>(`reviews/${id}/rating`);
   }
 
   private getAllCampReviewIds(campID: string): Observable<string[]> {
