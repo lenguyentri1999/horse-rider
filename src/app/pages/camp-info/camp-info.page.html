@@ -5,13 +5,22 @@
 </ion-header>
 
 <ion-content>
-  
+
+  <h1>Average rating:</h1>
+  <ionic4-star-rating #rating activeIcon="ios-star" defaultIcon="ios-star-outline" activeColor="#488aff"
+    defaultColor="#f4f4f4" readonly="true" halfStar="true" [rating]="avgRating | async">
+  </ionic4-star-rating>
+
+  <br>
+
+  <h1>Write a review:</h1>
+
   <app-review [isEditMode]="true" [camp]="camp" (submitReview)="submitReview($event)"></app-review>
 
   <h1>Reviews</h1>
   <ion-grid>
     <ion-row>
-      <ion-col col-3 *ngFor="let review of campReviews">
+      <ion-col size="12" *ngFor="let review of campReviews">
         <app-review [isEditMode]="false" [review]="review"></app-review>
       </ion-col>
     </ion-row>

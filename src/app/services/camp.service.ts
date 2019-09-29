@@ -22,4 +22,19 @@ export class CampService implements IGetAll<Camp> {
   public getAll(): Observable<Camp[]> {
     return this.db.getListSortedByFunction<Camp>(`camps`);
   }
+
+  public getAverageRating(campID: string): Observable<number> {
+    return this.reviewService.getAllReviewRatings(campID)
+      .pipe(
+        map(ratings => {
+          if (ratings.length === 0) {
+            return 0;
+          }
+
+          let sum = 0;
+          ratings.forEach(rating => sum += rating);
+          return sum / ratings.length;
+        })
+      );
+  }
 }

@@ -6,6 +6,6 @@
 </ng-container>
 
 <ng-container *ngIf="readyToView | async">
-    <ion-rating [rate]="review.rating" readonly="true" (rateChange)="onRateChange($event)"></ion-rating>
+    <ion-rating [rate]="review.rating" readonly="true"></ion-rating>
     <ion-textarea name="description" [(ngModel)]="review.description"></ion-textarea>
 </ng-container>

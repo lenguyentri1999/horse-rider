@@ -4,6 +4,7 @@ import { Camp } from 'src/models/camp';
 import { Review } from 'src/models/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { CampService } from 'src/app/services/camp.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-camp-info',
@@ -12,6 +13,7 @@ import { CampService } from 'src/app/services/camp.service';
 })
 export class CampInfoPage implements OnInit {
   camp: Camp;
+  avgRating: Observable<number>;
   campReviews: Review[];
 
   constructor(
@@ -44,6 +46,7 @@ export class CampInfoPage implements OnInit {
         this.reviewService.getByCampID(this.camp.id).subscribe(arr => {
           this.campReviews = arr;
         });
+        this.avgRating = this.campService.getAverageRating(this.camp.id);
   }
 
   submitReview(review: Review) {

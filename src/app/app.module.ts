@@ -19,8 +19,12 @@ import { ReviewService } from './services/review.service';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { StarRating } from 'ionic4-star-rating';
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, 
+    // StarRating
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -39,6 +43,9 @@ import { HttpClientModule } from '@angular/common/http';
     DbService,
     ReviewService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [
+    // StarRating,
+  ]
 })
 export class AppModule { }

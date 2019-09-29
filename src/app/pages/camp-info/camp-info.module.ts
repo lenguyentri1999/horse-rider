@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { CampInfoPage } from './camp-info.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { StarRatingModule, StarRating } from 'ionic4-star-rating';
 
 const routes: Routes = [
   {
@@ -22,7 +23,16 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     ComponentsModule,
+    // StarRatingModule
+
+    // StarRating,
   ],
-  declarations: [CampInfoPage]
+  declarations: [
+    CampInfoPage,
+    StarRating
+  ],
+  exports: [
+    StarRating,
+  ]
 })
 export class CampInfoPageModule {}
