@@ -47,6 +47,9 @@ export class CampService {
       const ids = this.db.getObjectValues<Map<string, boolean>>(`reviews-by-campID/${camp.id}`)
         .pipe(
           map(hashmap => {
+            if (!(hashmap)) {
+              return [];
+            }
             return Object.keys(hashmap);
           })
         );
