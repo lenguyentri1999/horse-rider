@@ -35,10 +35,25 @@ export class MapboxService implements AutoCompleteService {
         access_token: environment.mapboxKey
       }
     })
-    .pipe(
-      map((result: MapboxResult) => {
-        return result.features;
-      })
-    );
+      .pipe(
+        map((result: MapboxResult) => {
+          return result.features;
+        })
+      );
   }
+
+  async findMe(): Promise<{ lat: number; long: number }> {
+    const pos = await this.getPosition();
+    return {
+      lat: pos.coords.latitude,
+      long: pos.coords.longitude
+    };
+  }
+
+  private getPosition(options?): Promise<any> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  }
+
 }

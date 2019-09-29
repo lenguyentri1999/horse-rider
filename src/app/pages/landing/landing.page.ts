@@ -7,12 +7,17 @@ import { MapboxService } from 'src/app/services/mapbox.service';
   styleUrls: ['./landing.page.scss'],
 })
 export class LandingPage implements OnInit {
+  location: {lat: number; long: number};
 
   constructor(
     protected mapboxService: MapboxService
   ) { }
 
   ngOnInit() {
+  }
+
+  async onLocationSearchFocus($event) {
+    this.location = await this.mapboxService.findMe();
   }
 
 }
