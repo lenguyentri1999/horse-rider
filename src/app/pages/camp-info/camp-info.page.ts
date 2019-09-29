@@ -5,6 +5,7 @@ import { Review } from 'src/models/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { CampService } from 'src/app/services/camp.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-camp-info',
@@ -12,9 +13,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./camp-info.page.scss'],
 })
 export class CampInfoPage implements OnInit {
-  camp: Camp;
-  avgRating: Observable<number>;
-  campReviews: Review[];
+  camp$: Observable<Camp>;
+  avgRating$: Observable<number>;
+  campReviews$: Observable<Review[]>;
 
   constructor(
     protected route: ActivatedRoute,
@@ -24,29 +25,26 @@ export class CampInfoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initQueryParams();
-  }
-
-  initQueryParams() {
-    this.route.queryParams.subscribe(_ => {
-      const state = this.router.getCurrentNavigation().extras.state;
-
-      if (state && state.camp) {
-
-        this.initCamp(state.camp);
-
-      } else {
-        throw new Error('Must pass state with key camp to camp-info.ts');
-      }
+    this.camp$ = this.initQueryParams();
+    this.camp$.subscribe(camp => {
+      this.campReviews$ = this.reviewService.getByCampID(camp.id);
+      this.avgRating$ = this.campService.getAverageRating(camp.id);
     });
   }
 
-  initCamp(camp: Camp) {
-        this.camp = camp;
-        this.reviewService.getByCampID(this.camp.id).subscribe(arr => {
-          this.campReviews = arr;
-        });
-        this.avgRating = this.campService.getAverageRating(this.camp.id);
+  initQueryParams(): Observable<Camp> {
+    const camp$ = this.route.queryParams.pipe(
+      map(_ => {
+        const state = this.router.getCurrentNavigation().extras.state;
+
+        if (state && state.camp) {
+          return state.camp;
+        } else {
+          throw new Error('Must pass state with key camp to camp-info.ts');
+        }
+      })
+    );
+    return camp$;
   }
 
   submitReview(review: Review) {
