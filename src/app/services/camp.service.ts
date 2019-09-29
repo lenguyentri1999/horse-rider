@@ -6,11 +6,12 @@ import { Review } from 'src/models/review';
 import { forkJoin } from 'rxjs';
 import { map, tap, flatMap, switchMap, take } from 'rxjs/operators';
 import { ReviewService } from './review.service';
+import { IGetAll } from 'src/models/firebase/IGetAll';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampService {
+export class CampService implements IGetAll<Camp> {
 
   constructor(
     protected db: DbService,
@@ -18,42 +19,7 @@ export class CampService {
   ) { }
 
   // Returns all camps
-  public getAll(): Observable<Array<Camp>> {
+  public getAll(): Observable<Camp[]> {
     return this.db.getListSortedByFunction<Camp>(`camps`);
   }
-
-  // Returns all reviews for 1 camp
-  public getAllCampReviews(camp: Camp): Observable<Review[]> {
-
-    try {
-      const ids = this.getAllCampReviewIds(camp);
-      const reviews = ids.pipe(
-        flatMap(arr => {
-          let observables: Observable<Review>[] = [];
-          observables = arr.map(id => this.reviewService.getReviewById(id));
-
-          return combineLatest(observables);
-        })
-      );
-
-      return reviews;
-
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
-  private getAllCampReviewIds(camp: Camp): Observable<string[]> {
-      const ids = this.db.getObjectValues<Map<string, boolean>>(`reviews-by-campID/${camp.id}`)
-        .pipe(
-          map(hashmap => {
-            if (!(hashmap)) {
-              return [];
-            }
-            return Object.keys(hashmap);
-          })
-        );
-      return ids;
-  }
-
 }

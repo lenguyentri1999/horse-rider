@@ -1,17 +1,43 @@
 import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
 import { Review } from 'src/models/review';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
+import { IByCampID } from 'src/models/firebase/IByCampID';
+import { IByUserID } from 'src/models/firebase/IByUserID';
+import { IByID } from 'src/models/firebase/IByID';
+import { map, flatMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReviewService {
+export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByID<Review> {
   constructor(
     protected db: DbService
   ) { }
 
-  getReviewById(id: string): Observable<Review> {
+  getByCampID(campID: string): Observable<Review[]> {
+    try {
+      const ids = this.getAllCampReviewIds(campID);
+      const reviews = ids.pipe(
+        flatMap(arr => {
+          let observables: Observable<Review>[] = [];
+          observables = arr.map(id => this.getByID(id));
+
+          return combineLatest(observables);
+        })
+      );
+
+      return reviews;
+
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  getByUserID(userID: string): Observable<Review[]> {
+    throw new Error('Method not implemented.');
+  }
+
+  getByID(id: string): Observable<Review> {
     return this.db.getObjectValues<Review>(`reviews/${id}`);
   }
 
@@ -29,4 +55,18 @@ export class ReviewService {
 
     this.db.batchWrite(writes);
   }
+
+  private getAllCampReviewIds(campID: string): Observable<string[]> {
+    const ids = this.db.getObjectValues<Map<string, boolean>>(`reviews-by-campID/${campID}`)
+      .pipe(
+        map(hashmap => {
+          if (!(hashmap)) {
+            return [];
+          }
+          return Object.keys(hashmap);
+        })
+      );
+    return ids;
+  }
+
 }

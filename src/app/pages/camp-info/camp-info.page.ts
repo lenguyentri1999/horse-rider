@@ -41,7 +41,7 @@ export class CampInfoPage implements OnInit {
 
   initCamp(camp: Camp) {
         this.camp = camp;
-        this.campService.getAllCampReviews(this.camp).subscribe(arr => {
+        this.reviewService.getByCampID(this.camp.id).subscribe(arr => {
           this.campReviews = arr;
         });
   }
