@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { LandingPage } from './landing.page';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     AutoCompleteModule,
+    ComponentsModule,
   ],
   declarations: [LandingPage]
 })

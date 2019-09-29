@@ -18,8 +18,8 @@ import { DbService } from './services/db.service';
 import { ReviewService } from './services/review.service';
 
 import { HttpClientModule } from '@angular/common/http';
+import { TabsPageModule } from './pages/tabs/tabs.module';
 
-import { StarRating } from 'ionic4-star-rating';
 
 @NgModule({
   declarations: [AppComponent, 
@@ -35,6 +35,7 @@ import { StarRating } from 'ionic4-star-rating';
     AngularFireAuthGuardModule,
     AngularFireDatabaseModule,
     HttpClientModule,
+    TabsPageModule,
   ],
   providers: [
     StatusBar,
