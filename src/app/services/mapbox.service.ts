@@ -42,14 +42,12 @@ export class MapboxService implements AutoCompleteService {
       );
   }
 
-  async findMe(): Promise<{lat: number; long: number}> {
-    if (navigator.geolocation) {
-      const pos = await this.getPosition();
-      return {
-        lat: pos.coords.latitude,
-        long: pos.coords.longitude
-      };
-    }
+  async findMe(): Promise<{ lat: number; long: number }> {
+    const pos = await this.getPosition();
+    return {
+      lat: pos.coords.latitude,
+      long: pos.coords.longitude
+    };
   }
 
   private getPosition(options?): Promise<any> {
