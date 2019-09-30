@@ -19,13 +19,16 @@ import { ReviewService } from './services/review.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { TabsPageModule } from './pages/tabs/tabs.module';
-
+import { RegisterPage } from './pages/register/register.page';
+import { RegisterPageModule } from './pages/register/register.module';
+import { LoginPageModule } from './pages/login/login.module';
 
 @NgModule({
-  declarations: [AppComponent, 
-    // StarRating
+  declarations: [
+    AppComponent,
   ],
-  entryComponents: [],
+  entryComponents: [
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -36,6 +39,8 @@ import { TabsPageModule } from './pages/tabs/tabs.module';
     AngularFireDatabaseModule,
     HttpClientModule,
     TabsPageModule,
+    RegisterPageModule,
+    LoginPageModule,
   ],
   providers: [
     StatusBar,

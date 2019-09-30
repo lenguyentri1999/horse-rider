@@ -7,6 +7,8 @@ import { IonicRatingModule } from 'ionic-rating';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PwaNavBarComponent } from './pwa-nav-bar/pwa-nav-bar.component';
 import { RouterModule } from '@angular/router';
+import { RegisterPageModule } from '../pages/register/register.module';
+import { RegisterPage } from '../pages/register/register.page';
 
 @NgModule({
   declarations: [

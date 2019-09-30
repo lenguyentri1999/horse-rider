@@ -3,6 +3,8 @@ import { Review } from 'src/models/review';
 import { Camp } from 'src/models/camp';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable } from 'rxjs';
+import { ModalController } from '@ionic/angular';
+import { LoginPage } from 'src/app/pages/login/login.page';
 
 @Component({
   selector: 'app-review',
@@ -25,7 +27,8 @@ export class ReviewComponent implements OnInit {
   @Output() submitReview = new EventEmitter<Review>();
 
   constructor(
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected modalController: ModalController,
   ) {
   }
 
@@ -49,6 +52,13 @@ export class ReviewComponent implements OnInit {
   // Send review to output
   onSubmit() {
     this.submitReview.emit(this.reviewToSubmit);
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: LoginPage,
+    });
+    modal.present();
   }
 
 }
