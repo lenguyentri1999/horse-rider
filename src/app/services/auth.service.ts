@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { RegisteredUser } from 'src/models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Option, some, none} from 'fp-ts/lib/Option';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,16 @@ export class AuthService {
 
   public getUserId(): string | undefined {
     return this.isAuthenticated()
-    ? this.afAuth.auth.currentUser.uid
-    : undefined;
+      ? this.afAuth.auth.currentUser.uid
+      : undefined;
+  }
+
+  public isAuthorized(): Observable<boolean> {
+    return this.afAuth.user.pipe(
+      map(user => {
+        return (user) ? true : false;
+      })
+    );
   }
 
   public async register(user: RegisteredUser): Promise<firebase.auth.UserCredential> {

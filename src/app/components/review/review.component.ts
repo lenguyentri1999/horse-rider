@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Review } from 'src/models/review';
 import { Camp } from 'src/models/camp';
 import { AuthService } from 'src/app/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-review',
@@ -11,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ReviewComponent implements OnInit {
   readyToEdit: Promise<boolean>;
   readyToView: Promise<boolean>;
+  isAuth: Observable<boolean>;
 
   @Input() camp: Camp;
   @Input() isEditMode: boolean; // true when user is posting a review
@@ -28,6 +30,7 @@ export class ReviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAuth = this.authService.isAuthorized();
 
     if (this.isEditMode) {
       // User is creating new review
