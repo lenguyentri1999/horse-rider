@@ -27,11 +27,11 @@ export class Tab1Page implements OnInit, AfterViewInit {
   query: CampQuery;
 
   constructor(
+    public mapboxService: MapboxService,
     protected campService: CampService,
     protected router: Router,
     protected navCtrl: NavController,
     protected authService: AuthService,
-    protected mapboxService: MapboxService,
     protected navParamService: NavParamsService,
   ) {
     // Get query from landing page

@@ -21,7 +21,7 @@ export class LandingPage implements OnInit {
   searchTerm: string = '';
 
   constructor(
-    protected mapboxService: MapboxService,
+    public mapboxService: MapboxService,
     protected router: Router,
     protected navCtrl: NavController,
   ) { }
