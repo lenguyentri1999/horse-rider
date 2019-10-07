@@ -8,6 +8,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-3 *ngFor="let camp of camps | async">
+        <p>{{camp.distance | async}}</p>
         <app-camp-card [camp]="camp" (click)="goToCampInfo(camp)"></app-camp-card>
       </ion-col>
     </ion-row>

@@ -22,6 +22,7 @@ import { TabsPageModule } from './pages/tabs/tabs.module';
 import { RegisterPage } from './pages/register/register.page';
 import { RegisterPageModule } from './pages/register/register.module';
 import { LoginPageModule } from './pages/login/login.module';
+import { MapboxService } from './services/mapbox.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { LoginPageModule } from './pages/login/login.module';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DbService,
     ReviewService,
+    MapboxService,
   ],
   bootstrap: [AppComponent],
   exports: [

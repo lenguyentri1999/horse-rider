@@ -7,6 +7,7 @@ import { ReviewService } from './review.service';
 import { IGetAll } from 'src/models/firebase/IGetAll';
 import * as stringSim from 'string-similarity';
 import { StringMatch } from 'src/models/string-similarity/stringMatch';
+import { MapboxService } from './mapbox.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class CampService implements IGetAll<Camp> {
   constructor(
     protected db: DbService,
     protected reviewService: ReviewService,
+    protected mapboxService: MapboxService,
   ) { }
 
   // Returns all camps
@@ -27,7 +29,13 @@ export class CampService implements IGetAll<Camp> {
     return this.db.getListSortedByFunction<Camp>(`camps`);
   }
 
-  public filterByTerm(term: string, camps: Map<string, Camp>) {
+  public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
+    return this.mapboxService.reverseGeocode(camp.address).pipe(
+      (tap(coords => this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords)))
+    );
+  }
+
+  public filterByTerm(term: string, camps: Map<string, Camp>): Camp[] {
 
     const campsArr = Object.keys(camps).map(id => camps[id]);
 

@@ -7,8 +7,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { MapboxPlace } from 'src/models/mapboxResult';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { Coords } from 'src/models/coords';
 
 @Component({
   selector: 'app-tab1',
@@ -60,11 +61,23 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   searchCamps() {
     this.query.term = this.textSearchBar.keyword;
+    const currCoords: Coords = {
+      long: this.query.place.geometry.coordinates[0],
+      lat: this.query.place.geometry.coordinates[1]
+    };
+
     this.camps = this.campService.getAllAsMap().pipe(
       map(camps => {
         return this.campService.filterByTerm(this.query.term, camps);
+      }),
+      tap(camps => {
+        camps.forEach(camp => {
+          camp.coords = this.mapboxService.reverseGeocode(camp.address);
+          camp.distance = this.mapboxService.straightLineDistance(
+            of(currCoords), camp.coords
+          );
+        });
       })
     );
-    // .subscribe();
   }
 }
