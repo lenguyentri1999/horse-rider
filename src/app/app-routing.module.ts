@@ -6,10 +6,7 @@ const routes: Routes = [
     path: '',
     redirectTo: '/landing', pathMatch: 'full',
   },
-  {
-    path: 'camp-info',
-    redirectTo: '/landing', pathMatch: 'full'
-  },
+  { path: 'camp-info', loadChildren: './pages/camp-info/camp-info.module#CampInfoPageModule' },
   { path: 'landing', loadChildren: './pages/landing/landing.module#LandingPageModule' }
   // {
   //   path: '',

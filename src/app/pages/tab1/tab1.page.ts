@@ -10,6 +10,8 @@ import { MapboxPlace } from 'src/models/mapboxResult';
 import { map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Coords } from 'src/models/coords';
+import { NavParamsService } from 'src/app/services/nav-params.service';
+import { CampInfoPage } from '../camp-info/camp-info.page';
 
 @Component({
   selector: 'app-tab1',
@@ -30,6 +32,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected navCtrl: NavController,
     protected authService: AuthService,
     protected mapboxService: MapboxService,
+    protected navParamService: NavParamsService,
   ) {
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
@@ -51,12 +54,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   goToCampInfo(camp: Camp): void {
-    const navExtras: NavigationExtras = {
-      state: {
-        camp
-      }
-    };
-    this.navCtrl.navigateForward(`camp-info`, navExtras);
+    this.navParamService.setParam(CampInfoPage, camp);
+    this.navCtrl.navigateForward(`camp-info`);
   }
 
   onLocationSelected(place: MapboxPlace): void {

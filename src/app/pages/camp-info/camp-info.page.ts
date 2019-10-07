@@ -4,8 +4,9 @@ import { Camp } from 'src/models/camp';
 import { Review } from 'src/models/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { CampService } from 'src/app/services/camp.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NavParamsService } from 'src/app/services/nav-params.service';
 
 @Component({
   selector: 'app-camp-info',
@@ -22,6 +23,7 @@ export class CampInfoPage implements OnInit {
     protected router: Router,
     protected reviewService: ReviewService,
     protected campService: CampService,
+    protected navParamService: NavParamsService,
   ) { }
 
   ngOnInit() {
@@ -33,18 +35,7 @@ export class CampInfoPage implements OnInit {
   }
 
   initQueryParams(): Observable<Camp> {
-    const camp$ = this.route.queryParams.pipe(
-      map(_ => {
-        const state = this.router.getCurrentNavigation().extras.state;
-
-        if (state && state.camp) {
-          return state.camp;
-        } else {
-          throw new Error('Must pass state with key camp to camp-info.ts');
-        }
-      })
-    );
-    return camp$;
+    return of(this.navParamService.getParam(CampInfoPage));
   }
 
   submitReview(review: Review) {
