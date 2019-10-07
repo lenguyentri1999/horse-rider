@@ -45,7 +45,9 @@ export class Tab1Page implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.textSearchBar.value = this.query.term;
     this.locationSearchBar.setValue(this.query.place);
-    this.searchCamps();
+    if (this.query.place) {
+      this.searchCamps();
+    }
   }
 
   goToCampInfo(camp: Camp): void {
