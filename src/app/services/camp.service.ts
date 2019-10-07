@@ -51,7 +51,8 @@ export class CampService implements IGetAll<Camp> {
   }
 
   private campToStringSearch(camp: Camp): string {
-    return `${camp.id} ${camp.name} ${camp.description}`;
+    return `${camp.id} ${camp.name}`;
+    // return `${camp.id} ${camp.name} ${camp.description}`;
   }
 
   private stringSearchToCampId(s: string): string {
