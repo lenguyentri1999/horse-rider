@@ -1,4 +1,13 @@
   <ion-card>
-    <img [src]="camp.pictures[0]"/>
-    <ion-card-content>{{camp.name}}</ion-card-content>
+    <img [src]="camp.pictures[0]" />
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+
+          <ion-col>{{camp.name}}</ion-col>
+          <ion-col>{{camp.address}}</ion-col>
+          <ion-col>{{(camp.distance | async) | number}} miles</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
   </ion-card>
