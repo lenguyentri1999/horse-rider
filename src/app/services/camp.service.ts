@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
 import { Camp } from 'src/models/camp';
 import { Observable, combineLatest, zip } from 'rxjs';
-import { Review } from 'src/models/review';
-import { forkJoin } from 'rxjs';
 import { map, tap, flatMap, switchMap, take } from 'rxjs/operators';
 import { ReviewService } from './review.service';
 import { IGetAll } from 'src/models/firebase/IGetAll';
+import * as stringSim from 'string-similarity';
+import { StringMatch } from 'src/models/string-similarity/stringMatch';
+import { MapboxService } from './mapbox.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,56 @@ export class CampService implements IGetAll<Camp> {
   constructor(
     protected db: DbService,
     protected reviewService: ReviewService,
+    protected mapboxService: MapboxService,
   ) { }
 
   // Returns all camps
-  public getAll(): Observable<Camp[]> {
+  public getAllAsMap(): Observable<Map<string, Camp>> {
+    return this.db.getObjectValues(`camps`);
+  }
+
+  public getAllAsList(): Observable<Camp[]> {
     return this.db.getListSortedByFunction<Camp>(`camps`);
   }
+
+  public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
+    return this.mapboxService.reverseGeocode(camp.address).pipe(
+      (tap(coords => this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords)))
+    );
+  }
+
+  public filterByTerm(term: string, camps: Map<string, Camp>): Camp[] {
+
+    const campsArr = Object.keys(camps).map(id => camps[id]);
+
+    const matches: { ratings: StringMatch[] } = stringSim.findBestMatch(term, campsArr.map(camp => this.campToStringSearch(camp)));
+
+    // Sort each query by their rating in descending order and convert back to camps
+    const sortedQueries = this.sortMatches(matches.ratings);
+    const sortedCamps = sortedQueries
+      .map(query => this.stringSearchToCampId(query.target))
+      .map(id => camps[id]);
+    return sortedCamps;
+  }
+
+  /** START REGION
+   * Hacky way to implement string similarity search
+   */
+
+  // Sort by descding order (best match to worst)
+  private sortMatches(matches: StringMatch[]): StringMatch[] {
+    return matches.sort((a, b) => a.rating < b.rating ? 1 : -1);
+  }
+
+  private campToStringSearch(camp: Camp): string {
+    return `${camp.id} ${camp.name}`;
+    // return `${camp.id} ${camp.name} ${camp.description}`;
+  }
+
+  private stringSearchToCampId(s: string): string {
+    return s.split(' ')[0];
+  }
+  // END REGION
 
   public getAverageRating(campID: string): Observable<number> {
     return this.reviewService.getAllReviewRatings(campID)

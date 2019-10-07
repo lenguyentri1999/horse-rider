@@ -1,20 +1,16 @@
 import { Url } from 'url';
+import { Observable } from 'rxjs';
 
-export class Camp {
+export interface Camp {
     id: string;
     name: string;
     address: string;
+    coords: Observable<{
+        lat: number;
+        long: number;
+    }>;
     description: string;
     url: Url;
     pictures: Array<string>;
-
-    constructor(id: string, name: string, address: string, description: string, url: Url, pictures: Array<string>, ) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.description = description;
-        this.url = url;
-        this.pictures = pictures;
-    }
-
+    distance: Observable<number>;
 }

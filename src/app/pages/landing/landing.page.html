@@ -3,9 +3,10 @@
 <ion-content>
 
   <!-- Maybe you could use ion grid for aligning the pictures and the autocomplete -->
-  <ion-auto-complete [options]="{ placeholder : 'Explore camps' }"></ion-auto-complete>
+  <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch></ion-auto-complete>
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
-    (autoFocus)="onLocationSearchFocus($event)" [dataProvider]="mapboxService"></ion-auto-complete>
+  [dataProvider]="mapboxService"></ion-auto-complete>
+  <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button>
   <img src="assets/landing.jpg">
 
 </ion-content>
