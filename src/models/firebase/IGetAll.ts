@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 
 export interface IGetAll<T> {
-    getAll(): Observable<T[]>;
+    getAllAsMap(): Observable<Map<string, T>>;
+    getAllAsList(): Observable<T[]>;
 }

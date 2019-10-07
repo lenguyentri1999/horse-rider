@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { MapboxPlace } from 'src/models/mapboxResult';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -15,10 +17,10 @@ import { MapboxPlace } from 'src/models/mapboxResult';
 })
 
 export class Tab1Page implements OnInit, AfterViewInit {
-  @ViewChild('textSearch', {static: false}) textSearchBar: AutoCompleteComponent;
-  @ViewChild('locationSearch', {static: false}) locationSearchBar: AutoCompleteComponent;
+  @ViewChild('textSearch', { static: false }) textSearchBar: AutoCompleteComponent;
+  @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
 
-  camps: Array<Camp>;
+  camps: Observable<Camp[]>;
   query: CampQuery;
 
   constructor(
@@ -31,9 +33,9 @@ export class Tab1Page implements OnInit, AfterViewInit {
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
 
-    this.campService.getAll().subscribe(camps =>
-      this.camps = camps
-    );
+    // this.campService.getAll().subscribe(camps =>
+    //   this.camps = camps
+    // );
   }
 
   ngOnInit(): void {
@@ -54,5 +56,15 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   onLocationSelected(place: MapboxPlace): void {
     this.query.place = place;
+  }
+
+  searchCamps() {
+    this.query.term = this.textSearchBar.keyword;
+    this.camps = this.campService.getAllAsMap().pipe(
+      map(camps => {
+        return this.campService.filterByTerm(this.query.term, camps);
+      })
+    );
+    // .subscribe();
   }
 }

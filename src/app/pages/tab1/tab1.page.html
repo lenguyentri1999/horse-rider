@@ -7,7 +7,7 @@
   <ion-button (click)="searchCamps()" [disabled]="!query.place">Search</ion-button>
   <ion-grid>
     <ion-row>
-      <ion-col col-3 *ngFor="let camp of camps">
+      <ion-col col-3 *ngFor="let camp of camps | async">
         <app-camp-card [camp]="camp" (click)="goToCampInfo(camp)"></app-camp-card>
       </ion-col>
     </ion-row>
