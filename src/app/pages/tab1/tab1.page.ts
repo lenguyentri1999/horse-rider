@@ -1,18 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router, NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
-import { MapboxService } from 'src/app/services/mapbox.service';
+import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
+import { AutoCompleteComponent } from 'ionic4-auto-complete';
+import { MapboxPlace } from 'src/models/mapboxResult';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+
+export class Tab1Page implements OnInit, AfterViewInit {
+  @ViewChild('textSearch', {static: false}) textSearchBar: AutoCompleteComponent;
+  @ViewChild('locationSearch', {static: false}) locationSearchBar: AutoCompleteComponent;
+
   camps: Array<Camp>;
+  query: CampQuery;
 
   constructor(
     protected campService: CampService,
@@ -21,12 +28,22 @@ export class Tab1Page {
     protected authService: AuthService,
     protected mapboxService: MapboxService,
   ) {
+    // Get query from landing page
+    this.query = this.mapboxService.getSearchQuery();
+
     this.campService.getAll().subscribe(camps =>
       this.camps = camps
     );
   }
 
-  goToCampInfo(camp: Camp) {
+  ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.locationSearchBar.setValue(this.query.place);
+  }
+
+  goToCampInfo(camp: Camp): void {
     const navExtras: NavigationExtras = {
       state: {
         camp
@@ -35,8 +52,7 @@ export class Tab1Page {
     this.navCtrl.navigateForward(`camp-info`, navExtras);
   }
 
-  autocomplete($event) {
-    const query = $event.detail.value;
-    this.mapboxService.autocomplete(query);
+  onLocationSelected(place: MapboxPlace): void {
+    this.query.place = place;
   }
 }

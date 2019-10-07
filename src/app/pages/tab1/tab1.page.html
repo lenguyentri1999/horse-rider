@@ -1,7 +1,10 @@
 <app-pwa-nav-bar></app-pwa-nav-bar>
 
 <ion-content>
-  <ion-auto-complete [dataProvider]="mapboxService"></ion-auto-complete>
+  <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch></ion-auto-complete>
+  <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
+  [dataProvider]="mapboxService" #locationSearch></ion-auto-complete>
+  <ion-button (click)="searchCamps()" [disabled]="!query.place">Search</ion-button>
   <ion-grid>
     <ion-row>
       <ion-col col-3 *ngFor="let camp of camps">
