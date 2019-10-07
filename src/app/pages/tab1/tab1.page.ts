@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router, NavigationExtras } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, IonSearchbar } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
@@ -18,7 +18,7 @@ import { Coords } from 'src/models/coords';
 })
 
 export class Tab1Page implements OnInit, AfterViewInit {
-  @ViewChild('textSearch', { static: false }) textSearchBar: AutoCompleteComponent;
+  @ViewChild('textSearch', { static: false }) textSearchBar: IonSearchbar;
   @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
 
   camps: Observable<Camp[]>;
@@ -43,7 +43,9 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.textSearchBar.value = this.query.term;
     this.locationSearchBar.setValue(this.query.place);
+    this.searchCamps();
   }
 
   goToCampInfo(camp: Camp): void {
@@ -60,7 +62,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   searchCamps() {
-    this.query.term = this.textSearchBar.keyword;
+    this.query.term = this.textSearchBar.value;
     const currCoords: Coords = {
       long: this.query.place.geometry.coordinates[0],
       lat: this.query.place.geometry.coordinates[1]

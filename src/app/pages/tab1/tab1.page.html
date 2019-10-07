@@ -1,7 +1,7 @@
 <app-pwa-nav-bar></app-pwa-nav-bar>
 
 <ion-content>
-  <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch></ion-auto-complete>
+  <ion-searchbar placeholder="Explore camps" #textSearch></ion-searchbar>
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
   [dataProvider]="mapboxService" #locationSearch></ion-auto-complete>
   <ion-button (click)="searchCamps()" [disabled]="!query.place">Search</ion-button>
