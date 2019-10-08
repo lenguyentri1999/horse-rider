@@ -7,6 +7,11 @@
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
   [dataProvider]="mapboxService"></ion-auto-complete>
   <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button>
-  <img src="assets/landing.jpg">
-
+  <div>
+      <div class="container">
+          <h1 class="slogan">Adventure is out there.</h1>
+          <h2 class="description">Discover,experience and rate horse camps and trails</h2>
+        </div>
+  <img class="frontphoto" src="assets/frontphoto.jpg">
+  </div>
 </ion-content>
