@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router, NavigationExtras } from '@angular/router';
-import { NavController, IonSearchbar } from '@ionic/angular';
+import { NavController, IonSearchbar, ModalController, PopoverController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
@@ -12,6 +12,8 @@ import { Observable, of } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { NavParamsService } from 'src/app/services/nav-params.service';
 import { CampInfoPage } from '../camp-info/camp-info.page';
+import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
+import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
 
 @Component({
   selector: 'app-tab1',
@@ -33,6 +35,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected navCtrl: NavController,
     protected authService: AuthService,
     protected navParamService: NavParamsService,
+    protected modalCtrl: ModalController,
+    protected popoverCtrl: PopoverController,
   ) {
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
@@ -82,5 +86,17 @@ export class Tab1Page implements OnInit, AfterViewInit {
         });
       })
     );
+  }
+
+  async onFilterButtonClick() {
+    const modal = await this.modalCtrl.create({component: FilterModalComponent});
+    await modal.present();
+  }
+
+  async onSortButtonClick() {
+    const popover = await this.popoverCtrl.create({
+      component: SortPopoverComponent,
+    });
+    await popover.present();
   }
 }
