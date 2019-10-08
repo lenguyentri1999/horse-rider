@@ -1,4 +1,4 @@
-const version = '1';
+const version = '2';
 export const environment = {
   production: true,
   firebase: {
