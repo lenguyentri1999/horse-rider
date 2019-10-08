@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 export class LandingPage implements OnInit {
   @ViewChild('textSearch', {static: false}) searchBar: AutoCompleteComponent;
   environmentSetting: boolean = environment.production;
+  environmentVersion: string = environment.version;
 
   place: MapboxPlace;
   // tslint:disable-next-line:no-inferrable-types

@@ -1,0 +1,30 @@
+.frontphoto{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    -webkit-mask-image: -webkit-linear-gradient(right,rgba(0,0,0,1), rgba(0,0,0,0));
+    // -webkit-gradient(linear,left, 
+    // from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+}
+.container{
+    position: relative;
+    text-align: center;
+}
+.slogan{
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-size: 50px;
+    font-family: "Arial Black", Gadget, sans-serif;
+}
+.description{
+    position: absolute;
+    top: 150px;
+    left: 16px;
+    font-size:2em;
+    font-family: sans-serif;
+    line-height: 32px;  
+    margin-bottom: 30px;
+    margin-right:30px;
+}

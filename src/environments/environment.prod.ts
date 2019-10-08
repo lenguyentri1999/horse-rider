@@ -1,6 +1,7 @@
 const version = '2';
 export const environment = {
   production: true,
+  version,
   firebase: {
     apiKey: 'AIzaSyA9WtOMm-vC_4oTp89ixutagUJWpYR3Ry0',
     authDomain: 'horse-riding-app.firebaseapp.com',
