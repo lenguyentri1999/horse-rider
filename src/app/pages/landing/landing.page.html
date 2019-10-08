@@ -3,6 +3,7 @@
 <ion-content>
 
   <p>Environment Production: {{environmentSetting}}</p>
+  <p>Environment Version: {{environmentVersion}}</p>
   <!-- Maybe you could use ion grid for aligning the pictures and the autocomplete -->
   <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch></ion-auto-complete>
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
