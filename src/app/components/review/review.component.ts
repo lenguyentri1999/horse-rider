@@ -37,7 +37,14 @@ export class ReviewComponent implements OnInit {
 
     if (this.isEditMode) {
       // User is creating new review
-      this.reviewToSubmit = new Review(5, '', this.camp.id, this.authService.getUserId(), new Date());
+      this.reviewToSubmit = {
+        rating: 5,
+        description: '',
+        campID: this.camp.id,
+        userID: this.authService.getUserId(),
+        dateTime: new Date()
+      };
+
       this.readyToEdit = Promise.resolve(true);
 
     } else {
