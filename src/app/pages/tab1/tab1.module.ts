@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { ComponentsModule } from '../../components/components.module';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
+import { ComponentsMapboxModule } from 'src/app/components-mapbox/components-mapbox.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { AutoCompleteModule } from 'ionic4-auto-complete';
     FormsModule,
     RouterModule.forChild([{ path: '', component: Tab1Page }]),
     ComponentsModule,
+    ComponentsMapboxModule,
     AutoCompleteModule,
   ],
   declarations: [Tab1Page]

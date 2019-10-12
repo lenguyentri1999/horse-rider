@@ -14,6 +14,8 @@ import { NavParamsService } from 'src/app/services/nav-params.service';
 import { CampInfoPage } from '../camp-info/camp-info.page';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
 import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tab1',
@@ -41,6 +43,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
 
+    mapboxgl.accessToken = environment.mapboxKey;
+
     // this.campService.getAll().subscribe(camps =>
     //   this.camps = camps
     // );
@@ -55,7 +59,27 @@ export class Tab1Page implements OnInit, AfterViewInit {
     if (this.query.place) {
       this.searchCamps();
     }
+    const geoJson = [{
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: ['80.20929129999999', '13.0569951']
+      },
+      properties: {
+        message: 'Chennai'
+      }
+    }, {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: ['77.350048', '12.953847']
+      },
+      properties: {
+        message: 'bangulare'
+      }
+    }];
   }
+
 
   goToCampInfo(camp: Camp): void {
     this.navParamService.setParam(CampInfoPage, camp);
@@ -89,7 +113,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   async onFilterButtonClick() {
-    const modal = await this.modalCtrl.create({component: FilterModalComponent});
+    const modal = await this.modalCtrl.create({ component: FilterModalComponent });
     await modal.present();
   }
 
