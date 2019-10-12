@@ -5,7 +5,6 @@ import { Review } from 'src/models/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { CampService } from 'src/app/services/camp.service';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { NavParamsService } from 'src/app/services/nav-params.service';
 
 @Component({
