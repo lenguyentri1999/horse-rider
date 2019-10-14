@@ -3,15 +3,33 @@
 <ion-content>
 
   <!-- Maybe you could use ion grid for aligning the pictures and the autocomplete -->
-  <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch></ion-auto-complete>
-  <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
-  [dataProvider]="mapboxService"></ion-auto-complete>
-  <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button>
+
   <div>
-      <div class="container">
-          <h1 class="slogan">Adventure is out there.</h1>
-          <h2 class="description">Discover,experience and rate horse camps and trails</h2>
-        </div>
-  <img class="frontphoto" src="assets/frontphoto.jpg">
+    <div class="container">
+      <h1 class="slogan">Adventure is out there.</h1>
+      <h2 class="description">Discover, experience and rate horse camps and trails</h2>
+
+      <div class="container2">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+                <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch class="explorecamps"></ion-auto-complete>
+            </ion-col>
+            <ion-col>
+                <ion-auto-complete  [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)" [dataProvider]="mapboxService"class="explorelocation"></ion-auto-complete>
+            </ion-col>
+          </ion-row>
+            <!-- <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button> -->
+           
+        </ion-grid>
+       
+      </div>
+
+      <div class="container3">
+        
+      </div>
+
+    </div>
+    <img class="frontphoto" src="assets/frontphoto.jpg">
   </div>
 </ion-content>

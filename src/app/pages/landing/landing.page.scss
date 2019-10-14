@@ -4,12 +4,44 @@
     margin-right: auto;
     width: 100%;
     -webkit-mask-image: -webkit-linear-gradient(right,rgba(0,0,0,1), rgba(0,0,0,0));
+    object-fit: cover;
+    width: 100%;
+    height: 1024px;
     // -webkit-gradient(linear,left, 
     // from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 }
 .container{
     position: relative;
     text-align: center;
+}
+.container2{
+    z-index: 10;
+    position: absolute;
+    top: 500px;
+    left: 30px;
+    
+    
+}
+.container3{
+    z-index: 10;
+    position: absolute;
+    top: 900px;
+    left: 30px;
+    
+    
+}
+.explorecamps{
+    margin-left: auto;
+    margin-right: auto;
+    width: 70vw;
+ 
+}
+.explorelocation{
+    margin-left: auto; 
+    margin-right: auto;
+    width: 70vw;
+ 
+
 }
 .slogan{
     position: absolute;
