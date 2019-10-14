@@ -29,6 +29,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   camps: Observable<Camp[]>;
   query: CampQuery;
+  currentCoords: Observable<number[]>;
 
   constructor(
     public mapboxService: MapboxService,
@@ -42,8 +43,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   ) {
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
-
-    mapboxgl.accessToken = environment.mapboxKey;
+    if (this.query.place) { this.currentCoords = of(this.query.place.geometry.coordinates); }
 
     // this.campService.getAll().subscribe(camps =>
     //   this.camps = camps
@@ -59,27 +59,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     if (this.query.place) {
       this.searchCamps();
     }
-    const geoJson = [{
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: ['80.20929129999999', '13.0569951']
-      },
-      properties: {
-        message: 'Chennai'
-      }
-    }, {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: ['77.350048', '12.953847']
-      },
-      properties: {
-        message: 'bangulare'
-      }
-    }];
   }
-
 
   goToCampInfo(camp: Camp): void {
     this.navParamService.setParam(CampInfoPage, camp);
@@ -88,6 +68,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   onLocationSelected(place: MapboxPlace): void {
     this.query.place = place;
+    this.currentCoords = of(this.query.place.geometry.coordinates);
   }
 
   searchCamps() {

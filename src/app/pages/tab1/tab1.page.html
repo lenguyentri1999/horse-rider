@@ -20,14 +20,13 @@
   </ion-grid>
   <ion-grid>
     <ion-row>
-      <ion-col>
-        <ion-col size="6">
-        </ion-col>
+      <ion-col size="6">
+        <div *ngFor="let camp of camps | async">
+          <app-camp-card [camp]="camp" (click)="goToCampInfo(camp)"></app-camp-card>
+        </div>
       </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6" *ngFor="let camp of camps | async">
-        <app-camp-card [camp]="camp" (click)="goToCampInfo(camp)"></app-camp-card>
+      <ion-col size="6">
+        <app-mapboxgl-map [centerCoords]="currentCoords | async"></app-mapboxgl-map>
       </ion-col>
     </ion-row>
   </ion-grid>
