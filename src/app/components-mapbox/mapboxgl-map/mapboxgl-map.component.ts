@@ -1,9 +1,10 @@
 import * as mapboxgl from 'mapbox-gl';
 import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { of, Observable, Subject } from 'rxjs';
-import { MapboxMap, MapboxMapOptions, MapboxSourceOptions } from 'src/models/mapboxMap';
+import { of, Observable, Subject, combineLatest, forkJoin } from 'rxjs';
+import { MapboxMap, MapboxMapOptions } from 'src/models/mapboxMap';
 import { MapboxPlace } from 'src/models/mapboxResult';
+import { tap, flatMap, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mapboxgl-map',
@@ -26,16 +27,22 @@ export class MapboxglMapComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     mapboxgl.accessToken = environment.mapboxKey;
-    this.initMap();
 
-    this.onChanges.subscribe(changes => {
-      console.log('le changes', changes);
-      console.log(changes.geoJsonData.currentValue);
-    });
+    this.onChanges.pipe(
+      switchMap(changes => {
+        return forkJoin(of(changes), this.initMap());
+      }),
+      tap(tup => {
+        const changes = tup[0];
+        const myMap = tup[1];
+        if (changes.geoJsonData && changes.geoJsonData.currentValue) {
+          this.populateMarkers(myMap, changes.geoJsonData.currentValue);
+        }
+      })
+    ).subscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     this.onChanges.next(changes);
   }
 
@@ -49,7 +56,6 @@ export class MapboxglMapComponent implements OnInit, OnChanges {
       this.myMap.setZoom(this.zoomLevel || this.defaultZoomLevel);
       this.myMap.setCenter([-98.56, 39.66]); // center of the United States
 
-      this.addSource(this.myMap);
       this.resizeMap(this.myMap);
     }
     return of(this.myMap);
@@ -62,51 +68,28 @@ export class MapboxglMapComponent implements OnInit, OnChanges {
     });
   }
 
-  private addSource(myMap: MapboxMap) {
+  private populateMarkers(myMap: MapboxMap, geoJsonData: MapboxPlace[]) {
+    console.log('yo yo geojson data', geoJsonData);
     this.isMapLoaded(myMap).then(mapLoaded => {
-      const sourceOptions: MapboxSourceOptions = {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: []
-        }
-      };
-
-      const geoJsonData: MapboxSourceOptions['data'] = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            place_name: 'Warwick camp',
-            properties: {
-              title: 'Le warwick camp',
-              description: 'le description'
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: [-72.35642, 42.626282]
-            }
-          }
-        ]
-      };
-
-      mapLoaded.addSource(this.sourceName, sourceOptions);
-      mapLoaded.getSource(this.sourceName).setData(geoJsonData);
-
       // make a marker for each feature and add to the map
-      const coords = geoJsonData.features[0].geometry.coordinates;
-      const marker = new mapboxgl.Marker()
-        .setLngLat(coords);
-      // marker.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-        // .setHTML('<h3>' + 'Le title' + '</h3>'));
-      marker.addTo(mapLoaded);
+      console.log('le geojson data', geoJsonData);
+      geoJsonData.forEach(place => {
+        console.log(place);
+        const coords = place.geometry.coordinates;
+        const marker = new mapboxgl.Marker()
+          .setLngLat(coords);
+        marker.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML('<h3>' + place.properties.title + '</h3>'));
+        marker.addTo(mapLoaded);
+
+      });
     });
   }
 
   private isMapLoaded(myMap: MapboxMap): Promise<MapboxMap> {
     return new Promise((resolve, reject) => {
       myMap.on('load', () => resolve(myMap));
-      myMap.on('error', () => reject(myMap));
+      // myMap.on('error', () => reject(myMap));
     });
   }
 }
