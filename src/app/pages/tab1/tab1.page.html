@@ -26,7 +26,7 @@
         </div>
       </ion-col>
       <ion-col size="6">
-        <app-mapboxgl-map [centerCoords]="currentCoords | async"></app-mapboxgl-map>
+        <app-mapboxgl-map [centerCoords]="currentCoords | async" [geoJsonData]="campsMarkers | async"></app-mapboxgl-map>
       </ion-col>
     </ion-row>
   </ion-grid>

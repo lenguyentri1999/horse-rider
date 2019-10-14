@@ -15,7 +15,6 @@ export interface Camp {
     distance: Observable<number>;
     attributes: {
         bigRigFriendly: boolean,
-        // petFriendly: number,
         facilityCleanliness: boolean,
         wifi: boolean,
         horseFacilities: boolean

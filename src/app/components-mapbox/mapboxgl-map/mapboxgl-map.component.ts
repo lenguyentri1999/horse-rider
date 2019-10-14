@@ -29,8 +29,14 @@ export class MapboxglMapComponent implements OnInit, OnChanges {
     this.initMap();
 
     this.onChanges.subscribe(changes => {
+      console.log('le changes', changes);
       console.log(changes.geoJsonData.currentValue);
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    this.onChanges.next(changes);
   }
 
   initMap(): Observable<MapboxMap> {
@@ -49,9 +55,6 @@ export class MapboxglMapComponent implements OnInit, OnChanges {
     return of(this.myMap);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.onChanges.next(changes);
-  }
 
   private resizeMap(myMap: MapboxMap) {
     this.isMapLoaded(myMap).then(mapLoaded => {

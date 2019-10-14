@@ -1,21 +1,19 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { NavController, IonSearchbar, ModalController, PopoverController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { MapboxPlace } from 'src/models/mapboxResult';
-import { map, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { map, tap, flatMap} from 'rxjs/operators';
+import { Observable, of, combineLatest} from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { NavParamsService } from 'src/app/services/nav-params.service';
 import { CampInfoPage } from '../camp-info/camp-info.page';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
 import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
-import * as mapboxgl from 'mapbox-gl';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tab1',
@@ -28,7 +26,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
 
   camps: Observable<Camp[]> = new Observable<Camp[]>();
-  campsMarkers: Observable<MapboxPlace[]> = new Observable<MapboxPlace[]>();
+  campsMarkers: Observable<MapboxPlace[]>;
+
   query: CampQuery;
   currentCoords: Observable<number[]>;
 
@@ -78,13 +77,28 @@ export class Tab1Page implements OnInit, AfterViewInit {
     };
 
     this.camps = this.campService.getAllAsMap().pipe(
-      map(camps => {
-        return this.campService.filterByTerm(this.query.term, camps);
+      map(allCamps => {
+        return this.campService.filterByTerm(this.query.term, allCamps);
       }),
       tap(camps => {
         camps.forEach(camp => {
           this.populateCampCoordsAndDistance(camp, currCoords);
         });
+      }),
+      tap(camps => {
+      })
+
+    );
+
+    this.campsMarkers = this.camps.pipe(
+      flatMap(camps => {
+        const markers$: Observable<MapboxPlace>[] = [];
+        camps.forEach(camp => {
+          const place = this.mapboxService.campToMapboxPlace(camp);
+          markers$.push(place);
+        });
+
+        return combineLatest(markers$);
       })
     );
   }
