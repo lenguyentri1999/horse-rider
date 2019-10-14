@@ -13,4 +13,10 @@ export interface Camp {
     url: Url;
     pictures: Array<string>;
     distance: Observable<number>;
+    attributes: {
+        bigRigFriendly: boolean,
+        facilityCleanliness: boolean,
+        wifi: boolean,
+        horseFacilities: boolean
+    };
 }

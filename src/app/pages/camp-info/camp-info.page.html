@@ -6,12 +6,7 @@
 
 <ion-content>
 
-  <h1>Average rating:</h1>
-  <!-- <ionic4-star-rating #rating activeIcon="ios-star" defaultIcon="ios-star-outline" activeColor="#488aff"
-    defaultColor="#f4f4f4" readonly="true" halfStar="true" [rating]="avgRating$ | async">
-  </ionic4-star-rating> -->
-  <ion-rating [rate]="avgRating$ | async" readonly="true"></ion-rating>
-
+  <h1>Average rating: {{(avgRating$ | async) | number: '1.0-1'}}</h1>
   <br>
 
   <h1>Write a review:</h1>

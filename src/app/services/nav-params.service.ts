@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Camp } from 'src/models/camp';
 import { Page } from '@ionic/core';
-import { CampInfoPage } from '../pages/camp-info/camp-info.page';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class NavParamsService {
   setParam(page: Page, param: any) {
     switch (page.name) {
 
-      case CampInfoPage.name:
+      case 'CampInfoPage':
         this.campInfoParam = param;
 
     }
@@ -23,7 +22,7 @@ export class NavParamsService {
   getParam(page: Page) {
     switch (page.name) {
 
-      case CampInfoPage.name:
+      case 'CampInfoPage':
         return this.campInfoParam;
 
     }

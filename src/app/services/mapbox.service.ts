@@ -6,6 +6,7 @@ import { MapboxResult, MapboxPlace } from '../../models/mapboxResult';
 import { map } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 import { Coords } from 'src/models/coords';
+import { Camp } from 'src/models/camp';
 
 @Injectable({
   providedIn: 'root'
@@ -105,19 +106,39 @@ export class MapboxService implements AutoCompleteService {
     );
   }
 
-async findMe(): Promise < { lat: number; long: number } > {
-  const pos = await this.getPosition();
-  return {
-    lat: pos.coords.latitude,
-    long: pos.coords.longitude
-  };
-}
+  public campToMapboxPlace(camp: Camp): Observable<MapboxPlace> {
+    return camp.coords.pipe(
+      map(coords => {
+        const mapboxPlace: MapboxPlace = {
+          type: 'Feature',
+          place_name: camp.name,
+          geometry: {
+            type: 'Point',
+            coordinates: [coords.long, coords.lat],
+          },
+          properties: {
+            title: camp.name,
+            description: ''
+          }
+        };
+        return mapboxPlace;
+      })
+    );
+  }
 
-  private getPosition(options ?): Promise < any > {
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject, options);
-  });
-}
+  async findMe(): Promise<{ lat: number; long: number }> {
+    const pos = await this.getPosition();
+    return {
+      lat: pos.coords.latitude,
+      long: pos.coords.longitude
+    };
+  }
+
+  private getPosition(options?): Promise<any> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  }
 
 }
 
