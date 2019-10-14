@@ -27,7 +27,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   @ViewChild('textSearch', { static: false }) textSearchBar: IonSearchbar;
   @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
 
-  camps: Observable<Camp[]>;
+  camps: Observable<Camp[]> = new Observable<Camp[]>();
+  campsMarkers: Observable<MapboxPlace[]> = new Observable<MapboxPlace[]>();
   query: CampQuery;
   currentCoords: Observable<number[]>;
 
@@ -41,13 +42,11 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected modalCtrl: ModalController,
     protected popoverCtrl: PopoverController,
   ) {
+
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
     if (this.query.place) { this.currentCoords = of(this.query.place.geometry.coordinates); }
 
-    // this.campService.getAll().subscribe(camps =>
-    //   this.camps = camps
-    // );
   }
 
   ngOnInit(): void {
@@ -84,12 +83,16 @@ export class Tab1Page implements OnInit, AfterViewInit {
       }),
       tap(camps => {
         camps.forEach(camp => {
-          camp.coords = this.mapboxService.reverseGeocode(camp.address);
-          camp.distance = this.mapboxService.straightLineDistance(
-            of(currCoords), camp.coords
-          );
+          this.populateCampCoordsAndDistance(camp, currCoords);
         });
       })
+    );
+  }
+
+  private populateCampCoordsAndDistance(camp: Camp, currCoords: Coords) {
+    camp.coords = this.mapboxService.reverseGeocode(camp.address);
+    camp.distance = this.mapboxService.straightLineDistance(
+      of(currCoords), camp.coords
     );
   }
 
