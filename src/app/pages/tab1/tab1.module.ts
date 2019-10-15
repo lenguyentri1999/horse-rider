@@ -7,6 +7,7 @@ import { Tab1Page } from './tab1.page';
 import { ComponentsModule } from '../../components/components.module';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { ComponentsMapboxModule } from 'src/app/components-mapbox/components-mapbox.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ComponentsMapboxModule } from 'src/app/components-mapbox/components-map
     ComponentsModule,
     ComponentsMapboxModule,
     AutoCompleteModule,
+    NgxPaginationModule
   ],
   declarations: [Tab1Page]
 })
