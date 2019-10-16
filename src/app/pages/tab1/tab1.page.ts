@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router } from '@angular/router';
-import { NavController, IonSearchbar, ModalController, PopoverController } from '@ionic/angular';
+import { NavController, IonSearchbar, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
@@ -31,6 +31,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   query: CampQuery;
   currentCoords: Observable<number[]>;
 
+  isMapView = false;
+
   constructor(
     public mapboxService: MapboxService,
     protected campService: CampService,
@@ -40,6 +42,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected navParamService: NavParamsService,
     protected modalCtrl: ModalController,
     protected popoverCtrl: PopoverController,
+    protected toastCtrl: ToastController,
   ) {
 
     // Get query from landing page
@@ -120,5 +123,14 @@ export class Tab1Page implements OnInit, AfterViewInit {
       component: SortPopoverComponent,
     });
     await popover.present();
+  }
+
+  async onSwitchViewButtonClick() {
+    const toast = await this.toastCtrl.create({
+      message: this.isMapView ? 'Switching to list view!' : 'Switching to map view!',
+      duration: 700
+    });
+    toast.present();
+    this.isMapView = !this.isMapView;
   }
 }
