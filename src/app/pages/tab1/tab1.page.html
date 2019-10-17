@@ -26,7 +26,7 @@
   <!-- Map view -->
   <ng-container *ngIf="isMapView">
     <ion-card style="height: 80vh; width: 100vw; margin-left: auto; margin-right: auto">
-      <app-mapboxgl-map [centerCoords]="currentCoords | async" [geoJsonData]="campsMarkers | async"></app-mapboxgl-map>
+      <app-mapboxgl-map [geoJsonData]="campsMarkers | async"></app-mapboxgl-map>
     </ion-card>
   </ng-container>
 
