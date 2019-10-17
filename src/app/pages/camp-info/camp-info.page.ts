@@ -6,6 +6,7 @@ import { ReviewService } from 'src/app/services/review.service';
 import { CampService } from 'src/app/services/camp.service';
 import { Observable, of } from 'rxjs';
 import { NavParamsService } from 'src/app/services/nav-params.service';
+import { map, flatMap, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-camp-info',
@@ -13,7 +14,7 @@ import { NavParamsService } from 'src/app/services/nav-params.service';
   styleUrls: ['./camp-info.page.scss'],
 })
 export class CampInfoPage implements OnInit {
-  camp$: Observable<Camp>;
+  camp$: Observable<Camp> = new Observable<Camp>();
   avgRating$: Observable<number>;
   campReviews$: Observable<Review[]>;
 
@@ -28,13 +29,22 @@ export class CampInfoPage implements OnInit {
   ngOnInit() {
     this.camp$ = this.initQueryParams();
     this.camp$.subscribe(camp => {
-      this.campReviews$ = this.reviewService.getByCampID(camp.id);
-      this.avgRating$ = this.campService.getAverageRating(camp.id);
+      console.log(camp);
     });
+    this.campReviews$ = this.camp$.pipe(
+      switchMap(camp => {
+        return this.reviewService.getByCampID(camp.id);
+      }
+      ));
+    this.avgRating$ = this.camp$.pipe(
+      switchMap(camp => this.campService.getAverageRating(camp.id))
+    );
   }
 
   initQueryParams(): Observable<Camp> {
-    return of(this.navParamService.getParam(CampInfoPage));
+    return this.route.paramMap.pipe(
+      switchMap(params => this.campService.getByID(params.get('id')))
+    );
   }
 
   submitReview(review: Review) {
