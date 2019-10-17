@@ -50,7 +50,7 @@ export class ReviewComponent implements OnInit, OnChanges {
               this.reviewToSubmit = {
                 rating: 5,
                 description: '',
-                campID: this.camp.id,
+                campID: changes.camp.currentValue.id,
                 userID: this.authService.getUserId(),
                 dateTime: new Date()
               };
