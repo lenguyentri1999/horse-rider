@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisteredUser } from 'src/models/user';
+import { User } from 'src/models/user';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class LoginPage implements OnInit {
   }
 
   login(form) {
-    const userInfo: RegisteredUser = {
+    const userInfo: User = {
       email: form.value.email,
       password: form.value.password
     };

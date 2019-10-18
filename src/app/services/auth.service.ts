@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RegisteredUser } from 'src/models/user';
+import { User } from 'src/models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -32,12 +32,12 @@ export class AuthService {
     );
   }
 
-  public async register(user: RegisteredUser): Promise<firebase.auth.UserCredential> {
+  public async register(user: User): Promise<firebase.auth.UserCredential> {
     const r = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
     return r;
   }
 
-  public async login(user: RegisteredUser): Promise<firebase.auth.UserCredential> {
+  public async login(user: User): Promise<firebase.auth.UserCredential> {
     const r = await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
     return r;
   }

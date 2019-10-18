@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { RegisteredUser } from 'src/models/user';
+import { User } from 'src/models/user';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -22,9 +22,10 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    const user: RegisteredUser = {
+    const user: User = {
       email: form.value.email,
-      password: form.value.password
+      password: form.value.password,
+      name: form.value.name
     };
 
     const r = this.authService.register(user);
