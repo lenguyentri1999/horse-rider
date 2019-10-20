@@ -14,6 +14,7 @@ import { NavParamsService } from 'src/app/services/nav-params.service';
 import { CampInfoPage } from '../camp-info/camp-info.page';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
 import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
+import { CampSearchService } from 'src/app/services/camp-search.service';
 
 @Component({
   selector: 'app-tab1',
@@ -35,6 +36,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   constructor(
     public mapboxService: MapboxService,
+    public campSearchService: CampSearchService,
     protected campService: CampService,
     protected router: Router,
     protected navCtrl: NavController,
