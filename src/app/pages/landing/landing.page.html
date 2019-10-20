@@ -12,7 +12,16 @@
         <ion-grid>
           <ion-row>
             <ion-col>
-              <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch class="explorecamps">
+              <!-- Template for image -->
+              <ng-template #withCampPics let-attrs="attrs">
+                <!-- attrs === camp -->
+                <div [routerLink]="['/camp-info', attrs.data.id]" style="width: 70vw">
+                  <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" />
+                  <span [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
+                </div>
+              </ng-template>
+              <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch class="explorecamps"
+                [dataProvider]="campSearchService" [template]="withCampPics">
               </ion-auto-complete>
             </ion-col>
             <ion-col>
@@ -21,7 +30,7 @@
               </ion-auto-complete>
             </ion-col>
           </ion-row>
-          <!-- <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button> -->
+          <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button>
         </ion-grid>
       </div>
     </div>
