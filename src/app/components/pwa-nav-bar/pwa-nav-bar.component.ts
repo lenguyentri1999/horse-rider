@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { RegisterPage } from 'src/app/pages/register/register.page';
-import { LoginPage } from 'src/app/pages/login/login.page';
+// import { RegisterPage } from 'src/app/pages/register/register.page';
+// import { LoginPage } from 'src/app/pages/login/login.page';
 
 @Component({
   selector: 'app-pwa-nav-bar',
@@ -27,17 +27,19 @@ export class PwaNavBarComponent implements OnInit {
   }
 
   async openLoginModal() {
-    const modal = await this.modalCtrl.create({
-      component: LoginPage
-    });
-    await modal.present();
+    this.router.navigate(['login']);
+
+    // const modal = await this.modalCtrl.create({
+    //   component: LoginPage
+    // });
+    // await modal.present();
   }
 
   async openRegisterModal() {
-    const modal = await this.modalCtrl.create({
-      component: RegisterPage
-    });
-    await modal.present();
+    this.router.navigate(['register']);
+    // const modal = await this.modalCtrl.create({ component: RegisterPage
+    // });
+    // await modal.present();
   }
 
 }
