@@ -1,16 +1,21 @@
 <app-pwa-nav-bar></app-pwa-nav-bar>
 
 <ion-content>
+
   <!-- Template for image -->
   <ng-template #withCampPics let-attrs="attrs">
-    <!-- Check camp.ts model to enforce type -->
-    <img src="{{attrs.data.pictures[0]}}" style="height: 2rem; width: 2rem; margin-right: 1rem;"/> 
-    <span [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
+    <!-- attrs === camp -->
+    <div [routerLink]="['/camp-info', attrs.data.id]">
+      <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" />
+      <span [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
+    </div>
   </ng-template>
-  <!-- <ion-searchbar placeholder="Explore camps" #textSearch></ion-searchbar> -->
-  <ion-auto-complete [dataProvider]="campSearchService" [template]="withCampPics"></ion-auto-complete>
+  <ion-auto-complete [options]="{ placeholder : 'Find a camp...' }" [dataProvider]="campSearchService"
+    (itemSelected)="onCampSelected($event)" [template]="withCampPics" #textSearch></ion-auto-complete>
+
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
     [dataProvider]="mapboxService" #locationSearch></ion-auto-complete>
+
   <ion-button (click)="searchCamps()" [disabled]="!query.place">Search</ion-button>
 
   <ion-grid>

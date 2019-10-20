@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CampSearchService implements AutoCompleteService {
-  readonly numResults: number = 5;
+  readonly numResults: number = 3;
 
   getResults(term: any) {
     return this.campService.getAllAsList().pipe(
