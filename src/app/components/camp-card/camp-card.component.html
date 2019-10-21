@@ -1,14 +1,18 @@
   <ion-card>
     <ion-card-content>
       <ion-grid>
-        <ion-row>
+        <ion-row class="ion-justify-content-start">
           <ion-col size="3">
-            <img [src]="camp.pictures[0]" />
+            <ion-card>
+              <img [src]="camp.pictures[0]" />
+            </ion-card>
           </ion-col>
-          <ion-col size="9">
+          <ion-col size="4">
             <h1>{{camp.name}}</h1>
             <h2>{{camp.address}}</h2>
             <h2>{{(camp.distance | async) | number: '1.1-1'}} miles</h2>
+          </ion-col>
+          <ion-col size="2">
             <p>{{avgRating | async | number: '1.2-2'}} ({{(numReviews | async) || 0}})</p>
           </ion-col>
         </ion-row>
