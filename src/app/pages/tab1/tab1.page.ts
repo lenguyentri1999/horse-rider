@@ -2,13 +2,13 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router } from '@angular/router';
-import { NavController, IonSearchbar, ModalController, PopoverController, ToastController } from '@ionic/angular';
+import { NavController, IonSearchbar, ModalController, PopoverController, ToastController, IonContent } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { MapboxPlace } from 'src/models/mapboxResult';
-import { map, tap, flatMap} from 'rxjs/operators';
-import { Observable, of, combineLatest} from 'rxjs';
+import { map, tap, flatMap } from 'rxjs/operators';
+import { Observable, of, combineLatest } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { NavParamsService } from 'src/app/services/nav-params.service';
 import { CampInfoPage } from '../camp-info/camp-info.page';
@@ -25,6 +25,8 @@ import { CampSearchService } from 'src/app/services/camp-search.service';
 export class Tab1Page implements OnInit, AfterViewInit {
   @ViewChild('textSearch', { static: false }) textSearchBar: AutoCompleteComponent;
   @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
+  @ViewChild(IonContent, { static: false }) content: IonContent;
+  p: number;
 
   camps: Observable<Camp[]> = new Observable<Camp[]>();
   campsMarkers: Observable<MapboxPlace[]>;
@@ -93,9 +95,6 @@ export class Tab1Page implements OnInit, AfterViewInit {
           this.populateCampCoordsAndDistance(camp, currCoords);
         });
       }),
-      tap(camps => {
-      })
-
     );
 
     this.campsMarkers = this.camps.pipe(
@@ -109,6 +108,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
         return combineLatest(markers$);
       })
     );
+    this.p = 1;
   }
 
   private populateCampCoordsAndDistance(camp: Camp, currCoords: Coords) {
@@ -137,5 +137,12 @@ export class Tab1Page implements OnInit, AfterViewInit {
     });
     toast.present();
     this.isMapView = !this.isMapView;
+  }
+
+  onPageChange(page: number) {
+    this.p = page;
+    if (this.content) {
+      this.content.scrollToTop();
+    }
   }
 }

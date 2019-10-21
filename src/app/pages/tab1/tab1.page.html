@@ -53,7 +53,7 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <pagination-controls (pageChange)="p = $event" *ngIf="camps | async"></pagination-controls>
+        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="camps | async"></pagination-controls>
       </ion-row>
     </ion-grid>
   </ng-container>
