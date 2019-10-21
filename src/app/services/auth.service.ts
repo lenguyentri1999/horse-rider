@@ -46,6 +46,13 @@ export class AuthService {
   public async googleLogin() {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
+    return credential;
+  }
+
+  public async facebookLogin() {
+    const provider = new auth.FacebookAuthProvider();
+    const credential = await this.afAuth.auth.signInWithPopup(provider);
+    return credential;
   }
 
   public logout(): Promise<void> {
