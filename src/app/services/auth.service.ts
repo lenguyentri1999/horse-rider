@@ -42,7 +42,7 @@ export class AuthService {
     return r;
   }
 
-  public logout() {
-    this.afAuth.auth.signOut();
+  public logout(): Promise<void> {
+    return this.afAuth.auth.signOut();
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, ModalController } from '@ionic/angular';
+import { Platform, ModalController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-// import { RegisterPage } from 'src/app/pages/register/register.page';
-// import { LoginPage } from 'src/app/pages/login/login.page';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-pwa-nav-bar',
@@ -11,19 +11,44 @@ import { Router } from '@angular/router';
 })
 export class PwaNavBarComponent implements OnInit {
   isPwa: boolean;
+  isAuthorized: Observable<boolean>;
 
   constructor(
     protected platform: Platform,
     protected router: Router,
     protected modalCtrl: ModalController,
+    protected alertCtrl: AlertController,
+    protected authService: AuthService,
   ) { }
 
   ngOnInit() {
     this.isPwa = !(this.platform.is('ios') || this.platform.is('android'));
+    this.isAuthorized = this.authService.isAuthorized();
   }
 
   goToCamps() {
     this.router.navigate(['/tabs/tab1']);
+  }
+
+  async logOut() {
+    const alert = await this.alertCtrl.create({
+      header: 'Log out',
+      message: 'Are you sure you want to log out?',
+      buttons: [
+        {
+          text: 'No',
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.authService.logout().then(() => {
+              this.router.navigate(['']);
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   async openLoginModal() {

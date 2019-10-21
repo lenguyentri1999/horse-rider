@@ -1,20 +1,26 @@
 <div *ngIf="isPwa">
   <ion-header no-border>
     <ion-toolbar>
-      <img class="logo"src="assets/logo.png">
+      <img class="logo" src="assets/logo.png">
       <ion-buttons slot="end">
         <!-- <ion-button routerLink="/landing">Home</ion-button> -->
         <ion-button class="about">About</ion-button>
         <ion-button>Trails</ion-button>
         <ion-button (click)="goToCamps()">Camps</ion-button>
         <ion-button>Help</ion-button>
-        <ion-button (click)="openLoginModal()">Log in</ion-button>
-        <ion-button class="signup" (click)="openRegisterModal()">Sign up</ion-button>
+
+        <ng-container *ngIf="!(isAuthorized | async)">
+          <ion-button (click)="openLoginModal()">Log in</ion-button>
+          <ion-button class="signup" (click)="openRegisterModal()">Sign up</ion-button>
+        </ng-container>
+        <ng-container *ngIf="isAuthorized | async">
+          <ion-button (click)="logOut()">Log out</ion-button>
+        </ng-container>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
 </div>
 <div>
-  
+
 </div>

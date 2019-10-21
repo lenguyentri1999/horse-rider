@@ -77,11 +77,4 @@ export class ReviewComponent implements OnInit, OnChanges {
     this.submitReview.emit(this.reviewToSubmit);
   }
 
-  async openModal() {
-    const modal = await this.modalController.create({
-      component: LoginPage,
-    });
-    modal.present();
-  }
-
 }
