@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisteredUser } from 'src/models/user';
+import { User } from 'src/models/user';
 import { AuthService } from '../../services/auth.service';
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,22 +13,35 @@ export class LoginPage implements OnInit {
 
   constructor(
     protected authService: AuthService,
+    protected toastCtrl: ToastController,
+    protected router: Router,
   ) { }
 
   ngOnInit() {
   }
 
-  login(form) {
-    const userInfo: RegisteredUser = {
+  async login(form) {
+    const userInfo: User = {
       email: form.value.email,
       password: form.value.password
     };
-    const r = this.authService.login(userInfo);
-    if (r) {
-      alert('Login success');
-      return;
+    try {
+      const r = await this.authService.login(userInfo);
+      if (r) {
+        const toast = await this.toastCtrl.create({
+          message: 'Login successful!',
+          duration: 2000,
+        });
+        toast.present();
+        this.router.navigate(['']);
+      }
+    } catch (err) {
+      const toast = await this.toastCtrl.create({
+        message: err.message,
+        duration: 2000,
+      });
+      toast.present();
     }
-    alert('Login failed');
   }
 
 }

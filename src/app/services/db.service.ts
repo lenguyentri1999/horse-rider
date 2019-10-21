@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { AngularFireDatabase, QueryFn } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import * as firebase from 'firebase';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,11 @@ export class DbService {
   }
 
   public getListSortedByFunction<T>(path: string, query: QueryFn = null): Observable<T[]> {
-    return this.afDb.list<T>(environment.firebasePath + path, query).valueChanges();
+    return this.afDb.list<T>(environment.firebasePath + path, query).valueChanges().pipe(
+      // map(value => {
+      //   return value ? value : [];
+      // })
+    );
   }
 
   public updateObjectAtPath(path: string, object): Promise<void> {

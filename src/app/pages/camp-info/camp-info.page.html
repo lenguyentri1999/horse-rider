@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{(camp$ | async).name}}</ion-title>
+    <ion-title>{{(camp$ | async)?.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <h1>Average rating: {{(avgRating$ | async) | number: '1.0-1'}}</h1>
+  <h1>Average rating: {{(avgRating$ | async) | number: '1.2-2'}}</h1>
   <br>
 
   <h1>Write a review:</h1>
@@ -15,6 +15,10 @@
 
   <h1>Reviews</h1>
   <ion-grid>
+    <ion-row>
+      <ion-col>{{(avgRating$ | async) | number: '1.2-2'}}</ion-col>
+      <ion-col>{{(campReviews$ | async)?.length || 0}} reviews</ion-col>
+    </ion-row>
     <ion-row>
       <ion-col size="12" *ngFor="let review of campReviews$ | async">
         <app-review [isEditMode]="false" [review]="review"></app-review>

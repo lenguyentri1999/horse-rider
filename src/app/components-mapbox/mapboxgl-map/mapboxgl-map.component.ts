@@ -69,10 +69,8 @@ export class MapboxglMapComponent implements OnInit, OnChanges {
   }
 
   private populateMarkers(myMap: MapboxMap, geoJsonData: MapboxPlace[]) {
-    console.log('yo yo geojson data', geoJsonData);
     this.isMapLoaded(myMap).then(mapLoaded => {
       // make a marker for each feature and add to the map
-      console.log('le geojson data', geoJsonData);
       geoJsonData.forEach(place => {
         console.log(place);
         const coords = place.geometry.coordinates;

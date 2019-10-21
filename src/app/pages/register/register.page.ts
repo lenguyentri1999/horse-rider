@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { RegisteredUser } from 'src/models/user';
+import { User } from 'src/models/user';
 import { AuthService } from '../../services/auth.service';
+import { ToastController, NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,28 +13,42 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterPage implements OnInit {
 
   constructor(
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected toastCtrl: ToastController,
+    protected router: Router,
   ) { }
 
   ngOnInit() {
   }
 
-  register(form: NgForm) {
+  async register(form: NgForm) {
     if (form.value.password !== form.value.confirm) {
       return;
     }
 
-    const user: RegisteredUser = {
+    const user: User = {
       email: form.value.email,
-      password: form.value.password
+      password: form.value.password,
+      name: form.value.name
     };
 
-    const r = this.authService.register(user);
-    if (r) {
-      alert('Success');
-      return;
+    try {
+      const r = await this.authService.register(user);
+      if (r) {
+        const toast = await this.toastCtrl.create({
+          message: 'Registration successful!',
+          duration: 2000,
+        });
+        toast.present();
+        this.router.navigate(['']);
+      }
+    } catch (err) {
+        const toast = await this.toastCtrl.create({
+          message: err.message,
+          duration: 2000,
+        });
+        toast.present();
     }
-    alert('Nah brah');
   }
 
 }

@@ -6,18 +6,18 @@ const routes: Routes = [
     path: '',
     redirectTo: '/landing', pathMatch: 'full',
   },
-  { path: 'camp-info', loadChildren: './pages/camp-info/camp-info.module#CampInfoPageModule' },
-  { path: 'landing', loadChildren: './pages/landing/landing.module#LandingPageModule' }
+  { path: 'camp-info/:id', loadChildren: './pages/camp-info/camp-info.module#CampInfoPageModule', pathMatch: 'full' },
+  { path: 'landing', loadChildren: './pages/landing/landing.module#LandingPageModule' },
   // {
   //   path: '',
   //   loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
   // },
-  // {
-  //   path: 'login', loadChildren: './pages/login/login.module#LoginPageModule',
-  // },
-  // {
-  //   path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule',
-  // },
+  {
+    path: 'login', loadChildren: './pages/login/login.module#LoginPageModule',
+  },
+  {
+    path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule',
+  },
 ];
 @NgModule({
   imports: [

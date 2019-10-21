@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router } from '@angular/router';
-import { NavController, IonSearchbar, ModalController, PopoverController } from '@ionic/angular';
+import { NavController, IonSearchbar, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
@@ -14,6 +14,7 @@ import { NavParamsService } from 'src/app/services/nav-params.service';
 import { CampInfoPage } from '../camp-info/camp-info.page';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
 import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
+import { CampSearchService } from 'src/app/services/camp-search.service';
 
 @Component({
   selector: 'app-tab1',
@@ -22,7 +23,7 @@ import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popov
 })
 
 export class Tab1Page implements OnInit, AfterViewInit {
-  @ViewChild('textSearch', { static: false }) textSearchBar: IonSearchbar;
+  @ViewChild('textSearch', { static: false }) textSearchBar: AutoCompleteComponent;
   @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
 
   camps: Observable<Camp[]> = new Observable<Camp[]>();
@@ -31,8 +32,11 @@ export class Tab1Page implements OnInit, AfterViewInit {
   query: CampQuery;
   currentCoords: Observable<number[]>;
 
+  isMapView = false;
+
   constructor(
     public mapboxService: MapboxService,
+    public campSearchService: CampSearchService,
     protected campService: CampService,
     protected router: Router,
     protected navCtrl: NavController,
@@ -40,6 +44,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected navParamService: NavParamsService,
     protected modalCtrl: ModalController,
     protected popoverCtrl: PopoverController,
+    protected toastCtrl: ToastController,
   ) {
 
     // Get query from landing page
@@ -52,7 +57,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.textSearchBar.value = this.query.term;
+    this.textSearchBar.keyword = this.query.term;
     this.locationSearchBar.setValue(this.query.place);
     if (this.query.place) {
       this.searchCamps();
@@ -64,13 +69,16 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.navCtrl.navigateForward(`camp-info`);
   }
 
+  onCampSelected(camp: Camp): void {
+  }
+
   onLocationSelected(place: MapboxPlace): void {
     this.query.place = place;
     this.currentCoords = of(this.query.place.geometry.coordinates);
   }
 
   searchCamps() {
-    this.query.term = this.textSearchBar.value;
+    this.query.term = this.textSearchBar.keyword;
     const currCoords: Coords = {
       long: this.query.place.geometry.coordinates[0],
       lat: this.query.place.geometry.coordinates[1]
@@ -120,5 +128,14 @@ export class Tab1Page implements OnInit, AfterViewInit {
       component: SortPopoverComponent,
     });
     await popover.present();
+  }
+
+  async onSwitchViewButtonClick() {
+    const toast = await this.toastCtrl.create({
+      message: this.isMapView ? 'Switching to list view!' : 'Switching to map view!',
+      duration: 700
+    });
+    toast.present();
+    this.isMapView = !this.isMapView;
   }
 }

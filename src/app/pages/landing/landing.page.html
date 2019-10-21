@@ -2,10 +2,7 @@
 
 <ion-content>
 
-  <p>Environment Production: {{environmentSetting}}</p>
-  <p>Environment Version: {{environmentVersion}}</p>
   <!-- Maybe you could use ion grid for aligning the pictures and the autocomplete -->
-
   <div>
     <div class="container">
       <h1 class="slogan">Adventure is out there.</h1>
@@ -15,23 +12,34 @@
         <ion-grid>
           <ion-row>
             <ion-col>
-                <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch class="explorecamps"></ion-auto-complete>
+              <!-- Template for image -->
+              <ng-template #withCampPics let-attrs="attrs">
+                <!-- attrs === camp -->
+                <div [routerLink]="['/camp-info', attrs.data.id]" style="width: 70vw">
+                  <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" />
+                  <span [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
+                </div>
+              </ng-template>
+              <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch class="explorecamps"
+                [dataProvider]="campSearchService" [template]="withCampPics">
+              </ion-auto-complete>
             </ion-col>
             <ion-col>
-                <ion-auto-complete  [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)" [dataProvider]="mapboxService"class="explorelocation"></ion-auto-complete>
+              <ion-auto-complete [options]="{ placeholder : 'Your location' }"
+                (itemSelected)="onLocationSelected($event)" [dataProvider]="mapboxService" class="explorelocation">
+              </ion-auto-complete>
             </ion-col>
           </ion-row>
-            <!-- <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button> -->
-           
+          <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button>
         </ion-grid>
-       
       </div>
-
-      <div class="container3">
-        
-      </div>
-
     </div>
     <img class="frontphoto" src="assets/frontphoto.jpg">
   </div>
+
+  <!-- <div *ngIf="!environmentSetting">
+    <p>Environment Production: {{environmentSetting}}</p>
+    <p>Environment Version: {{environmentVersion}}</p>
+  </div> -->
+
 </ion-content>

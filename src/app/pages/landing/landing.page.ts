@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { NavController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { CampSearchService } from 'src/app/services/camp-search.service';
 
 @Component({
   selector: 'app-landing',
@@ -18,11 +19,10 @@ export class LandingPage implements OnInit {
   environmentVersion: string = environment.version;
 
   place: MapboxPlace;
-  // tslint:disable-next-line:no-inferrable-types
-  searchTerm: string = '';
 
   constructor(
     public mapboxService: MapboxService,
+    public campSearchService: CampSearchService,
     protected router: Router,
     protected navCtrl: NavController,
   ) { }
@@ -35,8 +35,7 @@ export class LandingPage implements OnInit {
   }
 
   searchCamps() {
-    this.searchTerm = this.searchBar.keyword;
-    this.mapboxService.setSearchQuery({term: this.searchTerm, place: this.place});
-    this.router.navigateByUrl('tabs/tab1');
+    this.mapboxService.setSearchQuery({term: this.searchBar.keyword, place: this.place});
+    this.router.navigate(['tabs/tab1']);
   }
 }

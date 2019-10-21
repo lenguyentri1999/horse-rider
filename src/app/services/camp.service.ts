@@ -8,11 +8,12 @@ import { IGetAll } from 'src/models/firebase/IGetAll';
 import * as stringSim from 'string-similarity';
 import { StringMatch } from 'src/models/string-similarity/stringMatch';
 import { MapboxService } from './mapbox.service';
+import { IByID } from 'src/models/firebase/IByID';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampService implements IGetAll<Camp> {
+export class CampService implements IGetAll<Camp>, IByID<Camp> {
 
   constructor(
     protected db: DbService,
@@ -27,6 +28,10 @@ export class CampService implements IGetAll<Camp> {
 
   public getAllAsList(): Observable<Camp[]> {
     return this.db.getListSortedByFunction<Camp>(`camps`);
+  }
+
+  public getByID(id: string): Observable<Camp> {
+    return this.db.getObjectValues<Camp>(`camps/${id}`);
   }
 
   public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {

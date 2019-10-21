@@ -1,13 +1,29 @@
 <app-pwa-nav-bar></app-pwa-nav-bar>
 
 <ion-content>
-  <ion-searchbar placeholder="Explore camps" #textSearch></ion-searchbar>
+
+  <!-- Template for image -->
+  <ng-template #withCampPics let-attrs="attrs">
+    <!-- attrs === camp -->
+    <div [routerLink]="['/camp-info', attrs.data.id]">
+      <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" />
+      <span [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
+    </div>
+  </ng-template>
+  <ion-auto-complete [options]="{ placeholder : 'Find a camp...' }" [dataProvider]="campSearchService"
+    (itemSelected)="onCampSelected($event)" [template]="withCampPics" #textSearch></ion-auto-complete>
+
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
     [dataProvider]="mapboxService" #locationSearch></ion-auto-complete>
+
   <ion-button (click)="searchCamps()" [disabled]="!query.place">Search</ion-button>
 
   <ion-grid>
     <ion-row>
+      <ion-button (click)="onSwitchViewButtonClick()">
+        <ion-icon name="locate" *ngIf="!isMapView"></ion-icon>
+        <ion-icon name="list" *ngIf="isMapView"></ion-icon>
+      </ion-button>
       <ion-button (click)="onFilterButtonClick()">
         <ion-icon name="color-filter" style="margin-right: 1em"></ion-icon>
         Filters
@@ -18,17 +34,27 @@
       </ion-button>
     </ion-row>
   </ion-grid>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <div *ngFor="let camp of camps | async">
-          <app-camp-card [camp]="camp" (click)="goToCampInfo(camp)"></app-camp-card>
-        </div>
-      </ion-col>
-      <ion-col size="6">
-        <app-mapboxgl-map [centerCoords]="currentCoords | async" [geoJsonData]="campsMarkers | async"></app-mapboxgl-map>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <app-mapboxgl-map></app-mapboxgl-map>
+
+  <!-- Map view -->
+  <ng-container *ngIf="isMapView">
+    <ion-card style="height: 80vh; width: 100vw; margin-left: auto; margin-right: auto">
+      <app-mapboxgl-map [geoJsonData]="campsMarkers | async"></app-mapboxgl-map>
+    </ion-card>
+  </ng-container>
+
+  <!-- List view -->
+  <ng-container *ngIf="!isMapView">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div *ngFor="let camp of camps | async | paginate: { itemsPerPage: 10, currentPage: p}">
+            <app-camp-card [camp]="camp" [routerLink]="['/camp-info', camp.id]"></app-camp-card>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <pagination-controls (pageChange)="p = $event" *ngIf="camps | async"></pagination-controls>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
 </ion-content>
