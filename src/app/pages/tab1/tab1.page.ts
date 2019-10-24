@@ -52,7 +52,6 @@ export class Tab1Page implements OnInit, AfterViewInit {
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
     if (this.query.place) { this.currentCoords = of(this.query.place.geometry.coordinates); }
-
   }
 
   ngOnInit(): void {
@@ -61,9 +60,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.textSearchBar.keyword = this.query.term;
     this.locationSearchBar.setValue(this.query.place);
-    if (this.query.place) {
-      this.searchCamps();
-    }
+    this.searchCamps();
   }
 
   goToCampInfo(camp: Camp): void {
@@ -81,34 +78,28 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   searchCamps() {
     this.query.term = this.textSearchBar.keyword;
-    const currCoords: Coords = {
-      long: this.query.place.geometry.coordinates[0],
-      lat: this.query.place.geometry.coordinates[1]
-    };
-
     this.camps = this.campService.getAllAsMap().pipe(
-      map(allCamps => {
-        return this.campService.filterByTerm(this.query.term, allCamps);
-      }),
+      map(allCamps => this.campService.filterByTerm(this.query.term, allCamps))
+    );
+
+    if (this.query.place) {
+      const currCoords: Coords = {
+        long: this.query.place.geometry.coordinates[0],
+        lat: this.query.place.geometry.coordinates[1]
+      };
+      this.filterByPlace(currCoords);
+    }
+    this.p = 1;
+  }
+
+  private filterByPlace(currCoords: Coords) {
+    this.camps = this.camps.pipe(
       tap(camps => {
         camps.forEach(camp => {
           this.populateCampCoordsAndDistance(camp, currCoords);
         });
-      }),
-    );
-
-    this.campsMarkers = this.camps.pipe(
-      flatMap(camps => {
-        const markers$: Observable<MapboxPlace>[] = [];
-        camps.forEach(camp => {
-          const place = this.mapboxService.campToMapboxPlace(camp);
-          markers$.push(place);
-        });
-
-        return combineLatest(markers$);
       })
     );
-    this.p = 1;
   }
 
   private populateCampCoordsAndDistance(camp: Camp, currCoords: Coords) {
@@ -137,6 +128,20 @@ export class Tab1Page implements OnInit, AfterViewInit {
     });
     toast.present();
     this.isMapView = !this.isMapView;
+
+    if (this.isMapView) {
+      this.campsMarkers = this.camps.pipe(
+        flatMap(camps => {
+          const markers$: Observable<MapboxPlace>[] = [];
+          camps.forEach(camp => {
+            const place = this.mapboxService.campToMapboxPlace(camp);
+            markers$.push(place);
+          });
+
+          return combineLatest(markers$);
+        })
+      );
+    }
   }
 
   onPageChange(page: number) {
