@@ -26,7 +26,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   @ViewChild('textSearch', { static: false }) textSearchBar: AutoCompleteComponent;
   @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
   @ViewChild(IonContent, { static: false }) content: IonContent;
-  p: number;
+  p = 1;
+  itemsPerPage = 10;
 
   camps: Observable<Camp[]> = new Observable<Camp[]>();
   campsMarkers: Observable<MapboxPlace[]>;
@@ -131,6 +132,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
     if (this.isMapView) {
       this.campsMarkers = this.camps.pipe(
+        map(camps => this.sliceCampByPage(camps)),
         flatMap(camps => {
           const markers$: Observable<MapboxPlace>[] = [];
           camps.forEach(camp => {
@@ -142,6 +144,12 @@ export class Tab1Page implements OnInit, AfterViewInit {
         })
       );
     }
+  }
+
+  private sliceCampByPage(camps: Camp[]): Camp[] {
+    const startIndex = (this.p - 1) * this.itemsPerPage;
+    const endIndex = this.p * this.itemsPerPage;
+    return camps.slice(startIndex, endIndex);
   }
 
   onPageChange(page: number) {

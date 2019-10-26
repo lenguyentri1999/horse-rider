@@ -21,8 +21,14 @@
   <ion-grid>
     <ion-row>
       <ion-button (click)="onSwitchViewButtonClick()">
-        <ion-icon name="locate" *ngIf="!isMapView"></ion-icon>
-        <ion-icon name="list" *ngIf="isMapView"></ion-icon>
+        <ng-container *ngIf="!isMapView">
+          <p padding>Switch to map view</p>
+          <ion-icon name="locate"></ion-icon>
+        </ng-container>
+        <ng-container *ngIf="isMapView">
+          <p padding>Switch to list view</p>
+          <ion-icon name="list"></ion-icon>
+        </ng-container>
       </ion-button>
       <ion-button (click)="onFilterButtonClick()">
         <ion-icon name="color-filter" style="margin-right: 1em"></ion-icon>
@@ -47,7 +53,7 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <div *ngFor="let camp of camps | async | paginate: { itemsPerPage: 10, currentPage: p}">
+          <div *ngFor="let camp of camps | async | paginate: { itemsPerPage: itemsPerPage, currentPage: p}">
             <app-camp-card [camp]="camp" [routerLink]="['/camp-info', camp.id]"></app-camp-card>
           </div>
         </ion-col>
