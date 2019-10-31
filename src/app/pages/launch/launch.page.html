@@ -1,9 +1,48 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>launch</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- <app-pwa-nav-bar></app-pwa-nav-bar> -->
 
 <ion-content>
+
+  <!-- Maybe you could use ion grid for aligning the pictures and the autocomplete -->
+  <div>
+    <div class="container">
+      
+
+     <div class="container2">
+        <h1 class="slogan" align="center">Adventure is out there.</h1>
+        <h2 class="description"align="center">Discover, experience and rate horse camps and trails</h2>
+        <ion-input placeholder="Enter Input" class="email-input" align="center"></ion-input>
+        <ion-button class="email-submit-button"color="primary">Primary</ion-button>
+        <!--<ion-grid>
+          <ion-row>
+            <ion-col>
+             
+              <ng-template #withCampPics let-attrs="attrs">
+               
+                <div [routerLink]="['/camp-info', attrs.data.id]" style="width: 70vw">
+                  <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" />
+                  <span [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
+                </div>
+              </ng-template>
+              <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch class="explorecamps"
+                [dataProvider]="campSearchService" [template]="withCampPics">
+              </ion-auto-complete>
+            </ion-col>
+            <ion-col>
+              <ion-auto-complete [options]="{ placeholder : 'Your location' }"
+                (itemSelected)="onLocationSelected($event)" [dataProvider]="mapboxService" class="explorelocation">
+              </ion-auto-complete>
+            </ion-col>
+          </ion-row>
+          <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button>
+        </ion-grid>-->
+      </div>
+    </div> 
+    <img class="frontphoto" src="assets/frontphoto.jpg">
+  </div>
+
+  <!-- <div *ngIf="!environmentSetting">
+    <p>Environment Production: {{environmentSetting}}</p>
+    <p>Environment Version: {{environmentVersion}}</p>
+  </div> -->
 
 </ion-content>
