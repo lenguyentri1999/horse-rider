@@ -1,6 +1,9 @@
 # Install
 `npm install -g ionic@latest`
 
+## Deploy to production on PWA
+`ionic build --prod`
+`firebase deploy`
 
 ## Build on Android
 

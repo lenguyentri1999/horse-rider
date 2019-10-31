@@ -3,8 +3,8 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AutoCompleteService } from 'ionic4-auto-complete';
 import { MapboxResult, MapboxPlace } from '../../models/mapboxResult';
-import { map } from 'rxjs/operators';
-import { Observable, forkJoin } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { Observable, forkJoin, of } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { Camp } from 'src/models/camp';
 
@@ -42,6 +42,7 @@ export class MapboxService implements AutoCompleteService {
   }
 
   autocomplete(query: string): Observable<MapboxPlace[]> {
+    // if (!query && !query.trim()) { return of(null); }
     const url = `${this.baseUrl}/${query}.json`;
 
     return this.http.get(url, {

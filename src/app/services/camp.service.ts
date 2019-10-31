@@ -23,7 +23,17 @@ export class CampService implements IGetAll<Camp>, IByID<Camp> {
 
   // Returns all camps
   public getAllAsMap(): Observable<Map<string, Camp>> {
-    return this.db.getObjectValues(`camps`);
+    return this.db.getObjectValues<Map<string, Camp>>(`camps`).pipe(
+      tap(campMap => {
+        Object.keys(campMap).forEach(key => {
+          const camp: Camp = campMap[key];
+          camp.coords = new Observable<{
+            lat: number;
+            long: number;
+          }>();
+        });
+      })
+    )
   }
 
   public getAllAsList(): Observable<Camp[]> {
@@ -34,11 +44,11 @@ export class CampService implements IGetAll<Camp>, IByID<Camp> {
     return this.db.getObjectValues<Camp>(`camps/${id}`);
   }
 
-  public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
-    return this.mapboxService.reverseGeocode(camp.address).pipe(
-      (tap(coords => this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords)))
-    );
-  }
+  // public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
+  //   return this.mapboxService.reverseGeocode(camp.address).pipe(
+  //     (tap(coords => this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords)))
+  //   );
+  // }
 
   public filterByTerm(term: string, camps: Map<string, Camp>): Camp[] {
 

@@ -17,7 +17,8 @@ const routes: Routes = [
   },
   {
     path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule',
-  },
+  },  { path: 'launch', loadChildren: './pages/launch/launch.module#LaunchPageModule' },
+
 ];
 @NgModule({
   imports: [

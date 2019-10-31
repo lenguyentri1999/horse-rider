@@ -36,12 +36,34 @@ export class LoginPage implements OnInit {
         this.router.navigate(['']);
       }
     } catch (err) {
+      this.showErrorAlert(err);
+    }
+  }
+
+  async googleLogin() {
+    try {
+      await this.authService.googleLogin();
+      this.router.navigate(['']);
+    } catch (err) {
+      this.showErrorAlert(err);
+    }
+  }
+
+  async facebookLogin() {
+    try {
+      await this.authService.facebookLogin();
+      this.router.navigate(['']);
+    } catch (err) {
+      this.showErrorAlert(err);
+    }
+  }
+
+  private async showErrorAlert(err: Error) {
       const toast = await this.toastCtrl.create({
         message: err.message,
         duration: 2000,
       });
       toast.present();
-    }
   }
 
 }
