@@ -7,6 +7,7 @@
             <h3>Add New Camp</h3>
           </div>
           <div padding>
+
             <ion-list>
 
               <ion-item>
@@ -18,6 +19,12 @@
                 <ion-label>Description</ion-label>
                 <ion-input formControlName="description" type="text"></ion-input>
               </ion-item>
+
+              <ion-item>
+                <ion-label>Address</ion-label>
+              </ion-item>
+              <ion-auto-complete (itemSelected)="onLocationSelected($event)" [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService">
+              </ion-auto-complete>
 
               <ion-item>
                 <ion-label>Big Rig Friendly</ion-label>
@@ -48,5 +55,6 @@
       </ion-row>
     </ion-grid>
   </form>
+
 
 </ion-content>

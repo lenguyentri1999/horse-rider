@@ -16,7 +16,7 @@
               <ng-template #withCampPics let-attrs="attrs">
                 <!-- attrs === camp -->
                 <div [routerLink]="['/camp-info', attrs.data.id]" style="width: 70vw">
-                  <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" />
+                  <!-- <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" /> -->
                   <span [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
                 </div>
               </ng-template>

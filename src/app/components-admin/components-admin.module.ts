@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { AddCampComponent } from './add-camp/add-camp.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AddTrailComponent } from './add-trail/add-trail.component';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AddTrailComponent } from './add-trail/add-trail.component';
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
+    AutoCompleteModule,
   ],
   entryComponents: [
     AddCampComponent,

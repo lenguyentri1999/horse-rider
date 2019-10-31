@@ -5,18 +5,18 @@ export interface Camp {
     id: string;
     name: string;
     address: string;
-    coords: Observable<{
-        lat: number;
-        long: number;
-    }>;
     description: string;
-    url: Url;
-    pictures: Array<string>;
-    distance: Observable<number>;
+    url?: Url;
     attributes: {
         bigRigFriendly: boolean,
         facilityCleanliness: boolean,
         wifi: boolean,
         horseFacilities: boolean
     };
+    coords?: Observable<{
+        lat: number;
+        long: number;
+    }>;
+    pictures?: Array<string>;
+    distance?: Observable<number>;
 }

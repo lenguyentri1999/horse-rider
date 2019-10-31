@@ -1,25 +1,33 @@
 import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
 import { Camp } from 'src/models/camp';
-import { Observable, combineLatest, zip } from 'rxjs';
-import { map, tap, flatMap, switchMap, take } from 'rxjs/operators';
+import { Observable, combineLatest, zip, from, of } from 'rxjs';
+import { map, tap, flatMap, switchMap, take, catchError } from 'rxjs/operators';
 import { ReviewService } from './review.service';
 import { IGetAll } from 'src/models/firebase/IGetAll';
 import * as stringSim from 'string-similarity';
 import { StringMatch } from 'src/models/string-similarity/stringMatch';
 import { MapboxService } from './mapbox.service';
 import { IByID } from 'src/models/firebase/IByID';
+import { IAddNew } from 'src/models/firebase/IAddNew';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampService implements IGetAll<Camp>, IByID<Camp> {
+export class CampService implements IGetAll<Camp>, IByID<Camp>, IAddNew<Camp> {
 
   constructor(
     protected db: DbService,
     protected reviewService: ReviewService,
     protected mapboxService: MapboxService,
   ) { }
+
+  public tryAddNew(obj: Camp): Observable<boolean> {
+    return from(this.db.setObjectAtPath(`camps/${obj.id}`, obj)).pipe(
+      catchError(_ => of(false)),
+      flatMap(_ => of(true))
+    );
+  }
 
   // Returns all camps
   public getAllAsMap(): Observable<Map<string, Camp>> {
