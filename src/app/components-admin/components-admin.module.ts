@@ -4,10 +4,12 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { AddCampComponent } from './add-camp/add-camp.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AddTrailComponent } from './add-trail/add-trail.component';
 
 @NgModule({
   declarations: [
       AddCampComponent,
+      AddTrailComponent,
   ],
   imports: [
     CommonModule,
@@ -18,9 +20,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   ],
   entryComponents: [
     AddCampComponent,
+    AddTrailComponent,
   ],
   exports: [
-      AddCampComponent
+      AddCampComponent,
+      AddTrailComponent,
   ]
 })
 export class ComponentsAdminModule { }
