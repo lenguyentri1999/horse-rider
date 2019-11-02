@@ -38,6 +38,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     let description = '';
     let address = '';
     let url = '';
+    let pictureUrl = '';
     let attributes: Camp['attributes'] = {
       bigRigFriendly: false,
       facilityCleanliness: false,
@@ -50,6 +51,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       description = this.camp.description;
       address = this.camp.address;
       url = this.camp.url;
+      pictureUrl = this.camp.pictures && this.camp.pictures.length > 0 ? this.camp.pictures[0] : '';
       attributes = this.camp.attributes;
     }
 
@@ -60,6 +62,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       description: [description, Validators.required],
       address: [address, Validators.required],
       url: [url, [Validators.required, Validators.pattern(reg)]],
+      pictureUrl: [pictureUrl, [Validators.required]],
       bigRigFriendly: [attributes.bigRigFriendly, Validators.required],
       facilityCleanliness: [attributes.facilityCleanliness, Validators.required],
       wifi: [attributes.wifi, Validators.required],
@@ -86,6 +89,9 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       description: this.myForm.get('description').value,
       address: this.myForm.get('address').value,
       url: this.myForm.get('url').value,
+      pictures: [
+        this.myForm.get('pictureUrl').value,
+      ],
       attributes: {
         bigRigFriendly: this.myForm.get('bigRigFriendly').value,
         facilityCleanliness: this.myForm.get('facilityCleanliness').value,
