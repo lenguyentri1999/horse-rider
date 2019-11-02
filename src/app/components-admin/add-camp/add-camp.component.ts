@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { DbService } from 'src/app/services/db.service';
 import { Camp } from 'src/models/camp';
 import { MapboxService } from 'src/app/services/mapbox.service';
 import { MapboxPlace } from 'src/models/mapboxResult';
 import { CampService } from 'src/app/services/camp.service';
-import { AlertController, ToastController } from '@ionic/angular';
+import { ToastController, ModalController } from '@ionic/angular';
+import { AutoCompleteComponent } from 'ionic4-auto-complete';
 
 @Component({
   selector: 'app-add-camp',
   templateUrl: './add-camp.component.html',
   styleUrls: ['./add-camp.component.scss'],
 })
-export class AddCampComponent implements OnInit {
+export class AddCampComponent implements OnInit, AfterViewInit {
+  @ViewChild('addressSearchbar', { static: false }) addressSearchBar: AutoCompleteComponent;
   myForm: FormGroup;
+
+  // If camp is not null, then in edit mode
+  camp: Camp;
 
   constructor(
     public mapboxService: MapboxService,
@@ -21,18 +26,51 @@ export class AddCampComponent implements OnInit {
     protected campService: CampService,
     protected fb: FormBuilder,
     protected toastCtrl: ToastController,
-    ) { }
+    protected modalCtrl: ModalController,
+  ) { }
+
+  private isEditMode(): boolean {
+    return this.camp != null;
+  }
 
   ngOnInit() {
+    let name = '';
+    let description = '';
+    let address = '';
+    let url = '';
+    let attributes: Camp['attributes'] = {
+      bigRigFriendly: false,
+      facilityCleanliness: false,
+      wifi: false,
+      horseFacilities: false
+    };
+
+    if (this.isEditMode()) {
+      name = this.camp.name;
+      description = this.camp.description;
+      address = this.camp.address;
+      url = this.camp.url;
+      attributes = this.camp.attributes;
+    }
+
+    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+
     this.myForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      address: ['', Validators.required],
-      bigRigFriendly: [false, Validators.required],
-      facilityCleanliness: [false, Validators.required],
-      wifi: [false, Validators.required],
-      horseFacilities: [false, Validators.required],
+      name: [name, Validators.required],
+      description: [description, Validators.required],
+      address: [address, Validators.required],
+      url: [url, [Validators.required, Validators.pattern(reg)]],
+      bigRigFriendly: [attributes.bigRigFriendly, Validators.required],
+      facilityCleanliness: [attributes.facilityCleanliness, Validators.required],
+      wifi: [attributes.wifi, Validators.required],
+      horseFacilities: [attributes.horseFacilities, Validators.required],
     });
+  }
+
+  ngAfterViewInit() {
+    if (this.isEditMode()) {
+      this.addressSearchBar.keyword = this.camp.address;
+    }
   }
 
   onLocationSelected(place: MapboxPlace) {
@@ -40,12 +78,14 @@ export class AddCampComponent implements OnInit {
   }
 
   async submit() {
-    const campID = this.db.uuidv4();
+    const campID = this.isEditMode() ? this.camp.id : this.db.uuidv4();
+
     const camp: Camp = {
       id: campID,
       name: this.myForm.get('name').value,
       description: this.myForm.get('description').value,
       address: this.myForm.get('address').value,
+      url: this.myForm.get('url').value,
       attributes: {
         bigRigFriendly: this.myForm.get('bigRigFriendly').value,
         facilityCleanliness: this.myForm.get('facilityCleanliness').value,
@@ -53,20 +93,36 @@ export class AddCampComponent implements OnInit {
         horseFacilities: this.myForm.get('horseFacilities').value
       }
     };
+
     this.campService.tryAddNew(camp).subscribe(async (success) => {
       if (success) {
-        const toast = await this.toastCtrl.create({
-          message: 'Camp added!'
-        });
-        toast.present();
-
+        this.onSuccessAlert();
+        this.modalCtrl.dismiss();
       } else {
-        const toast = await this.toastCtrl.create({
-          message: 'Camp was not added!'
-        });
-        toast.present();
+        this.onFailureAlert();
       }
     });
+  }
+
+  private async onSuccessAlert() {
+    const msg = this.isEditMode() ? 'Camp edited!' : 'Camp added!';
+    const toast = await this.toastCtrl.create({
+      message: msg,
+      duration: 2000,
+    });
+    toast.present();
+  }
+
+  private async onFailureAlert() {
+    const toast = await this.toastCtrl.create({
+      message: 'Error!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  public onCloseButton() {
+    this.modalCtrl.dismiss();
   }
 
 }

@@ -1,10 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="end" color="danger" (click)="onCloseButton()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
   <form [formGroup]="myForm" (ngSubmit)="submit(myForm)">
     <ion-grid>
       <ion-row color="primary" justify-content-center>
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
           <div text-center>
-            <h3>Add New Camp</h3>
+            <h3 *ngIf="!camp">Add New Camp</h3>
+            <h3 *ngIf="camp">Edit Camp</h3>
           </div>
           <div padding>
 
@@ -17,13 +25,18 @@
 
               <ion-item>
                 <ion-label>Description</ion-label>
-                <ion-input formControlName="description" type="text"></ion-input>
+                <ion-textarea formControlName="description" type="text"></ion-textarea>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>URL</ion-label>
+                <ion-textarea formControlName="url" type="url"></ion-textarea>
               </ion-item>
 
               <ion-item>
                 <ion-label>Address</ion-label>
               </ion-item>
-              <ion-auto-complete (itemSelected)="onLocationSelected($event)" [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService">
+              <ion-auto-complete (itemSelected)="onLocationSelected($event)" [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar>
               </ion-auto-complete>
 
               <ion-item>

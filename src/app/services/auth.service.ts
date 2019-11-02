@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from 'src/models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { auth } from 'firebase/app';
 import { DbService } from './db.service';
 
@@ -27,15 +27,20 @@ export class AuthService {
       : undefined;
   }
 
+  public tryGetUserId(): Observable<string | undefined> {
+    return this.afAuth.user.pipe(
+      map(user => user ? user.uid : undefined)
+    );
+  }
+
   public isAdmin(): Observable<boolean> {
-    const userID = this.getUserId();
-    if (!userID) {
-      return of(false);
-    } else {
+    return this.tryGetUserId().pipe(
+      switchMap(userID => {
       return this.dbService.getObjectValues<boolean>(`admin/${userID}`).pipe(
         map(value => value ? true : false)
       );
-    }
+      })
+    );
   }
 
   public isAuthorized(): Observable<boolean> {

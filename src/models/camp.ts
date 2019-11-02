@@ -6,12 +6,12 @@ export interface Camp {
     name: string;
     address: string;
     description: string;
-    url?: Url;
+    url?: string;
     attributes: {
-        bigRigFriendly: boolean,
-        facilityCleanliness: boolean,
-        wifi: boolean,
-        horseFacilities: boolean
+        bigRigFriendly: boolean | false,
+        facilityCleanliness: boolean | false,
+        wifi: boolean | false,
+        horseFacilities: boolean | false
     };
     coords?: Observable<{
         lat: number;

@@ -9,6 +9,7 @@ import { CampInfoPage } from './camp-info.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { IonicRatingModule } from 'ionic-rating';
 import { ComponentsMapboxModule } from 'src/app/components-mapbox/components-mapbox.module';
+import { ComponentsAdminModule } from 'src/app/components-admin/components-admin.module';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     ComponentsModule,
     IonicRatingModule,
     ComponentsMapboxModule,
+    ComponentsAdminModule,
   ],
   declarations: [
     CampInfoPage,

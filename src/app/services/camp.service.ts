@@ -23,7 +23,7 @@ export class CampService implements IGetAll<Camp>, IByID<Camp>, IAddNew<Camp> {
   ) { }
 
   public tryAddNew(obj: Camp): Observable<boolean> {
-    return from(this.db.setObjectAtPath(`camps/${obj.id}`, obj)).pipe(
+    return from(this.db.updateObjectAtPath(`camps/${obj.id}`, obj)).pipe(
       catchError(_ => of(false)),
       flatMap(_ => of(true))
     );
