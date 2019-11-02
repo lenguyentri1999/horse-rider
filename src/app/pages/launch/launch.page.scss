@@ -58,13 +58,30 @@ ul {
     margin-right: 1rem;
 }
 .email-input{
-    background-color: white;
-  border: none;
+    background-color:  white;
+    border: 2px solid #AEAEAE;
+    opacity: 0.8;
   color:black;
   text-decoration: none;
   top: 150px;
   left: 16px;
   cursor: pointer;
-  width: 30em;
-  margin: auto;
+  width: 50%;
+  border-radius: 2px;
+}
+.email-submit-button {
+    top:  160px;
+    left: 20px;
+    margin: auto;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 3px 2.5px;
+    
+
+    
+
+}
+.input{
+    top: 160vh;
+    left: 15vw;
 }
