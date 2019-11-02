@@ -37,8 +37,10 @@ ul {
 .slogan {
     top: 8px;
     left: 16px;
-    font-size: 2em;
-    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 4em;
+    font-family: "Indie Flower";
+    font-weight:bold;
+
     
 }
 
@@ -75,11 +77,8 @@ ul {
     margin: auto;
     position: relative;
     border-radius: 2px;
-    box-shadow: 3px 2.5px;
-    
-
-    
-
+    box-shadow: 3px 3px 	#F9FBBD; 
+    background-color:linear-gradient(to right, #33ccff 0%, #ff99cc 100%);
 }
 .input{
     top: 160vh;
