@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-launch',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./launch.page.scss'],
 })
 export class LaunchPage implements OnInit {
+  email = '';
 
-  constructor() { }
+  constructor(
+    protected dbService: DbService,
+  ) { }
 
   ngOnInit() {
+  }
+
+  private async onSubmitButtonClick() {
+    await this.dbService.updateObjectAtPath(`launch/emails/${this.email}`, true);
+    this.email = '';
   }
 
 }
