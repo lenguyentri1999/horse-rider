@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-pwa-nav-footer',
@@ -6,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pwa-nav-footer.component.scss'],
 })
 export class PwaNavFooterComponent implements OnInit {
+  versionString = '';
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (environment.production) {
+      this.versionString = `V${environment.version}.0.0 P`;
+    } else {
+      this.versionString = `V${environment.version}.0.0 D`;
+    }
+  }
 
 }

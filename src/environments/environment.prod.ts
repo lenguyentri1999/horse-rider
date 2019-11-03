@@ -11,6 +11,6 @@ export const environment = {
     messagingSenderId: '215364264641',
     appId: '1:215364264641:web:75095f272cfe5cba'
   },
-  firebasePath: `App/Dev/v${version}/`,
+  firebasePath: `App/Prod/v${version}/`,
   mapboxKey: `pk.eyJ1IjoibGVuZ3V5ZW50cmkxOTk5IiwiYSI6ImNrMTJyM3dwejAxbWwzaHA2d3BvMmhzMXAifQ.x0Iy-kvy7uv7rsbi4dixrQ`
 };
