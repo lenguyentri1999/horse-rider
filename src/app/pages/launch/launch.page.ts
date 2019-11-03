@@ -16,8 +16,8 @@ export class LaunchPage implements OnInit {
   ngOnInit() {
   }
 
-  private async onSubmitButtonClick() {
-    await this.dbService.updateObjectAtPath(`launch/emails/${this.email}`, true);
+  public async onSubmitButtonClick() {
+    await this.dbService.pushObjectAtPath(`launch/emails/`, {email: this.email});
     this.email = '';
   }
 

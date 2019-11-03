@@ -78,4 +78,8 @@
   --ion-font-family: "Futura" !important;
 
   // --ion-color-google: #dd4b39;
+
+  ion-button {
+    --background-hover: linear-gradient(to left, #FC8C4C 0%, #DF3416 100%);
+  }
 }
