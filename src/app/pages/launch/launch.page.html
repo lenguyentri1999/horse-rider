@@ -8,11 +8,14 @@
 
 
       <div class="container2">
-        <h1 class="slogan" align="center">Coming Soon!</h1>
-        <h2 class="description" align="center">Enter a valid email address below to get notified when the website is launched.</h2>
-        <div padding class="input" align="center">
-          <ion-input padding placeholder="Please enter a valid email address" class="email-input" align="center"></ion-input>
-          <ion-button padding class="email-submit-button">Submit</ion-button>
+        <h1 class="slogan" align="center">Hold your horses!</h1>
+        <h1 class="slogan-two" align="center">We are COMING SOON!</h1>
+        <!-- <h1 class="slogan" align="center">Coming Soon!</h1> -->
+        <div class="description">Discover trails, camps, and experiences near you.</div>
+        <div>We will notify you when we are ready to launch.</div>
+        <div>
+            <ion-input padding placeholder="Email" [(ngModel)]="email" class="email-input"></ion-input>
+            <ion-button padding class="email-submit-button" (click)="onSubmitButtonClick()">Notify Me</ion-button>
         </div>
         <!--<ion-grid>
           <ion-row>
