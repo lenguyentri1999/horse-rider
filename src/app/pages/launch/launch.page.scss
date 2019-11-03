@@ -27,19 +27,18 @@
 .slogan {
     top: 8px;
     left: 16px;
-    font-size: 4em;
-    font-family: "Indie Flower";
+    font-size: 2em;
     font-weight: bold;
 }
 
+.slogan-two {
+    font-family: 'Chara Serif';
+    font-size: 3em;
+}
+
 .description {
-    // top: 150px;
-    // left: 16px;
+    font-weight: bold;
     font-size: 1em;
-    font-family: sans-serif;
-    // line-height: 32px;
-    // margin-bottom: 30px;
-    // margin-right: 30px;
 }
 
 .autocomplete-thumbnail {
