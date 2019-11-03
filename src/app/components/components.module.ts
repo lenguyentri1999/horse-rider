@@ -9,6 +9,7 @@ import { PwaNavBarComponent } from './pwa-nav-bar/pwa-nav-bar.component';
 import { RouterModule } from '@angular/router';
 import { FilterModalComponent } from './filter-modal/filter-modal.component';
 import { SortPopoverComponent } from './sort-popover/sort-popover.component';
+import { PwaNavFooterComponent } from './pwa-nav-footer/pwa-nav-footer.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SortPopoverComponent } from './sort-popover/sort-popover.component';
     PwaNavBarComponent,
     FilterModalComponent,
     SortPopoverComponent,
+    PwaNavFooterComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,7 @@ import { SortPopoverComponent } from './sort-popover/sort-popover.component';
   entryComponents: [
     FilterModalComponent,
     SortPopoverComponent,
+    PwaNavFooterComponent,
   ],
   exports: [
     CampCardComponent,
@@ -36,6 +39,7 @@ import { SortPopoverComponent } from './sort-popover/sort-popover.component';
     PwaNavBarComponent,
     FilterModalComponent,
     SortPopoverComponent,
+    PwaNavFooterComponent,
   ]
 })
 export class ComponentsModule { }

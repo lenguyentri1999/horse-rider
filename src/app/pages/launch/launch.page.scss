@@ -3,17 +3,17 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    -webkit-mask-image: -webkit-linear-gradient(right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    -webkit-mask-image: -webkit-linear-gradient(right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     object-fit: cover;
     width: 100%;
-    height: 80vh;
+    height: 90vh;
     // -webkit-gradient(linear,left, 
     // from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 }
 
 .container {
     position: relative;
-    text-align: center;
+    // text-align: center;
 }
 
 .container2 {
@@ -24,32 +24,21 @@
     width: 70vw;
 }
 
-ion-auto-complete {
-    margin-left: auto;
-    margin-right: auto;
-    width: 70vw;
-}
-
-ul {
-    width: 70vw;
-}
-
 .slogan {
     top: 8px;
     left: 16px;
     font-size: 2em;
-    font-family: "Arial Black", Gadget, sans-serif;
-    
+    font-weight: bold;
+}
+
+.slogan-two {
+    font-family: 'Chara Serif';
+    font-size: 3em;
 }
 
 .description {
-    top: 150px;
-    left: 16px;
-    font-size: 1em;
-    font-family: sans-serif;
-    // line-height: 32px;
-    // margin-bottom: 30px;
-    // margin-right: 30px;
+    font-weight: bold;
+    font-size: 1.5em;
 }
 
 .autocomplete-thumbnail {
@@ -57,31 +46,28 @@ ul {
     width: 2rem;
     margin-right: 1rem;
 }
-.email-input{
-    background-color:  white;
+
+.email-input {
+    background-color: white;
     border: 2px solid #AEAEAE;
     opacity: 0.8;
-  color:black;
-  text-decoration: none;
-  top: 150px;
-  left: 16px;
-  cursor: pointer;
-  width: 50%;
-  border-radius: 2px;
-}
-.email-submit-button {
-    top:  160px;
-    left: 20px;
-    margin: auto;
-    position: relative;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    width: 50%;
     border-radius: 2px;
-    box-shadow: 3px 2.5px;
-    
-
-    
-
+    margin-top: 1em;
+    margin-bottom: 1em;
+    display: inline-block;
 }
-.input{
-    top: 160vh;
-    left: 15vw;
+
+.email-submit-button {
+    position: relative;
+    height: 100%;
+    margin-bottom: 1.5em;
+    font-weight: bold;
+}
+
+.footer-body{
+    background: linear-gradient(to bottom, 	#FFFEFF,		#FFE8D2);
 }
