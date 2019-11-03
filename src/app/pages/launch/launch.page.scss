@@ -62,10 +62,11 @@
 }
 
 .email-submit-button {
-    margin: auto;
+    // margin: auto;
     position: relative;
-    border-radius: 2px;
-    box-shadow: 3px 3px #F9FBBD;
-    background-color: linear-gradient(to right, #33ccff 0%, #ff99cc 100%);
+    
 }
 
+.footer-body{
+    background: linear-gradient(to bottom, 	#FFFEFF,		#FFE8D2);
+}
