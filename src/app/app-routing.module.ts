@@ -23,6 +23,7 @@ const routes: Routes = [
     path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule',
   },
   { path: 'launch', loadChildren: './pages/launch/launch.module#LaunchPageModule' },
+  { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule' },
 
 ];
 @NgModule({

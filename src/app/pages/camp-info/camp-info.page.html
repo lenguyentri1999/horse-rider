@@ -5,6 +5,9 @@
 </ion-header>
 
 <ion-content>
+  <div padding *ngIf="isAdmin | async">
+    <ion-button (click)="onAdminEditButtonClick()">Edit</ion-button>
+  </div>
 
   <h1>Average rating: {{(avgRating$ | async) | number: '1.2-2'}}</h1>
   <br>

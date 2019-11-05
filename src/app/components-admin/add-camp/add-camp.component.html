@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="end" color="danger" (click)="onCloseButton()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="myForm" (ngSubmit)="submit(myForm)">
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center>
+            <h3 *ngIf="!camp">Add New Camp</h3>
+            <h3 *ngIf="camp">Edit Camp</h3>
+          </div>
+          <div padding>
+
+            <ion-list>
+
+              <ion-item>
+                <ion-label>Name</ion-label>
+                <ion-input formControlName="name" type="text"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Description</ion-label>
+                <ion-textarea formControlName="description" type="text"></ion-textarea>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>URL</ion-label>
+                <ion-input formControlName="url" type="url"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Picture URL</ion-label>
+                <ion-input formControlName="pictureUrl" type="url"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Address</ion-label>
+              </ion-item>
+              <ion-auto-complete (itemSelected)="onLocationSelected($event)" [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar>
+              </ion-auto-complete>
+
+              <ion-item>
+                <ion-label>Big Rig Friendly</ion-label>
+                <ion-checkbox slot="end" formControlName="bigRigFriendly"></ion-checkbox>
+              </ion-item>
+
+
+              <ion-item>
+                <ion-label>Facility Cleanliness</ion-label>
+                <ion-checkbox slot="end" formControlName="facilityCleanliness"></ion-checkbox>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Wifi</ion-label>
+                <ion-checkbox slot="end" formControlName="wifi"></ion-checkbox>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Horse Facilities</ion-label>
+                <ion-checkbox slot="end" formControlName="horseFacilities"></ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </div>
+          <div padding>
+            <ion-button size="large" type="submit" [disabled]="myForm.invalid" expand="block">Submit</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+
+</ion-content>

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { User } from 'src/models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { auth } from 'firebase/app';
+import { DbService } from './db.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ import { auth } from 'firebase/app';
 export class AuthService {
 
   constructor(
-    protected afAuth: AngularFireAuth
+    protected afAuth: AngularFireAuth,
+    public dbService: DbService,
   ) { }
 
   private isAuthenticated(): boolean {
@@ -23,6 +25,22 @@ export class AuthService {
     return this.isAuthenticated()
       ? this.afAuth.auth.currentUser.uid
       : undefined;
+  }
+
+  public tryGetUserId(): Observable<string | undefined> {
+    return this.afAuth.user.pipe(
+      map(user => user ? user.uid : undefined)
+    );
+  }
+
+  public isAdmin(): Observable<boolean> {
+    return this.tryGetUserId().pipe(
+      switchMap(userID => {
+      return this.dbService.getObjectValues<boolean>(`admin/${userID}`).pipe(
+        map(value => value ? true : false)
+      );
+      })
+    );
   }
 
   public isAuthorized(): Observable<boolean> {
