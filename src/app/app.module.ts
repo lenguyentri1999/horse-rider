@@ -23,6 +23,7 @@ import { RegisterPage } from './pages/register/register.page';
 import { RegisterPageModule } from './pages/register/register.module';
 import { LoginPageModule } from './pages/login/login.module';
 import { MapboxService } from './services/mapbox.service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [

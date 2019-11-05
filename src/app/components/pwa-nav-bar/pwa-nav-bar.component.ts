@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Platform, ModalController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class PwaNavBarComponent implements OnInit {
   isPwa: boolean;
   isAuthorized: Observable<boolean>;
+  isAdmin: Observable<boolean>;
 
   constructor(
     protected platform: Platform,
@@ -24,6 +25,7 @@ export class PwaNavBarComponent implements OnInit {
   ngOnInit() {
     this.isPwa = !(this.platform.is('ios') || this.platform.is('android'));
     this.isAuthorized = this.authService.isAuthorized();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   goToCamps() {
