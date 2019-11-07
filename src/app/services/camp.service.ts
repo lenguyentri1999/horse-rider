@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
 import { Camp } from 'src/models/camp';
 import { Observable, combineLatest, zip, from, of } from 'rxjs';
-import { map, tap, flatMap, switchMap, take, catchError } from 'rxjs/operators';
+import { map, tap, flatMap, switchMap, take, catchError, filter } from 'rxjs/operators';
 import { ReviewService } from './review.service';
 import { IGetAll } from 'src/models/firebase/IGetAll';
 import * as stringSim from 'string-similarity';
@@ -10,11 +10,13 @@ import { StringMatch } from 'src/models/string-similarity/stringMatch';
 import { MapboxService } from './mapbox.service';
 import { IByID } from 'src/models/firebase/IByID';
 import { IAddNew } from 'src/models/firebase/IAddNew';
+import { FirebaseTable } from 'src/models/firebase/statusTable';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampService implements IGetAll<Camp>, IByID<Camp>, IAddNew<Camp> {
+export class CampService {
+  private basePath = 'camps';
 
   constructor(
     protected db: DbService,
@@ -23,7 +25,7 @@ export class CampService implements IGetAll<Camp>, IByID<Camp>, IAddNew<Camp> {
   ) { }
 
   public tryAddNew(obj: Camp): Observable<boolean> {
-    return from(this.db.updateObjectAtPath(`camps/${obj.id}`, obj)).pipe(
+    return from(this.db.updateObjectAtPath(`${this.basePath}/${obj.id}`, obj)).pipe(
       catchError(_ => of(false)),
       flatMap(_ => of(true))
     );
@@ -31,32 +33,81 @@ export class CampService implements IGetAll<Camp>, IByID<Camp>, IAddNew<Camp> {
 
   // Returns all camps
   public getAllAsMap(): Observable<Map<string, Camp>> {
-    return this.db.getObjectValues<Map<string, Camp>>(`camps`).pipe(
-      tap(campMap => {
-        Object.keys(campMap).forEach(key => {
-          const camp: Camp = campMap[key];
-          camp.coords = new Observable<{
-            lat: number;
-            long: number;
-          }>();
-        });
+    return this.db.getObjectValues<Map<string, Camp>>(this.basePath).pipe(
+    );
+  }
+
+  public getAllHorseCampsAsMap(): Observable<FirebaseTable<Camp>> {
+    return this.getAllHorseCampsAsList().pipe(
+      map(arr => {
+        const obj = {};
+        arr.forEach(ele => obj[ele.id] = ele);
+        return obj;
       })
-    )
+    );
+  }
+
+  public getAllHorseTrailsAsMap(): Observable<FirebaseTable<Camp>> {
+    return this.getAllHorseTrailsAsList().pipe(
+      map(arr => {
+        const obj = {};
+        arr.forEach(ele => obj[ele.id] = ele);
+        return obj;
+      })
+    );
+  }
+
+  public getAllHorseCampsAsList(): Observable<Camp[]> {
+    return this.getHorseCampsTable().pipe(
+      flatMap(horseCamps => {
+        const ids = Object.keys(horseCamps);
+        const horseCamps$ = ids.map(id => this.getByID(id));
+        return combineLatest(horseCamps$);
+      }),
+      tap(camps => {
+        console.log(camps);
+      })
+    );
+  }
+
+  public getAllHorseTrailsAsList(): Observable<Camp[]> {
+    return this.getHorseTrailsTable().pipe(
+      flatMap(trails => {
+        const ids = Object.keys(trails);
+        const trails$ = ids.map(id => this.getByID(id));
+        return combineLatest(trails$);
+      }),
+      tap(trails => {
+        console.log(trails);
+      })
+    );
+  }
+
+  public getHorseCampsTable(): Observable<FirebaseTable<boolean>> {
+    return this.db.getObjectValues<FirebaseTable<boolean>>(`campsOrTrails/horseCamps`);
+  }
+
+  public getHorseTrailsTable(): Observable<FirebaseTable<boolean>> {
+    return this.db.getObjectValues<FirebaseTable<boolean>>(`campsOrTrails/horseTrails/`);
   }
 
   public getAllAsList(): Observable<Camp[]> {
-    return this.db.getListSortedByFunction<Camp>(`camps`);
+    return this.db.getListSortedByFunction<Camp>(this.basePath);
   }
 
   public getByID(id: string): Observable<Camp> {
-    return this.db.getObjectValues<Camp>(`camps/${id}`);
+    return this.db.getObjectValues<Camp>(`${this.basePath}/${id}`);
   }
 
-  // public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
-  //   return this.mapboxService.reverseGeocode(camp.address).pipe(
-  //     (tap(coords => this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords)))
-  //   );
-  // }
+  public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
+    return this.mapboxService.reverseGeocode(camp.address).pipe(
+      tap(coords => {
+        this.db.updateObjectAtPath()
+        console.log(coords);
+      })
+      // (tap(coords => this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords)))
+    );
+  }
 
   public filterByTerm(term: string, camps: Map<string, Camp>): Camp[] {
 

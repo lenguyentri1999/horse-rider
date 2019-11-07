@@ -56,6 +56,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.campService.getAllHorseTrails().subscribe();
   }
 
   ngAfterViewInit(): void {
