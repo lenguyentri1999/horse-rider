@@ -1,0 +1,6 @@
+<ion-content padding>
+    <h1 *ngIf="camp$ | async">{{(camp$ | async).name}}</h1>
+    <app-review [isEditMode]="true" [camp]="camp$ | async" (submitReview)="submitReview($event)"></app-review>
+    <ion-button color="danger" (click)="cancel()">Cancel</ion-button>
+
+</ion-content>

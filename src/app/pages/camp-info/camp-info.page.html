@@ -48,7 +48,7 @@
         <ion-row class="ion-align-items-center">
 
           <ion-col>
-            <ion-button>Write a Review</ion-button>
+            <ion-button (click)="onWriteReviewButtonClick()">Write a Review</ion-button>
           </ion-col>
 
           <ion-col>
@@ -62,30 +62,24 @@
         </ion-row>
 
         <ion-row>
-          <ion-col size="12"
-            *ngFor="let review of campReviews$ | async | paginate: { itemsPerPage: 2, currentPage: pReview}">
-            <app-review [isEditMode]="false" [review]="review"></app-review>
-          </ion-col>
+          <ng-container *ngIf="isViewing">
+            <ion-col size="12"
+              *ngFor="let review of campReviews$ | async | paginate: { itemsPerPage: 2, currentPage: pReview}">
+              <app-review [isEditMode]="false" [review]="review"></app-review>
+            </ion-col>
 
-          <pagination-controls (pageChange)="onPageChange($event)" *ngIf="campReviews$ | async"></pagination-controls>
+            <pagination-controls (pageChange)="onPageChange($event)" *ngIf="campReviews$ | async"></pagination-controls>
+          </ng-container>
+          <!-- <ng-container *ngIf="!isViewing">
+            <app-review [isEditMode]="true" [camp]="camp$ | async" (submitReview)="submitReview($event)"></app-review>
+            <ion-button (click)="isViewing = true">Cancel</ion-button>
+          </ng-container> -->
         </ion-row>
 
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <!-- <h1>Average rating: {{(avgRating$ | async) | number: '1.2-2'}}</h1> -->
-  <br>
-
-  <h1>Write a review:</h1>
-
-  <app-review [isEditMode]="true" [camp]="camp$ | async" (submitReview)="submitReview($event)"></app-review>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col>{{(avgRating$ | async) | number: '1.2-2'}}</ion-col>
-      <ion-col>{{(campReviews$ | async)?.length || 0}} reviews</ion-col>
-    </ion-row>
-  </ion-grid>
-
 </ion-content>
+
+<app-pwa-nav-footer></app-pwa-nav-footer>

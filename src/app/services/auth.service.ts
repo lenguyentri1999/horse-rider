@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, flatMap } from 'rxjs/operators';
 import { auth } from 'firebase/app';
 import { DbService } from './db.service';
+import { UserData } from 'src/models/userData';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,16 @@ export class AuthService {
 
   public async register(user: User): Promise<firebase.auth.UserCredential> {
     const r = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
+    await r.user.updateProfile({
+      displayName: user.name,
+    });
+
+    this.setUserData(r.user.uid, {name: user.name});
     return r;
+  }
+
+  public async setUserData(uid: string, data: UserData) {
+    await this.dbService.setObjectAtPath(`users/${uid}`, data);
   }
 
   public async login(user: User): Promise<firebase.auth.UserCredential> {
@@ -64,12 +74,28 @@ export class AuthService {
   public async googleLogin() {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
+
+    const data: UserData = {
+      name: credential.user.displayName,
+      photoUrl: credential.user.photoURL
+    };
+
+    await this.setUserData(credential.user.uid, data);
+
     return credential;
   }
 
   public async facebookLogin() {
     const provider = new auth.FacebookAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
+
+    const data: UserData = {
+      name: credential.user.displayName,
+      photoUrl: credential.user.photoURL
+    };
+
+    await this.setUserData(credential.user.uid, data);
+
     return credential;
   }
 

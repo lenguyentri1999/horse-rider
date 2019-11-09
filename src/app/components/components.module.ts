@@ -10,11 +10,13 @@ import { RouterModule } from '@angular/router';
 import { FilterModalComponent } from './filter-modal/filter-modal.component';
 import { SortPopoverComponent } from './sort-popover/sort-popover.component';
 import { PwaNavFooterComponent } from './pwa-nav-footer/pwa-nav-footer.component';
+import { ReviewWriteNewReviewComponent } from './review-write-new-review/review-write-new-review.component';
 
 @NgModule({
   declarations: [
     CampCardComponent,
     ReviewComponent,
+    ReviewWriteNewReviewComponent,
     PwaNavBarComponent,
     FilterModalComponent,
     SortPopoverComponent,
@@ -32,6 +34,7 @@ import { PwaNavFooterComponent } from './pwa-nav-footer/pwa-nav-footer.component
     FilterModalComponent,
     SortPopoverComponent,
     PwaNavFooterComponent,
+    ReviewWriteNewReviewComponent
   ],
   exports: [
     CampCardComponent,
@@ -40,6 +43,7 @@ import { PwaNavFooterComponent } from './pwa-nav-footer/pwa-nav-footer.component
     FilterModalComponent,
     SortPopoverComponent,
     PwaNavFooterComponent,
+    ReviewWriteNewReviewComponent,
   ]
 })
 export class ComponentsModule { }
