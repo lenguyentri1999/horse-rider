@@ -17,9 +17,10 @@ import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.com
   styleUrls: ['./camp-info.page.scss'],
 })
 export class CampInfoPage implements OnInit {
+  pReview: number;
   isAdmin: Observable<boolean>;
 
-  camp$: Observable<Camp> = new Observable<Camp>();
+  camp$: Observable<Camp>;
   avgRating$: Observable<number>;
   campReviews$: Observable<Review[]>;
 
@@ -73,5 +74,9 @@ export class CampInfoPage implements OnInit {
       });
       modal.present();
     });
+  }
+
+  onPageChange(page: number) {
+    this.pReview = page;
   }
 }
