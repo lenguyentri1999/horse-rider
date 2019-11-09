@@ -133,14 +133,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
     if (this.isMapView) {
       this.campsMarkers = this.camps.pipe(
         map(camps => this.sliceCampByPage(camps)),
-        flatMap(camps => {
-          const markers$: Observable<MapboxPlace>[] = [];
-          camps.forEach(camp => {
-            const place = this.mapboxService.campToMapboxPlace(camp);
-            markers$.push(place);
-          });
-
-          return combineLatest(markers$);
+        map(camps => {
+          return camps.map(camp => this.mapboxService.campToMapboxPlace(camp));
         })
       );
     }

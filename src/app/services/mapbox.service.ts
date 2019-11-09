@@ -59,6 +59,11 @@ export class MapboxService implements AutoCompleteService {
 
   public reverseGeocode(address: string): Observable<{ long: number, lat: number }> {
     return this.autocomplete(address).pipe(
+      catchError(err => {
+        console.log(err);
+        console.log('Wrong address:', address);
+        return of([]);
+      }),
       map(features => {
         if (features.length === 0) {
           return null;
@@ -107,24 +112,20 @@ export class MapboxService implements AutoCompleteService {
     );
   }
 
-  public campToMapboxPlace(camp: Camp): Observable<MapboxPlace> {
-    return camp.coords.pipe(
-      map(coords => {
-        const mapboxPlace: MapboxPlace = {
-          type: 'Feature',
-          place_name: camp.name,
-          geometry: {
-            type: 'Point',
-            coordinates: [coords.long, coords.lat],
-          },
-          properties: {
-            title: camp.name,
-            description: ''
-          }
-        };
-        return mapboxPlace;
-      })
-    );
+  public campToMapboxPlace(camp: Camp): MapboxPlace {
+    const mapboxPlace: MapboxPlace = {
+      type: 'Feature',
+      place_name: camp.name,
+      geometry: {
+        type: 'Point',
+        coordinates: [camp.coords.long, camp.coords.lat],
+      },
+      properties: {
+        title: camp.name,
+        description: ''
+      }
+    };
+    return mapboxPlace;
   }
 
   async findMe(): Promise<{ lat: number; long: number }> {
