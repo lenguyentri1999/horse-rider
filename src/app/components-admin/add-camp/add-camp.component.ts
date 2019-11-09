@@ -39,6 +39,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     let address = '';
     let url = '';
     let pictureUrl = '';
+    let coords = null;
     let attributes: Camp['attributes'] = {
       bigRigFriendly: false,
       facilityCleanliness: false,
@@ -50,6 +51,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       name = this.camp.name;
       description = this.camp.description;
       address = this.camp.address;
+      coords = this.camp.coords;
       url = this.camp.url;
       pictureUrl = this.camp.pictures && this.camp.pictures.length > 0 ? this.camp.pictures[0] : '';
       attributes = this.camp.attributes;
@@ -61,6 +63,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       name: [name, Validators.required],
       description: [description, Validators.required],
       address: [address, Validators.required],
+      coords: [coords, Validators.required],
       url: [url, [Validators.required, Validators.pattern(reg)]],
       pictureUrl: [pictureUrl, [Validators.required]],
       bigRigFriendly: [attributes.bigRigFriendly, Validators.required],
@@ -78,6 +81,10 @@ export class AddCampComponent implements OnInit, AfterViewInit {
 
   onLocationSelected(place: MapboxPlace) {
     this.myForm.get('address').setValue(place.place_name);
+    this.myForm.get('coords').setValue({
+      long: place.geometry.coordinates[0],
+      lat: place.geometry.coordinates[1]
+    });
   }
 
   async submit() {
@@ -88,6 +95,10 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       name: this.myForm.get('name').value,
       description: this.myForm.get('description').value,
       address: this.myForm.get('address').value,
+      coords: {
+        long: this.myForm.get('coords').value.long,
+        lat: this.myForm.get('coords').value.lat,
+      },
       url: this.myForm.get('url').value,
       pictures: [
         this.myForm.get('pictureUrl').value,

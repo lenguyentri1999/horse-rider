@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
 import { Camp } from 'src/models/camp';
 import { Observable, combineLatest, zip, from, of } from 'rxjs';
-import { map, tap, flatMap, switchMap, take, catchError, filter } from 'rxjs/operators';
+import { map, tap, flatMap, switchMap, take, catchError, filter, first } from 'rxjs/operators';
 import { ReviewService } from './review.service';
 import { IGetAll } from 'src/models/firebase/IGetAll';
 import * as stringSim from 'string-similarity';
@@ -96,16 +96,26 @@ export class CampService {
   }
 
   public getByID(id: string): Observable<Camp> {
-    return this.db.getObjectValues<Camp>(`${this.basePath}/${id}`);
+    return this.db.getObjectValues<Camp>(`${this.basePath}/${id}`).pipe(
+      tap(camp => {
+        // Populate camp coords if camp does not have one yet
+        if (camp.coords) {
+          return;
+        } else {
+          console.log('camp coords is null');
+          this.setCampCoords(camp).subscribe();
+        }
+      }),
+      first(),
+    );
   }
 
   public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
     return this.mapboxService.reverseGeocode(camp.address).pipe(
       tap(coords => {
-        // this.db.updateObjectAtPath()
-        console.log(coords);
+        this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords);
+        return coords;
       })
-      // (tap(coords => this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords)))
     );
   }
 

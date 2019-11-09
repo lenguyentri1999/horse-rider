@@ -13,10 +13,10 @@ export interface Camp {
         wifi: boolean | false,
         horseFacilities: boolean | false
     };
-    coords?: Observable<{
+    coords?: {
         lat: number;
         long: number;
-    }>;
+    };
     pictures?: Array<string>;
     distance?: Observable<number>;
 }

@@ -105,9 +105,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   private populateCampCoordsAndDistance(camp: Camp, currCoords: Coords) {
-    camp.coords = this.mapboxService.reverseGeocode(camp.address);
     camp.distance = this.mapboxService.straightLineDistance(
-      of(currCoords), camp.coords
+      of(currCoords), of(camp.coords)
     );
   }
 
