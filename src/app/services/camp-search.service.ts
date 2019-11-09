@@ -11,7 +11,7 @@ export class CampSearchService implements AutoCompleteService {
   readonly numResults: number = 3;
 
   getResults(term: any) {
-    return this.campService.getAllAsList().pipe(
+    return this.campService.getAllHorseCampsAsList().pipe(
       map(camps => camps.filter(camp => camp.name.toLowerCase().indexOf(term.toLowerCase()) > -1)),
       map(camps => camps.slice(0, this.numResults))
     );

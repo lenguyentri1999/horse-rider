@@ -102,14 +102,14 @@ export class CampService {
   public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
     return this.mapboxService.reverseGeocode(camp.address).pipe(
       tap(coords => {
-        this.db.updateObjectAtPath()
+        // this.db.updateObjectAtPath()
         console.log(coords);
       })
       // (tap(coords => this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords)))
     );
   }
 
-  public filterByTerm(term: string, camps: Map<string, Camp>): Camp[] {
+  public filterByTerm(term: string, camps: FirebaseTable<Camp>): Camp[] {
 
     const campsArr = Object.keys(camps).map(id => camps[id]);
 

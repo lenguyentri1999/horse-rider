@@ -56,7 +56,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.campService.getAllHorseTrails().subscribe();
+    // this.campService.getAllHorseCampsAsList().subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -80,7 +80,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   searchCamps() {
     this.query.term = this.textSearchBar.keyword;
-    this.camps = this.campService.getAllAsMap().pipe(
+    this.camps = this.campService.getAllHorseCampsAsMap().pipe(
       map(allCamps => this.campService.filterByTerm(this.query.term, allCamps))
     );
 
