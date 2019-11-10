@@ -37,6 +37,14 @@ export class CampService {
     );
   }
 
+  public isTrail(camp: Camp): Observable<boolean> {
+    return this.getAllHorseTrailsAsMap().pipe(
+      map(trails =>
+        trails.hasOwnProperty(camp.id)
+      )
+    );
+  }
+
   public getAllHorseCampsAsMap(): Observable<FirebaseTable<Camp>> {
     return this.getAllHorseCampsAsList().pipe(
       map(arr => {

@@ -24,6 +24,7 @@ export class CampInfoPage implements OnInit {
   isAdmin: Observable<boolean>;
 
   camp$: Observable<Camp>;
+  isTrail$: Observable<boolean>;
   avgRating$: Observable<number>;
   campReviews$: Observable<Review[]>;
 
@@ -41,9 +42,11 @@ export class CampInfoPage implements OnInit {
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
     this.camp$ = this.initQueryParams();
+
     this.camp$.subscribe(camp => {
-      console.log(camp);
+      this.isTrail$ = this.campService.isTrail(camp);
     });
+
     this.campReviews$ = this.camp$.pipe(
       switchMap(camp => {
         return this.reviewService.getByCampID(camp.id);
