@@ -29,6 +29,7 @@ export class ReviewComponent implements OnInit, OnChanges {
   // When editMode is false
   reviewToSubmit?: Review;
   @Output() submitReview = new EventEmitter<Review>();
+  @Output() exitEventEmitter = new EventEmitter<void>();
 
   constructor(
     protected authService: AuthService,
@@ -75,6 +76,10 @@ export class ReviewComponent implements OnInit, OnChanges {
   // Send review to output
   onSubmit() {
     this.submitReview.emit(this.reviewToSubmit);
+  }
+
+  onLoginButtonClick() {
+    this.exitEventEmitter.emit();
   }
 
 }

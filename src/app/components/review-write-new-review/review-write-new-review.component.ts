@@ -29,6 +29,10 @@ export class ReviewWriteNewReviewComponent implements OnInit {
     this.popoverCtrl.dismiss();
   }
 
+  exitPopover() {
+    this.popoverCtrl.dismiss();
+  }
+
   cancel() {
     this.popoverCtrl.dismiss();
   }
