@@ -4,7 +4,7 @@
 
   <!-- Template for image -->
   <ng-template #withCampPics let-attrs="attrs">
-    <div style="width: 70vw" [routerLink]="attrs.data.navigateTo">
+    <div [routerLink]="attrs.data.navigateTo">
       <span style="font-weight: bold" *ngIf="attrs.data.isDefault"
         [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
       <span *ngIf="!attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
@@ -34,7 +34,7 @@
       </ion-button>
       <ion-button (click)="onFilterButtonClick()">
         <ion-icon name="color-filter" style="margin-right: 1em"></ion-icon>
-        Filters
+        FILTER: Within {{(filter | async)?.distance}} miles
       </ion-button>
       <ion-button (click)="onSortButtonClick()">
         <ion-icon name="funnel" style="margin-right: 1em"></ion-icon>

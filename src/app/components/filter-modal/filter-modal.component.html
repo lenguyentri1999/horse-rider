@@ -1,6 +1,14 @@
 <ion-content>
-  <ion-list>
-    <ion-list-header>Distance</ion-list-header>
-    <ion-item></ion-item>
-  </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-label>
+          Distance
+        </ion-label>
+        <ion-select [(ngModel)]="filter.distance">
+          <ion-select-option value="10">10 miles</ion-select-option>
+          <ion-select-option value="50">50 miles</ion-select-option>
+          <ion-select-option value="100">100 miles</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
 </ion-content>

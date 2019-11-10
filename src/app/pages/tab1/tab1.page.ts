@@ -7,14 +7,16 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { MapboxPlace } from 'src/models/mapboxResult';
-import { map, tap, flatMap } from 'rxjs/operators';
-import { Observable, of, combineLatest } from 'rxjs';
+import { map, tap, flatMap, defaultIfEmpty } from 'rxjs/operators';
+import { Observable, of, combineLatest, Subject } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { NavParamsService } from 'src/app/services/nav-params.service';
 import { CampInfoPage } from '../camp-info/camp-info.page';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
 import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
 import { CampSearchService } from 'src/app/services/camp-search.service';
+import { Filter } from 'src/models/filter';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-tab1',
@@ -29,6 +31,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   p = 1;
   itemsPerPage = 10;
 
+  filter: Observable<Filter>;
   camps: Observable<Camp[]> = new Observable<Camp[]>();
   campsMarkers: Observable<MapboxPlace[]>;
 
@@ -45,6 +48,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected navCtrl: NavController,
     protected authService: AuthService,
     protected navParamService: NavParamsService,
+    protected filterService: FilterService,
     protected modalCtrl: ModalController,
     protected popoverCtrl: PopoverController,
     protected toastCtrl: ToastController,
@@ -56,7 +60,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // this.campService.getAllHorseCampsAsList().subscribe();
+    this.filter = this.filterService.getCampFilter();
   }
 
   ngAfterViewInit(): void {
@@ -111,8 +115,10 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   async onFilterButtonClick() {
-    const modal = await this.modalCtrl.create({ component: FilterModalComponent });
-    await modal.present();
+    const popover = await this.popoverCtrl.create({
+      component: FilterModalComponent,
+    });
+    await popover.present();
   }
 
   async onSortButtonClick() {
