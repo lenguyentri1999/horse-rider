@@ -56,6 +56,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    // this.campService.getAllHorseCampsAsList().subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -79,7 +80,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   searchCamps() {
     this.query.term = this.textSearchBar.keyword;
-    this.camps = this.campService.getAllAsMap().pipe(
+    this.camps = this.campService.getAllHorseCampsAsMap().pipe(
       map(allCamps => this.campService.filterByTerm(this.query.term, allCamps))
     );
 
@@ -104,9 +105,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   private populateCampCoordsAndDistance(camp: Camp, currCoords: Coords) {
-    camp.coords = this.mapboxService.reverseGeocode(camp.address);
     camp.distance = this.mapboxService.straightLineDistance(
-      of(currCoords), camp.coords
+      of(currCoords), of(camp.coords)
     );
   }
 
@@ -133,14 +133,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
     if (this.isMapView) {
       this.campsMarkers = this.camps.pipe(
         map(camps => this.sliceCampByPage(camps)),
-        flatMap(camps => {
-          const markers$: Observable<MapboxPlace>[] = [];
-          camps.forEach(camp => {
-            const place = this.mapboxService.campToMapboxPlace(camp);
-            markers$.push(place);
-          });
-
-          return combineLatest(markers$);
+        map(camps => {
+          return camps.map(camp => this.mapboxService.campToMapboxPlace(camp));
         })
       );
     }

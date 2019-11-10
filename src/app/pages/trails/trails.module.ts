@@ -5,17 +5,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CampInfoPage } from './camp-info.page';
+import { TrailsPage } from './trails.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { IonicRatingModule } from 'ionic-rating';
 import { ComponentsMapboxModule } from 'src/app/components-mapbox/components-mapbox.module';
-import { ComponentsAdminModule } from 'src/app/components-admin/components-admin.module';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   {
     path: '',
-    component: CampInfoPage
+    component: TrailsPage
   }
 ];
 
@@ -26,17 +25,10 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     ComponentsModule,
-    IonicRatingModule,
     ComponentsMapboxModule,
-    ComponentsAdminModule,
-    NgxPaginationModule,
+    AutoCompleteModule,
+    NgxPaginationModule
   ],
-  declarations: [
-    CampInfoPage,
-    // StarRating
-  ],
-  exports: [
-    // StarRating,
-  ]
+  declarations: [TrailsPage]
 })
-export class CampInfoPageModule {}
+export class TrailsPageModule {}

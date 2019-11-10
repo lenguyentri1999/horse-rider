@@ -8,8 +8,10 @@ import { Observable, of } from 'rxjs';
 import { NavParamsService } from 'src/app/services/nav-params.service';
 import { map, flatMap, switchMap, first } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.component';
+import { ReviewComponent } from 'src/app/components/review/review.component';
+import { ReviewWriteNewReviewComponent } from 'src/app/components/review-write-new-review/review-write-new-review.component';
 
 @Component({
   selector: 'app-camp-info',
@@ -17,9 +19,12 @@ import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.com
   styleUrls: ['./camp-info.page.scss'],
 })
 export class CampInfoPage implements OnInit {
+  pReview: number;
+  isViewing = true;
   isAdmin: Observable<boolean>;
 
-  camp$: Observable<Camp> = new Observable<Camp>();
+  camp$: Observable<Camp>;
+  isTrail$: Observable<boolean>;
   avgRating$: Observable<number>;
   campReviews$: Observable<Review[]>;
 
@@ -27,6 +32,7 @@ export class CampInfoPage implements OnInit {
     protected route: ActivatedRoute,
     protected router: Router,
     protected modalCtrl: ModalController,
+    protected popoverCtrl: PopoverController,
     protected reviewService: ReviewService,
     protected campService: CampService,
     protected navParamService: NavParamsService,
@@ -36,9 +42,11 @@ export class CampInfoPage implements OnInit {
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
     this.camp$ = this.initQueryParams();
+
     this.camp$.subscribe(camp => {
-      console.log(camp);
+      this.isTrail$ = this.campService.isTrail(camp);
     });
+
     this.campReviews$ = this.camp$.pipe(
       switchMap(camp => {
         return this.reviewService.getByCampID(camp.id);
@@ -55,8 +63,14 @@ export class CampInfoPage implements OnInit {
     );
   }
 
-  submitReview(review: Review) {
-    this.reviewService.submitReview(review);
+  async onWriteReviewButtonClick() {
+    const popover = await this.popoverCtrl.create({
+      component: ReviewWriteNewReviewComponent,
+      componentProps: {
+        camp: this.camp$
+      }
+    });
+    popover.present();
   }
 
   // ADMIN SECTION
@@ -73,5 +87,9 @@ export class CampInfoPage implements OnInit {
       });
       modal.present();
     });
+  }
+
+  onPageChange(page: number) {
+    this.pReview = page;
   }
 }

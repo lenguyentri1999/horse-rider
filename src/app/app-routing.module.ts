@@ -24,7 +24,8 @@ const routes: Routes = [
   },
   { path: 'launch', loadChildren: './pages/launch/launch.module#LaunchPageModule' },
   { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule' },
-
+  { path: 'trails', loadChildren: './pages/trails/trails.module#TrailsPageModule' },
+  { path: 'camps', redirectTo: '/tabs/tab1', pathMatch: 'full'}
 ];
 @NgModule({
   imports: [

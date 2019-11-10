@@ -12,11 +12,11 @@
           <ion-row>
             <ion-col>
               <!-- Template for image -->
-              <ng-template #withCampPics let-attrs="attrs">
-                <!-- attrs === camp -->
-                <div [routerLink]="['/camp-info', attrs.data.id]" style="width: 70vw">
+              <ng-template #withCampPics let-attrs="attrs" >
+                <div style="width: 70vw" [routerLink]="attrs.data.navigateTo">
+                  <span style="font-weight: bold" *ngIf="attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
+                  <span *ngIf="!attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
                   <!-- <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" /> -->
-                  <span [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
                 </div>
               </ng-template>
               <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch class="explorecamps"
@@ -29,7 +29,7 @@
               </ion-auto-complete>
             </ion-col>
           </ion-row>
-          <ion-button (click)="searchCamps()" [disabled]="!place">Search</ion-button>
+          <ion-button (click)="searchCamps()">Search</ion-button>
         </ion-grid>
       </div>
     </div>
@@ -42,3 +42,5 @@
   </div> -->
 
 </ion-content>
+
+<app-pwa-nav-footer></app-pwa-nav-footer>
