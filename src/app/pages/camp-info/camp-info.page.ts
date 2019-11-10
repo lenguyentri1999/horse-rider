@@ -68,13 +68,6 @@ export class CampInfoPage implements OnInit {
       }
     });
     popover.present();
-    // const modal = await this.modalCtrl.create({
-    //   component: ReviewWriteNewReviewComponent,
-    //   componentProps: {
-    //     camp: this.camp$
-    //   }
-    // });
-    // await modal.present();
   }
 
   // ADMIN SECTION
