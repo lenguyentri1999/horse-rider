@@ -1,4 +1,5 @@
-<div *ngIf="isPwa">
+<!-- <div *ngIf="isPwa"> -->
+<div>
   <ion-header no-border>
     <ion-toolbar>
       <a routerLink="">
@@ -6,11 +7,11 @@
       </a>
       <ion-buttons slot="end">
         <ion-button routerLink="/landing">Home</ion-button>
-        <ion-button class="about">About</ion-button>
+        <!-- <ion-button class="about">About</ion-button> -->
         <ion-button routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-button>
         <ion-button routerLink="/trails">Trails</ion-button>
         <ion-button (click)="goToCamps()">Camps</ion-button>
-        <ion-button>Help</ion-button>
+        <!-- <ion-button>Help</ion-button> -->
 
         <ng-container *ngIf="!(isAuthorized | async)">
           <ion-button (click)="openLoginModal()">Log in</ion-button>
