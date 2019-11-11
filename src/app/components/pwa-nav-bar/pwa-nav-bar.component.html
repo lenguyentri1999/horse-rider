@@ -1,11 +1,11 @@
-<div *ngIf="isPwa">
+<div>
   <ion-header no-border>
     <ion-toolbar>
       <a routerLink="">
         <img class="logo" src="assets/logo.png">
       </a>
       <ion-buttons slot="end">
-        <ion-button routerLink="/landing">Home</ion-button>
+        <!-- <ion-button routerLink="/landing">Home</ion-button> -->
         <!-- <ion-button class="about">About</ion-button> -->
         <ion-button routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-button>
         <ion-button routerLink="/trails">Trails</ion-button>
@@ -22,36 +22,4 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-</div>
-
-<div *ngIf="!isPwa">
-  <ion-menu>
-    <ion-header no-border>
-      <ion-toolbar>
-        <a routerLink="">
-          <img class="logo" src="assets/logo.png">
-        </a>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item>Yo yo</ion-item>
-      </ion-list>
-    </ion-content>
-    <!-- <ion-buttons slot="end">
-          <ion-button routerLink="/landing">Home</ion-button>
-          <ion-button routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-button>
-          <ion-button routerLink="/trails">Trails</ion-button>
-          <ion-button (click)="goToCamps()">Camps</ion-button>
-
-          <ng-container *ngIf="!(isAuthorized | async)">
-            <ion-button (click)="openLoginModal()">Log in</ion-button>
-            <ion-button class="signup" (click)="openRegisterModal()">Sign up</ion-button>
-          </ng-container>
-          <ng-container *ngIf="isAuthorized | async">
-            <ion-button (click)="logOut()">Log out</ion-button>
-          </ng-container>
-        </ion-buttons> -->
-  </ion-menu>
-
 </div>

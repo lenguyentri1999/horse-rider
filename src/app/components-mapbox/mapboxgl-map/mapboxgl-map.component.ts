@@ -1,5 +1,5 @@
 import * as mapboxgl from 'mapbox-gl';
-import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { of, Observable, Subject, combineLatest, forkJoin } from 'rxjs';
 import { MapboxMap, MapboxMapOptions } from 'src/models/mapboxMap';
@@ -12,10 +12,12 @@ import { tap, flatMap, switchMap } from 'rxjs/operators';
   styleUrls: ['./mapboxgl-map.component.scss'],
 })
 
-export class MapboxglMapComponent implements OnInit, OnChanges {
+export class MapboxglMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() centerCoords: number[];
   @Input() zoomLevel: number;
   @Input() geoJsonData: MapboxPlace[];
+
+  isMapShown = true;
 
   defaultZoomLevel = 3;
   sourceName = 'customSource';
@@ -23,7 +25,12 @@ export class MapboxglMapComponent implements OnInit, OnChanges {
   onChanges = new Subject<SimpleChanges>();
   myMap: MapboxMap;
 
+  markers: any[] = [];
+
   constructor() { }
+
+  ngOnDestroy() {
+  }
 
   ngOnInit() {
     mapboxgl.accessToken = environment.mapboxKey;
@@ -62,32 +69,36 @@ export class MapboxglMapComponent implements OnInit, OnChanges {
   }
 
 
-  private resizeMap(myMap: MapboxMap) {
+  private async resizeMap(myMap: MapboxMap) {
     this.isMapLoaded(myMap).then(mapLoaded => {
       mapLoaded.resize();
     });
   }
 
-  private populateMarkers(myMap: MapboxMap, geoJsonData: MapboxPlace[]) {
-    this.isMapLoaded(myMap).then(mapLoaded => {
-      // make a marker for each feature and add to the map
-      geoJsonData.forEach(place => {
-        console.log(place);
-        const coords = place.geometry.coordinates;
-        const marker = new mapboxgl.Marker()
-          .setLngLat(coords);
-        marker.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-          .setHTML('<h3>' + place.properties.title + '</h3>'));
-        marker.addTo(mapLoaded);
+  private async removeAllMarkers() {
+    this.markers.forEach(marker => marker.remove());
+  }
 
-      });
+  private async populateMarkers(myMap: MapboxMap, geoJsonData: MapboxPlace[]) {
+    await this.removeAllMarkers();
+
+    // make a marker for each feature and add to the map
+    geoJsonData.forEach(place => {
+      console.log(place);
+      const coords = place.geometry.coordinates;
+      const marker = new mapboxgl.Marker()
+        .setLngLat(coords);
+      marker.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+        .setHTML('<p>' + place.properties.title + '</p>'));
+      marker.addTo(myMap);
+      this.markers.push(marker);
     });
   }
 
   private isMapLoaded(myMap: MapboxMap): Promise<MapboxMap> {
     return new Promise((resolve, reject) => {
       myMap.on('load', () => resolve(myMap));
-      // myMap.on('error', () => reject(myMap));
+      myMap.on('error', () => reject(myMap));
     });
   }
 }

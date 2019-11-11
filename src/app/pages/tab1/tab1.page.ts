@@ -116,6 +116,13 @@ export class Tab1Page implements OnInit, AfterViewInit {
       })
     );
 
+    this.campsMarkers = this.camps.pipe(
+      map(camps => this.sliceCampByPage(camps)),
+      map(camps => {
+        return camps.map(camp => this.mapboxService.campToMapboxPlace(camp));
+      })
+    );
+
     this.p = 1;
   }
 
@@ -170,12 +177,6 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.isMapView = !this.isMapView;
 
     if (this.isMapView) {
-      this.campsMarkers = this.camps.pipe(
-        map(camps => this.sliceCampByPage(camps)),
-        map(camps => {
-          return camps.map(camp => this.mapboxService.campToMapboxPlace(camp));
-        })
-      );
     }
   }
 
