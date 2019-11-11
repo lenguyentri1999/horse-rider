@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { CampService } from '../../services/camp.service';
+import { CampService, SourceEnum } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NavController, IonSearchbar, ModalController, PopoverController, ToastController, IonContent } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery, MapboxSearchResult } from 'src/app/services/mapbox.service';
@@ -29,10 +29,13 @@ export class Tab1Page implements OnInit, AfterViewInit {
   @ViewChild('textSearch', { static: false }) textSearchBar: AutoCompleteComponent;
   @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
   @ViewChild(IonContent, { static: false }) content: IonContent;
+
   p = 1;
   itemsPerPage = 10;
 
-  filter: Observable<Filter>;
+  readonly filter: Observable<Filter>;
+  readonly originalDataSource$: Observable<FirebaseTable<Camp>>;
+
   camps: Observable<Camp[]> = new Observable<Camp[]>();
   campsMarkers: Observable<MapboxPlace[]>;
 
@@ -46,6 +49,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     public campSearchService: CampSearchService,
     protected campService: CampService,
     protected router: Router,
+    protected route: ActivatedRoute,
     protected navCtrl: NavController,
     protected authService: AuthService,
     protected navParamService: NavParamsService,
@@ -58,10 +62,26 @@ export class Tab1Page implements OnInit, AfterViewInit {
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
     if (this.query.place) { this.currentCoords = of(this.query.place.geometry.coordinates); }
+
+
+    this.originalDataSource$ = this.initQueryParams();
+    this.filter = this.filterService.getCampFilter();
   }
 
   ngOnInit(): void {
-    this.filter = this.filterService.getCampFilter();
+  }
+
+  initQueryParams(): Observable<FirebaseTable<Camp>> {
+    return this.route.paramMap.pipe(
+      switchMap(params => {
+        const source = params.get('source');
+        if (source === 'trails') {
+          return this.campService.getDataSourceAsMap(SourceEnum.HorseTrails);
+        } else {
+          return this.campService.getDataSourceAsMap(SourceEnum.HorseCamps);
+        }
+      })
+    );
   }
 
   ngAfterViewInit(): void {
@@ -95,7 +115,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   searchCamps() {
-    let hashMap$ = this.campService.getAllHorseCampsAsMap();
+    let hashMap$ = this.originalDataSource$;
 
     if (this.query.place) {
       const currCoords: Coords = {

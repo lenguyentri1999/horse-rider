@@ -8,8 +8,8 @@
         <!-- <ion-button routerLink="/landing">Home</ion-button> -->
         <!-- <ion-button class="about">About</ion-button> -->
         <ion-button routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-button>
-        <ion-button routerLink="/trails">Trails</ion-button>
-        <ion-button (click)="goToCamps()">Camps</ion-button>
+        <ion-button routerLink="/tabs/places/trails">Trails</ion-button>
+        <ion-button routerLink="/tabs/places/camps">Camps</ion-button>
         <!-- <ion-button>Help</ion-button> -->
 
         <ng-container *ngIf="!(isAuthorized | async)">

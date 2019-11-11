@@ -41,13 +41,13 @@ export class CampSearchService implements AutoCompleteService {
   getDefaultSearchResults(): SearchResult[] {
     const exploreCamps: SearchResult = {
       name: 'Explore Camps',
-      navigateTo: ['/camps'],
+      navigateTo: ['/tabs/places/camps'],
       isDefault: true
     };
 
     const exploreTrails: SearchResult = {
       name: 'Explore Trails',
-      navigateTo: ['/trails'],
+      navigateTo: ['/tabs/places/trails'],
       isDefault: true
     };
 

@@ -31,10 +31,17 @@ export class CampService {
     );
   }
 
-  // Returns all camps
-  public getAllAsMap(): Observable<Map<string, Camp>> {
-    return this.db.getObjectValues<Map<string, Camp>>(this.basePath).pipe(
-    );
+  public getDataSourceAsMap(source: SourceEnum): Observable<FirebaseTable<Camp>> {
+    switch (source) {
+      case (SourceEnum.HorseCamps):
+        return this.getAllHorseCampsAsMap();
+      case (SourceEnum.HorseTrails):
+        return this.getAllHorseTrailsAsMap();
+    }
+  }
+
+  public getDataSourceAsList() {
+
   }
 
   public isTrail(camp: Camp): Observable<boolean> {
@@ -45,7 +52,7 @@ export class CampService {
     );
   }
 
-  public getAllHorseCampsAsMap(): Observable<FirebaseTable<Camp>> {
+  private getAllHorseCampsAsMap(): Observable<FirebaseTable<Camp>> {
     return this.getAllHorseCampsAsList().pipe(
       map(arr => {
         const obj = {};
@@ -174,4 +181,9 @@ export class CampService {
         })
       );
   }
+}
+
+export enum SourceEnum {
+  HorseCamps,
+  HorseTrails
 }
