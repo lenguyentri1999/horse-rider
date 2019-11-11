@@ -1,14 +1,11 @@
-<ion-content>
+<ion-content padding>
     <ion-list>
       <ion-item>
         <ion-label>
-          Distance
+          Distance (miles):
         </ion-label>
-        <ion-select [(ngModel)]="filter.distance">
-          <ion-select-option value="10">10 miles</ion-select-option>
-          <ion-select-option value="50">50 miles</ion-select-option>
-          <ion-select-option value="100">100 miles</ion-select-option>
-        </ion-select>
+        <ion-input [(ngModel)]="filter.distance" type="number"></ion-input>
       </ion-item>
     </ion-list>
+    <ion-button color="success" (click)="done()">Done</ion-button>
 </ion-content>
