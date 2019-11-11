@@ -18,5 +18,5 @@ export interface Camp {
         long: number;
     };
     pictures?: Array<string>;
-    distance?: Observable<number>;
+    distance?: number;
 }

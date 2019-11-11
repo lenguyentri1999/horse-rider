@@ -18,6 +18,7 @@
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
     [dataProvider]="mapboxService" #locationSearch></ion-auto-complete>
 
+  <ion-button (click)="onLocateMeButtonClick()">Locate Me</ion-button>
   <ion-button (click)="searchCamps()">Search</ion-button>
 
   <ion-grid>

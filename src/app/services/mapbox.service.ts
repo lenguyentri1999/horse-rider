@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AutoCompleteService } from 'ionic4-auto-complete';
 import { MapboxResult, MapboxPlace } from '../../models/mapboxResult';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { Observable, forkJoin, of } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { Camp } from 'src/models/camp';
@@ -24,8 +24,20 @@ export class MapboxService implements AutoCompleteService {
   ) { }
 
   // AutocompleteService interface
-  getResults(term: any) {
-    return this.autocomplete(term);
+  getResults(term: string): Observable<MapboxSearchResult[]> {
+    return this.autocomplete(term).pipe(
+      map(mapboxPlaces => {
+        const convertedMapboxPlaces = mapboxPlaces.map(place => {
+          const result: MapboxSearchResult = {
+            place_name: place.place_name,
+            place,
+            isDefault: false
+          };
+          return result;
+        });
+        return convertedMapboxPlaces;
+      }),
+    );
   }
 
   getItemLabel?(item: MapboxPlace) {
@@ -57,7 +69,7 @@ export class MapboxService implements AutoCompleteService {
       );
   }
 
-  public reverseGeocode(address: string): Observable<{ long: number, lat: number }> {
+  public forwardGeocode(address: string): Observable<{ long: number, lat: number }> {
     return this.autocomplete(address).pipe(
       catchError(err => {
         console.log(err);
@@ -77,39 +89,41 @@ export class MapboxService implements AutoCompleteService {
     );
   }
 
-  public straightLineDistance(
-    coordsOne$: Observable<Coords>,
-    coordsTwo$: Observable<Coords>,
-    unit: string = null
-  ): Observable<number> {
-    return forkJoin(coordsOne$, coordsTwo$).pipe(
-      map(coordsList => {
-        const coordsOne = coordsList[0];
-        const coordsTwo = coordsList[1];
-        const lon1 = coordsOne.long;
-        const lat1 = coordsOne.lat;
-        const lon2 = coordsTwo.long;
-        const lat2 = coordsTwo.lat;
-        if ((lat1 === lat2) && (lon1 === lon2)) {
-          return 0;
-        } else {
-          const radlat1 = Math.PI * lat1 / 180;
-          const radlat2 = Math.PI * lat2 / 180;
-          const theta = lon1 - lon2;
-          const radtheta = Math.PI * theta / 180;
-          let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-          if (dist > 1) {
-            dist = 1;
-          }
-          dist = Math.acos(dist);
-          dist = dist * 180 / Math.PI;
-          dist = dist * 60 * 1.1515;
-          if (unit === 'K') { dist = dist * 1.609344; }
-          if (unit === 'N') { dist = dist * 0.8684; }
-          return dist;
-        }
-      })
+  public reverseGeocode(coords: { long: number, lat: number }): Observable<MapboxPlace> {
+    const query = `${coords.long}, ${coords.lat}`;
+    return this.autocomplete(query).pipe(
+      map(features => features.length > 0 ? features[0] : null)
     );
+  }
+
+  public straightLineDistance(
+    coordsOne: Coords,
+    coordsTwo: Coords,
+    unit: string = null
+  ): number {
+    const lon1 = coordsOne.long;
+    const lat1 = coordsOne.lat;
+    const lon2 = coordsTwo.long;
+    const lat2 = coordsTwo.lat;
+
+    if ((lat1 === lat2) && (lon1 === lon2)) {
+      return 0;
+    } else {
+      const radlat1 = Math.PI * lat1 / 180;
+      const radlat2 = Math.PI * lat2 / 180;
+      const theta = lon1 - lon2;
+      const radtheta = Math.PI * theta / 180;
+      let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180 / Math.PI;
+      dist = dist * 60 * 1.1515;
+      if (unit === 'K') { dist = dist * 1.609344; }
+      if (unit === 'N') { dist = dist * 0.8684; }
+      return dist;
+    }
   }
 
   public campToMapboxPlace(camp: Camp): MapboxPlace {
@@ -147,4 +161,10 @@ export class MapboxService implements AutoCompleteService {
 export interface CampQuery {
   term: string;
   place: MapboxPlace;
+}
+
+export interface MapboxSearchResult {
+  place_name: string;
+  isDefault: boolean;
+  place?: MapboxPlace;
 }
