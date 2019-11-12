@@ -30,6 +30,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   @ViewChild('locationSearch', { static: false }) locationSearchBar: AutoCompleteComponent;
   @ViewChild(IonContent, { static: false }) content: IonContent;
 
+  isTrail: Observable<boolean>;
+
   p = 1;
   itemsPerPage = 10;
 
@@ -65,20 +67,32 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
     this.originalDataSource$ = this.initQueryParams();
     this.filter = this.filterService.getCampFilter();
+    this.isTrail = this.getCampOrTrail().pipe(
+      map(val => val === SourceEnum.HorseTrails)
+    );
+
   }
 
   ngOnInit(): void {
   }
 
-  initQueryParams(): Observable<FirebaseTable<Camp>> {
+  getCampOrTrail(): Observable<SourceEnum> {
     return this.route.paramMap.pipe(
-      switchMap(params => {
+      map(params => {
         const source = params.get('source');
         if (source === 'trails') {
-          return this.campService.getDataSourceAsMap(SourceEnum.HorseTrails);
+          return SourceEnum.HorseTrails;
         } else {
-          return this.campService.getDataSourceAsMap(SourceEnum.HorseCamps);
+          return SourceEnum.HorseCamps;
         }
+      })
+    );
+  }
+
+  initQueryParams(): Observable<FirebaseTable<Camp>> {
+    return this.getCampOrTrail().pipe(
+      switchMap(sourceEnum => {
+        return this.campService.getDataSourceAsMap(sourceEnum);
       })
     );
   }

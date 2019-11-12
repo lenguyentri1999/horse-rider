@@ -10,7 +10,7 @@ import { PopoverController } from '@ionic/angular';
 })
 export class FilterModalComponent implements OnInit, OnDestroy {
   filter: Filter = {
-    distance: 50
+    distance: null
   };
 
   constructor(
@@ -21,6 +21,10 @@ export class FilterModalComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   done() {
+    if (!this.filter.distance) {
+      this.filter.distance = Infinity;
+    }
+
     this.filterService.setCampFilter(this.filter);
     this.popoverCtrl.dismiss();
   }
