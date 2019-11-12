@@ -4,7 +4,7 @@
 
   <!-- Template for image -->
   <ng-template #withCampPics let-attrs="attrs">
-    <div [routerLink]="attrs.data.navigateTo">
+    <div>
       <span style="font-weight: bold" *ngIf="attrs.data.isDefault"
         [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
       <span *ngIf="!attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
@@ -18,15 +18,17 @@
   <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
     [dataProvider]="mapboxService" #locationSearch></ion-auto-complete>
 
-  <ion-button (click)="onLocateMeButtonClick()">Locate Me</ion-button>
-  <ion-button (click)="searchCamps()">Search</ion-button>
-
-  <ion-grid>
-    <ion-row>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="onLocateMeButtonClick()">
+        <p padding>Locate Me</p>
+        <ion-icon name="locate"></ion-icon>
+      </ion-button>
+      <ion-button (click)="searchCamps()">Search</ion-button>
       <ion-button (click)="onSwitchViewButtonClick()">
         <ng-container *ngIf="!isMapView">
           <p padding>Switch to map view</p>
-          <ion-icon name="locate"></ion-icon>
+          <ion-icon name="map"></ion-icon>
         </ng-container>
         <ng-container *ngIf="isMapView">
           <p padding>Switch to list view</p>
@@ -34,9 +36,18 @@
         </ng-container>
       </ion-button>
       <ion-button (click)="onFilterButtonClick()">
+        <p padding>Filter</p>
         <ion-icon name="color-filter" style="margin-right: 1em"></ion-icon>
-        FILTER: Within {{(filter | async)?.distance}} miles
       </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-button (click)="onFilterButtonClick()">
+    <p padding *ngIf="(filter | async).distance"> Within {{(filter | async)?.distance}} miles</p>
+  </ion-button>
+
+  <ion-grid>
+    <ion-row>
       <!-- <ion-button (click)="onSortButtonClick()">
         <ion-icon name="funnel" style="margin-right: 1em"></ion-icon>
         Sort
@@ -56,7 +67,8 @@
 
     <div *ngIf="(camps | async)?.length == 0" padding>
       <p>
-        0 businesses found. You can change your filter parameters, or contact us at horseridingapp@gmail.com if you want to request adding a new business.
+        0 businesses found. You can change your filter parameters, or contact us at horseridingapp@gmail.com if you want
+        to request adding a new business.
       </p>
     </div>
     <ion-grid>

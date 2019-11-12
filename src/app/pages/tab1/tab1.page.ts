@@ -14,7 +14,7 @@ import { NavParamsService } from 'src/app/services/nav-params.service';
 import { CampInfoPage } from '../camp-info/camp-info.page';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
 import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
-import { CampSearchService } from 'src/app/services/camp-search.service';
+import { CampSearchService, SearchResult } from 'src/app/services/camp-search.service';
 import { Filter } from 'src/models/filter';
 import { FilterService } from 'src/app/services/filter.service';
 import { FirebaseTable } from 'src/models/firebase/statusTable';
@@ -95,7 +95,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.navCtrl.navigateForward(`camp-info`);
   }
 
-  onCampSelected(camp: Camp): void {
+  onCampSelected(result: SearchResult): void {
+    this.router.navigate(result.navigateTo);
   }
 
   async onLocateMeButtonClick() {

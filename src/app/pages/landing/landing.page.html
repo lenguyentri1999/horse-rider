@@ -13,14 +13,14 @@
             <ion-col>
               <!-- Template for image -->
               <ng-template #withCampPics let-attrs="attrs" >
-                <div style="width: 70vw" [routerLink]="attrs.data.navigateTo">
+                <div style="width: 70vw" >
                   <span style="font-weight: bold" *ngIf="attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
                   <span *ngIf="!attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
                   <!-- <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" /> -->
                 </div>
               </ng-template>
-              <ion-auto-complete [options]="{ placeholder : 'Explore camps' }" #textSearch class="explorecamps"
-                [dataProvider]="campSearchService" [template]="withCampPics">
+              <ion-auto-complete [options]="{ placeholder: 'Enter camp or trail name' }" #textSearch class="explorecamps"
+                [dataProvider]="campSearchService" (itemSelected)="onCampSelected($event)" [template]="withCampPics">
               </ion-auto-complete>
             </ion-col>
             <ion-col>

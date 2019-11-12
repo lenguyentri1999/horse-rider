@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { NavController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
-import { CampSearchService } from 'src/app/services/camp-search.service';
+import { CampSearchService, SearchResult } from 'src/app/services/camp-search.service';
 
 @Component({
   selector: 'app-landing',
@@ -34,8 +34,12 @@ export class LandingPage implements OnInit {
     this.place = place;
   }
 
+  onCampSelected(camp: SearchResult) {
+    this.router.navigate(camp.navigateTo);
+  }
+
   searchCamps() {
     this.mapboxService.setSearchQuery({term: this.searchBar.keyword, place: this.place});
-    this.router.navigate(['tabs/tab1']);
+    this.router.navigate(['tabs/places/camps']);
   }
 }

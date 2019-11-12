@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'trails', loadChildren: './pages/trails/trails.module#TrailsPageModule' },
   { path: 'camps', redirectTo: '/tabs/tab1', pathMatch: 'full'}
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
