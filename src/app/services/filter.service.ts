@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class FilterService {
   defaultFilter: Filter = {
-    distance: 50
+    distance: 500
   };
 
   private currentCampFilter: BehaviorSubject<Filter> = new BehaviorSubject<Filter>(this.defaultFilter);

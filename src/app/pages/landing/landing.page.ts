@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MapboxService } from 'src/app/services/mapbox.service';
 import { MapboxPlace } from 'src/models/mapboxResult';
 import { Router } from '@angular/router';
@@ -13,8 +13,9 @@ import { CampSearchService, SearchResult } from 'src/app/services/camp-search.se
   styleUrls: ['./landing.page.scss'],
 })
 
-export class LandingPage implements OnInit {
+export class LandingPage implements OnInit, AfterViewInit {
   @ViewChild('textSearch', {static: false}) searchBar: AutoCompleteComponent;
+  @ViewChild('locationSearchBar', {static: false}) locationSearchBar: AutoCompleteComponent;
   environmentSetting: boolean = environment.production;
   environmentVersion: string = environment.version;
 
@@ -28,6 +29,14 @@ export class LandingPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    // Populate default
+    this.mapboxService.getDefaultPlace().subscribe(place => {
+      this.locationSearchBar.keyword = place.place_name;
+      this.place = place;
+    });
   }
 
   onLocationSelected(place: MapboxPlace) {

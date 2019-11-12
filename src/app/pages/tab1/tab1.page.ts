@@ -39,7 +39,11 @@ export class Tab1Page implements OnInit, AfterViewInit {
   camps: Observable<Camp[]> = new Observable<Camp[]>();
   campsMarkers: Observable<MapboxPlace[]>;
 
-  query: CampQuery;
+  query: CampQuery = {
+    place: null,
+    term: ''
+  };
+
   currentCoords: Observable<number[]>;
 
   isMapView = false;
@@ -58,11 +62,6 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected popoverCtrl: PopoverController,
     protected toastCtrl: ToastController,
   ) {
-
-    // Get query from landing page
-    this.query = this.mapboxService.getSearchQuery();
-    if (this.query.place) { this.currentCoords = of(this.query.place.geometry.coordinates); }
-
 
     this.originalDataSource$ = this.initQueryParams();
     this.filter = this.filterService.getCampFilter();
@@ -85,9 +84,23 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // Get query from landing page
+    this.query = this.mapboxService.getSearchQuery();
+    if (this.query.place) {
+      this.currentCoords = of(this.query.place.geometry.coordinates);
+      this.locationSearchBar.setValue(this.query.place);
+      this.searchCamps();
+    } else {
+      this.mapboxService.getDefaultPlace().subscribe(place => {
+        this.query.place = place;
+        this.locationSearchBar.setValue(place);
+        this.currentCoords = of(this.query.place.geometry.coordinates);
+        this.searchCamps();
+      });
+    }
+
     this.textSearchBar.keyword = this.query.term;
-    this.locationSearchBar.setValue(this.query.place);
-    this.searchCamps();
+    // this.locationSearchBar.setValue(this.query.place);
   }
 
   goToCampInfo(camp: Camp): void {

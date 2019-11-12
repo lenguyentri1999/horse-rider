@@ -9,11 +9,11 @@
       <h2 class="description">Discover, experience and rate horse camps and trails</h2>
       <div class="container2">
         <ion-grid>
-          <ion-row>
-            <ion-col>
+          <ion-row justify-content-end>
+            <ion-col size-lg="5" size="12" size-sm>
               <!-- Template for image -->
-              <ng-template #withCampPics let-attrs="attrs" >
-                <div style="width: 70vw" >
+              <ng-template #withCampPics let-attrs="attrs">
+                <div [routerLink]="attrs.data.navigateTo">
                   <span style="font-weight: bold" *ngIf="attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
                   <span *ngIf="!attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
                   <!-- <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" /> -->
@@ -22,14 +22,18 @@
               <ion-auto-complete [options]="{ placeholder: 'Enter camp or trail name' }" #textSearch class="explorecamps"
                 [dataProvider]="campSearchService" (itemSelected)="onCampSelected($event)" [template]="withCampPics">
               </ion-auto-complete>
+
             </ion-col>
-            <ion-col>
-              <ion-auto-complete [options]="{ placeholder : 'Your location' }"
-                (itemSelected)="onLocationSelected($event)" [dataProvider]="mapboxService" class="explorelocation">
+            <ion-col size-lg="5" size="12" size-sm>
+              <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)" [dataProvider]="mapboxService"
+                class="explorelocation" #locationSearchBar>
               </ion-auto-complete>
             </ion-col>
+            <ion-col size-lg="1" size="12" size-sm>
+              <ion-button (click)="searchCamps()">Search</ion-button>
+            </ion-col>
           </ion-row>
-          <ion-button (click)="searchCamps()">Search</ion-button>
+         
         </ion-grid>
       </div>
     </div>

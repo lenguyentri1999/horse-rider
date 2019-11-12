@@ -19,9 +19,23 @@ export class MapboxService implements AutoCompleteService {
     place: null,
   };
 
+  private defaultAddress = 'San Francisco, California';
+
   constructor(
     protected http: HttpClient,
   ) { }
+
+  getDefaultPlace(): Observable<MapboxPlace> {
+    const currCoords: string = localStorage.getItem('currLocation');
+    if (currCoords) {
+      return this.autocomplete(currCoords).pipe(
+        map(features => features[0])
+      );
+    }
+    return this.autocomplete(this.defaultAddress).pipe(
+      map(features => features[0])
+    );
+  }
 
   // AutocompleteService interface
   getResults(term: string): Observable<MapboxSearchResult[]> {
@@ -144,6 +158,9 @@ export class MapboxService implements AutoCompleteService {
 
   async findMe(): Promise<{ lat: number; long: number }> {
     const pos = await this.getPosition();
+
+    localStorage.setItem('currLocation', `${pos.coords.longitude}, ${pos.coords.latitude}`);
+
     return {
       lat: pos.coords.latitude,
       long: pos.coords.longitude
