@@ -49,10 +49,10 @@
                 <ion-icon name="list"></ion-icon>
               </ng-container>
             </ion-button>
-            <ion-button (click)="onFilterButtonClick()">
+            <!-- <ion-button (click)="onFilterButtonClick()">
               <p padding>Filter</p>
               <ion-icon name="color-filter" style="margin-right: 1em"></ion-icon>
-            </ion-button>
+            </ion-button> -->
           </ion-buttons>
         </ion-toolbar>
 
@@ -64,9 +64,11 @@
 
 
 
-  <ion-button (click)="onFilterButtonClick()">
-    <p padding *ngIf="(filter | async).distance"> Within {{(filter | async)?.distance}} miles</p>
-  </ion-button>
+  <!-- <ion-button (click)="onFilterButtonClick()"> -->
+    <!-- <p padding *ngIf="(filter | async).distance"> Within {{(filter | async)?.distance}} miles 
+      <ion-icon name="close"></ion-icon>
+    </p> -->
+  <!-- </ion-button> -->
 
   <ion-grid>
     <ion-row>
