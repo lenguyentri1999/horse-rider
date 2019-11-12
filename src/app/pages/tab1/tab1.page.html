@@ -21,7 +21,7 @@
     </ion-row>
     <ion-row>
       <ion-col size-lg="5" size="12" size-sm>
-        <ion-auto-complete [options]="{ placeholder : 'Find a camp...' }" [dataProvider]="campSearchService"
+        <ion-auto-complete class="search-one" [options]="{ placeholder : 'Find a camp...' }" [dataProvider]="campSearchService"
           (itemSelected)="onCampSelected($event)" [template]="withCampPics" #textSearch></ion-auto-complete>
       </ion-col>
 
