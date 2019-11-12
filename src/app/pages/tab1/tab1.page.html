@@ -37,10 +37,10 @@
         <ion-icon name="color-filter" style="margin-right: 1em"></ion-icon>
         FILTER: Within {{(filter | async)?.distance}} miles
       </ion-button>
-      <ion-button (click)="onSortButtonClick()">
+      <!-- <ion-button (click)="onSortButtonClick()">
         <ion-icon name="funnel" style="margin-right: 1em"></ion-icon>
         Sort
-      </ion-button>
+      </ion-button> -->
     </ion-row>
   </ion-grid>
 
@@ -53,6 +53,12 @@
 
   <!-- List view -->
   <ng-container *ngIf="!isMapView">
+
+    <div *ngIf="(camps | async)?.length == 0" padding>
+      <p>
+        0 businesses found. You can change your filter parameters, or contact us at horseridingapp@gmail.com if you want to request adding a new business.
+      </p>
+    </div>
     <ion-grid>
       <ion-row>
         <ion-col>

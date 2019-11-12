@@ -28,9 +28,6 @@ export class CampSearchService implements AutoCompleteService {
           return this.getDefaultSearchResults().concat(searchResults);
         }
       }),
-      tap(allSearchResults => {
-        console.log(allSearchResults);
-      })
     );
   }
 

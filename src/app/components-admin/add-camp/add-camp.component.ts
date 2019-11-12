@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { DbService } from 'src/app/services/db.service';
 import { Camp } from 'src/models/camp';
-import { MapboxService } from 'src/app/services/mapbox.service';
+import { MapboxService, MapboxSearchResult } from 'src/app/services/mapbox.service';
 import { MapboxPlace } from 'src/models/mapboxResult';
 import { CampService } from 'src/app/services/camp.service';
 import { ToastController, ModalController } from '@ionic/angular';
@@ -79,7 +79,8 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onLocationSelected(place: MapboxPlace) {
+  onLocationSelected(result: MapboxSearchResult) {
+    const place = result.place;
     this.myForm.get('address').setValue(place.place_name);
     this.myForm.get('coords').setValue({
       long: place.geometry.coordinates[0],

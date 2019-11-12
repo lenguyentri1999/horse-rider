@@ -79,9 +79,6 @@ export class CampService {
         const horseCamps$ = ids.map(id => this.getByID(id));
         return combineLatest(horseCamps$);
       }),
-      tap(camps => {
-        console.log(camps);
-      })
     );
   }
 
@@ -92,9 +89,6 @@ export class CampService {
         const trails$ = ids.map(id => this.getByID(id));
         return combineLatest(trails$);
       }),
-      tap(trails => {
-        console.log(trails);
-      })
     );
   }
 
@@ -118,6 +112,7 @@ export class CampService {
           return;
         } else {
           console.log('camp coords is null');
+          console.log('null camp', camp);
           this.setCampCoords(camp).subscribe();
         }
       }),
