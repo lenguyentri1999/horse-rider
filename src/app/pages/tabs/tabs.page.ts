@@ -16,11 +16,12 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.isMobile) {
-      this.hideTabBar();
-    } else {
-      this.hideTopBar();
-    }
+    // if (!this.isMobile) {
+    //   this.hideTabBar();
+    // } else {
+    //   this.hideTopBar();
+    // }
+    this.hideTabBar();
   }
 
   private hideTopBar() {
