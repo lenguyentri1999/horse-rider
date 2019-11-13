@@ -1,11 +1,34 @@
 <ion-content padding>
-    <ion-list>
-      <ion-item>
-        <ion-label>
-          Distance (miles):
-        </ion-label>
-        <ion-input [(ngModel)]="filter.distance" type="number"></ion-input>
-      </ion-item>
-    </ion-list>
-    <ion-button color="success" (click)="done()">Done</ion-button>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        Distance (miles):
+      </ion-label>
+      <ion-input [(ngModel)]="filter.distance" type="number"></ion-input>
+    </ion-item>
+
+    <!-- Camp section -->
+    <ion-item>
+      <ion-label>Big Rig Friendly</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="campFilter.bigRigFriendly"></ion-checkbox>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Facility Cleanliness</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="campFilter.facilityCleanliness"></ion-checkbox>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Wifi</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="campFilter.wifi"></ion-checkbox>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Horse Facilities</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="campFilter.horseFacilities"></ion-checkbox>
+    </ion-item>
+
+  </ion-list>
+  <ion-button color="success" (click)="done()">Done</ion-button>
 </ion-content>

@@ -18,3 +18,17 @@
     font-weight: 400;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Samsung Sharp Sans';
+    src: url('/assets/fonts/SamsungSharpSans/samsungsharpsans-bold.otf') format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
