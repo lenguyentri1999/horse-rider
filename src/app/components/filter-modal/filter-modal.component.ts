@@ -4,6 +4,7 @@ import { FilterService } from 'src/app/services/filter.service';
 import { PopoverController } from '@ionic/angular';
 import { Camp } from 'src/models/camp';
 import { SourceEnum } from 'src/app/services/camp.service';
+import { CampSearchFormValues } from '../camp-search-form/camp-search-form.component';
 
 @Component({
   selector: 'app-filter-modal',
@@ -34,14 +35,19 @@ export class FilterModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  done() {
-    if (!this.filter.distance) {
-      this.filter.distance = Infinity;
-    }
-
-    this.filterService.setFilter(this.filter);
+  submitCampAttributesFilter(values: CampSearchFormValues) {
+    this.filterService.setCampAttributesFilter(values);
     this.popoverCtrl.dismiss();
   }
+
+  // done() {
+  //   if (!this.filter.distance) {
+  //     this.filter.distance = Infinity;
+  //   }
+
+  //   this.filterService.setFilter(this.filter);
+  //   this.popoverCtrl.dismiss();
+  // }
 
   ngOnDestroy(): void {
   }

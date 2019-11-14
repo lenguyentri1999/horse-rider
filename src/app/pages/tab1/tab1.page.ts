@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService, SourceEnum } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavController, IonSearchbar, ModalController, PopoverController, ToastController, IonContent, LoadingController } from '@ionic/angular';
+import { NavController, ModalController, PopoverController, ToastController, IonContent, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery, MapboxSearchResult } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';

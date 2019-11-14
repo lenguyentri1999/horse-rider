@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommonFilter } from 'src/models/filter';
 
@@ -8,6 +8,8 @@ import { CommonFilter } from 'src/models/filter';
   styleUrls: ['./camp-search-form.component.scss'],
 })
 export class CampSearchFormComponent implements OnInit {
+  @Input() nameElementHidden: boolean;
+
   myForm: FormGroup;
 
   @Output() submitForm = new EventEmitter<CampSearchFormValues>();
