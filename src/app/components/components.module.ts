@@ -11,6 +11,7 @@ import { FilterModalComponent } from './filter-modal/filter-modal.component';
 import { SortPopoverComponent } from './sort-popover/sort-popover.component';
 import { PwaNavFooterComponent } from './pwa-nav-footer/pwa-nav-footer.component';
 import { ReviewWriteNewReviewComponent } from './review-write-new-review/review-write-new-review.component';
+import { TrailSearchFormComponent } from './trail-search-form/trail-search-form.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ReviewWriteNewReviewComponent } from './review-write-new-review/review-
     FilterModalComponent,
     SortPopoverComponent,
     PwaNavFooterComponent,
+    TrailSearchFormComponent,
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { ReviewWriteNewReviewComponent } from './review-write-new-review/review-
     FilterModalComponent,
     SortPopoverComponent,
     PwaNavFooterComponent,
-    ReviewWriteNewReviewComponent
+    ReviewWriteNewReviewComponent,
+    TrailSearchFormComponent,
   ],
   exports: [
     CampCardComponent,
@@ -44,6 +47,7 @@ import { ReviewWriteNewReviewComponent } from './review-write-new-review/review-
     SortPopoverComponent,
     PwaNavFooterComponent,
     ReviewWriteNewReviewComponent,
+    TrailSearchFormComponent,
   ]
 })
 export class ComponentsModule { }

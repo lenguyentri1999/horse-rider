@@ -6,6 +6,7 @@ import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { NavController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { CampSearchService, SearchResult } from 'src/app/services/camp-search.service';
+import { TrailSearchFormValues } from 'src/app/components/trail-search-form/trail-search-form.component';
 
 @Component({
   selector: 'app-landing',
@@ -51,5 +52,14 @@ export class LandingPage implements OnInit, AfterViewInit {
   searchCamps() {
     this.mapboxService.setSearchQuery({term: this.searchBar.keyword, place: this.place});
     this.router.navigate(['tabs/places/camps']);
+  }
+
+  onSearchTrails(values: TrailSearchFormValues) {
+    console.log(values);
+
+  }
+
+  onSearchCamps() {
+
   }
 }
