@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { CampSearchService, SearchResult } from 'src/app/services/camp-search.service';
 import { TrailSearchFormValues } from 'src/app/components/trail-search-form/trail-search-form.component';
 import { CampSearchFormValues } from 'src/app/components/camp-search-form/camp-search-form.component';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-landing',
@@ -26,6 +27,7 @@ export class LandingPage implements OnInit, AfterViewInit {
 
   constructor(
     public mapboxService: MapboxService,
+    protected filterService: FilterService,
     public campSearchService: CampSearchService,
     protected router: Router,
     protected navCtrl: NavController,
@@ -56,10 +58,12 @@ export class LandingPage implements OnInit, AfterViewInit {
   }
 
   onSearchTrails(values: TrailSearchFormValues) {
-    console.log(values);
+    this.filterService.setTrailAttributesFilter(values);
+    this.router.navigate(['tabs/places/trails']);
   }
 
   onSearchCamps(values: CampSearchFormValues) {
-    console.log(values);
+    this.filterService.setCampAttributesFilter(values);
+    this.router.navigate(['tabs/places/camps']);
   }
 }

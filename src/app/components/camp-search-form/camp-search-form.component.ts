@@ -18,10 +18,10 @@ export class CampSearchFormComponent implements OnInit {
   ngOnInit() {
     this.myForm = this.fb.group({
       name: [''],
-      bigRigFriendly: [true],
-      facilityCleanliness: [true],
-      wifi: [true],
-      horseFacilities: [true],
+      bigRigFriendly: [false],
+      facilityCleanliness: [false],
+      wifi: [false],
+      horseFacilities: [false],
     });
   }
 

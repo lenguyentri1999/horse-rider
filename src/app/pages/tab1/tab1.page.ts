@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery, MapboxSearchResult } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { MapboxPlace } from 'src/models/mapboxResult';
-import { map, tap, switchMap, first } from 'rxjs/operators';
+import { map, tap, switchMap, first, flatMap } from 'rxjs/operators';
 import { Observable, of, combineLatest, from, forkJoin } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { NavParamsService } from 'src/app/services/nav-params.service';
@@ -18,6 +18,8 @@ import { CampSearchService, SearchResult } from 'src/app/services/camp-search.se
 import { Filter } from 'src/models/filter';
 import { FilterService } from 'src/app/services/filter.service';
 import { FirebaseTable } from 'src/models/firebase/statusTable';
+import { CampSearchFormValues } from 'src/app/components/camp-search-form/camp-search-form.component';
+import { TrailSearchFormValues } from 'src/app/components/trail-search-form/trail-search-form.component';
 
 @Component({
   selector: 'app-tab1',
@@ -50,6 +52,10 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   isMapView = false;
 
+  // Camps/Trail attributes filter
+  campAttributesFilters: CampSearchFormValues;
+  trailAttributesFilters: TrailSearchFormValues;
+
   constructor(
     public mapboxService: MapboxService,
     public campSearchService: CampSearchService,
@@ -71,12 +77,14 @@ export class Tab1Page implements OnInit, AfterViewInit {
       map(val => val === SourceEnum.HorseTrails)
     );
 
+    this.trailAttributesFilters = this.filterService.getTrailAttributesFilter();
+    this.campAttributesFilters = this.filterService.getCampAttributesFilter();
   }
 
   ngOnInit(): void {
   }
 
-  getCampOrTrail(): Observable<SourceEnum> {
+  private getCampOrTrail(): Observable<SourceEnum> {
     return this.route.paramMap.pipe(
       map(params => {
         const source = params.get('source');
@@ -89,7 +97,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     );
   }
 
-  initQueryParams(): Observable<FirebaseTable<Camp>> {
+  private initQueryParams(): Observable<FirebaseTable<Camp>> {
     return this.getCampOrTrail().pipe(
       switchMap(sourceEnum => {
         return this.campService.getDataSourceAsMap(sourceEnum);
@@ -100,6 +108,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // Get query from landing page
     this.query = this.mapboxService.getSearchQuery();
+    this.textSearchBar.keyword = this.query.term;
+
     if (this.query.place) {
       this.currentCoords = of(this.query.place.geometry.coordinates);
       this.locationSearchBar.setValue(this.query.place);
@@ -112,14 +122,6 @@ export class Tab1Page implements OnInit, AfterViewInit {
         this.searchCamps();
       });
     }
-
-    this.textSearchBar.keyword = this.query.term;
-    // this.locationSearchBar.setValue(this.query.place);
-  }
-
-  goToCampInfo(camp: Camp): void {
-    this.navParamService.setParam(CampInfoPage, camp);
-    this.navCtrl.navigateForward(`camp-info`);
   }
 
   onCampSelected(result: SearchResult): void {
@@ -145,6 +147,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   searchCamps() {
     let hashMap$ = this.originalDataSource$;
 
+    // Filter by distance
     if (this.query.place) {
       const currCoords: Coords = {
         long: this.query.place.geometry.coordinates[0],
@@ -155,6 +158,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
     }
 
     this.query.term = this.textSearchBar.keyword;
+
+    // Filter by term
     this.camps = hashMap$.pipe(
       map(allCamps => {
         if (Object.entries(allCamps).length === 0) {
@@ -164,6 +169,26 @@ export class Tab1Page implements OnInit, AfterViewInit {
       })
     );
 
+    // Filter by attributes
+    this.camps = combineLatest([this.isTrail, this.camps]).pipe(
+      first(),
+      map(results => {
+        const isTrail: boolean = results[0];
+        const camps: Camp[] = results[1];
+
+        if (isTrail) {
+          return null;
+        } else {
+          if (this.campAttributesFilters) {
+            return this.filterService.filterCampsByAttributes(camps, this.campAttributesFilters);
+          } else {
+            return camps;
+          }
+        }
+      })
+    );
+
+    // Populate markers for map view
     this.campsMarkers = this.camps.pipe(
       map(camps => this.sliceCampByPage(camps)),
       map(camps => {
@@ -206,14 +231,14 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.getCampOrTrail().pipe(
       first()
     ).
-    subscribe(async source => {
-      this.filterService.setSource(source);
+      subscribe(async source => {
+        this.filterService.setSource(source);
 
-      const popover = await this.popoverCtrl.create({
-        component: FilterModalComponent,
+        const popover = await this.popoverCtrl.create({
+          component: FilterModalComponent,
+        });
+        await popover.present();
       });
-      await popover.present();
-    });
   }
 
   async onSortButtonClick() {

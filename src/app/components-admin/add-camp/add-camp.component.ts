@@ -72,7 +72,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       attributes = this.camp.attributes;
     }
 
-    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+    // const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
 
     this.myForm = this.fb.group({
       // type: [type, Validators.required],
@@ -80,7 +80,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       description: [description, Validators.required],
       address: [address, Validators.required],
       coords: [coords, Validators.required],
-      url: [url, [Validators.required, Validators.pattern(reg)]],
+      url: [url, [Validators.required]],
       pictureUrl: [pictureUrl, [Validators.required]],
 
       // Camp attributes
