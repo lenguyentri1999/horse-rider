@@ -95,4 +95,14 @@ ion-auto-complete{
     -webkit-box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
     -moz-box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
     box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
+    margin-left: auto;
+    margin-right: auto;
+}
+p{
+    position: relative;
+    display: inline-block;
+    bottom: 0.3em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
 }
