@@ -23,6 +23,10 @@
         </h1>
         <h2>
           {{(camp$ | async)?.address}}
+          <!-- &#183;
+          <div *ngIf="(camp$ | async)?.distance">
+            {{(camp$ | async)?.distance}}
+          </div> -->
         </h2>
       </ion-col>
     </ion-row>
@@ -30,29 +34,76 @@
     <ion-row class="ion-align-items-center">
       <ion-col size='12' size-sm padding>
         <h1>Description.</h1>
+        <p>{{(camp$ | async)?.description}}</p>
       </ion-col>
 
-      <ion-col size='12' size-sm padding *ngIf="isTrail$ | async">
+      <ion-col padding size='12' size-sm padding *ngIf="isTrail$ | async">
+        <ion-row>
+          <ion-col size="6">
+            <ion-list lines="none">
+              <ion-item no-padding>
+                <ion-icon name="speedometer"></ion-icon> &nbsp;
+                Difficulty: {{(camp$ | async)?.attributes.difficulty}}
+              </ion-item>
+            </ion-list>
+          </ion-col>
+          <ion-col size="6"></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <h1>Features.</h1>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-list lines="none">
+              <ion-item no-padding>
+                {{(camp$ | async)?.attributes.waterCrossings}}
+                <ion-icon name="arrow-dropleft"></ion-icon>
+                Water Crossings
+              </ion-item>
+              <ion-item no-padding>
+                {{(camp$ | async)?.attributes.bridges}}
+                <ion-icon name="arrow-dropleft"></ion-icon>
+                Bridges
+              </ion-item>
+              <ion-item no-padding>
+                {{(camp$ | async)?.attributes.parking}}
+                <ion-icon name="arrow-dropleft"></ion-icon>
+                Parking for Rigs
+              </ion-item>
+              <ion-item no-padding>
+                {{(camp$ | async)?.attributes.footing}}
+                <ion-icon name="arrow-dropleft"></ion-icon>
+                Footing
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
       </ion-col>
-      <ion-col size='12' size-sm padding *ngIf="!(isTrail$ | async)">
+      <ion-col size='12' size-sm padding *ngIf="(isTrail$ | async) == false">
         <ion-row>
           <ion-col size='6'>
             <ion-item lines='none'>
-              <ion-icon item-start name="checkbox-outline" padding [ngClass]="(camp$ | async)?.attributes.bigRigFriendly ? 'icon-sucess' : ''"></ion-icon>
+              <ion-icon item-start name="checkbox-outline" padding
+                [ngClass]="(camp$ | async)?.attributes.bigRigFriendly ? 'icon-sucess' : ''"></ion-icon>
               Big Rig Friendly
             </ion-item>
             <ion-item lines='none'>
-              <ion-icon item-start name="checkbox-outline" padding [ngClass]="(camp$ | async)?.attributes.facilityCleanliness ? 'icon-sucess' : ''"></ion-icon>
+              <ion-icon item-start name="checkbox-outline" padding
+                [ngClass]="(camp$ | async)?.attributes.facilityCleanliness ? 'icon-sucess' : ''"></ion-icon>
               Facility Cleanliness
             </ion-item>
           </ion-col>
           <ion-col size='6'>
             <ion-item lines='none'>
-              <ion-icon item-start name="checkbox-outline" padding [ngClass]="(camp$ | async)?.attributes.wifi ? 'icon-sucess' : ''"></ion-icon>
+              <ion-icon item-start name="checkbox-outline" padding
+                [ngClass]="(camp$ | async)?.attributes.wifi ? 'icon-sucess' : ''"></ion-icon>
               Wifi
             </ion-item>
             <ion-item lines='none'>
-              <ion-icon item-start name="checkbox-outline" padding [ngClass]="(camp$ | async)?.attributes.horseFacilities ? 'icon-sucess' : ''"></ion-icon>
+              <ion-icon item-start name="checkbox-outline" padding
+                [ngClass]="(camp$ | async)?.attributes.horseFacilities ? 'icon-sucess' : ''"></ion-icon>
               Horse Facilities
             </ion-item>
           </ion-col>
@@ -64,7 +115,6 @@
     <ion-row>
       <!-- Description column -->
       <ion-col size='12' size-sm padding>
-        <p>{{(camp$ | async)?.description}}</p>
       </ion-col>
 
       <!-- Review column -->
