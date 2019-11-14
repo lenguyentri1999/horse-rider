@@ -21,7 +21,7 @@ export class FilterService {
 
   private campAttributesFilter: BehaviorSubject<CampSearchFormValues> = new BehaviorSubject<CampSearchFormValues>(null);
 
-  private trailFilters: TrailSearchFormValues;
+  private trailFilters: BehaviorSubject<TrailSearchFormValues> = new BehaviorSubject<TrailSearchFormValues>(null);
 
   constructor() {
   }
@@ -35,10 +35,10 @@ export class FilterService {
   }
 
   setTrailAttributesFilter(values: TrailSearchFormValues) {
-    this.trailFilters = values;
+    this.trailFilters.next(values);
   }
 
-  getTrailAttributesFilter(): TrailSearchFormValues {
+  getTrailAttributesFilter(): Observable<TrailSearchFormValues> {
     return this.trailFilters;
   }
 
@@ -77,36 +77,32 @@ export class FilterService {
     });
 
     return results;
-}
+  }
 
-todo(camps$: Observable < Camp[] >, values: CampSearchFormValues): Observable < Camp[] > {
-  return camps$.pipe(
-    first(),
-    map(camps => {
-      let results = camps;
+  public filterTrailsByAttributes(camps: Camp[], values: TrailSearchFormValues) {
+    let results = camps;
 
-      // Filter by name
-      if (values.name.trim() !== '') {
-        results = results.filter(camp => camp.name.indexOf(name) >= 0);
+    // Filter by name
+    if (values.name.trim() !== '') {
+      results = results.filter(camp => camp.name.indexOf(name) >= 0);
+    }
+
+    // Filter by attributes
+    const filters: Camp['attributes'] = {
+      bridges: values.bridges,
+      parking: values.parking,
+      difficulty: values.difficulty,
+      footing: values.footing,
+      waterCrossings: values.waterCrossings
+    };
+
+    Object.keys(filters).forEach(key => {
+      if (filters[key] && filters[key].trim() !== '') {
+        results = results.filter(camp => camp.attributes[key] === filters[key]);
       }
+    });
 
-      // Filter by attributes
-      const filters: Camp['attributes'] = {
-        bigRigFriendly: values.bigRigFriendly,
-        facilityCleanliness: values.facilityCleanliness,
-        horseFacilities: values.horseFacilities,
-        wifi: values.wifi,
-      };
-
-      Object.keys(filters).forEach(key => {
-        if (filters[key]) {
-          results = results.filter(camp => camp.attributes[key]);
-        }
-      });
-
-      return results;
-    })
-  );
-}
+    return results;
+  }
 
 }

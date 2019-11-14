@@ -9,11 +9,11 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 
 export class TrailSearchFormComponent implements OnInit {
   myForm: FormGroup;
-  defaultDifficulty = 'All';
-  defaultBridges = 'All';
-  defaultWaterCrossings = 'All';
-  defaultParking = 'All';
-  defaultFooting = 'All';
+  defaultDifficulty = '';
+  defaultBridges = '';
+  defaultWaterCrossings = '';
+  defaultParking = '';
+  defaultFooting = '';
 
   @Output() submitForm = new EventEmitter<TrailSearchFormValues>();
 

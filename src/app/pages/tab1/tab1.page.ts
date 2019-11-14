@@ -11,7 +11,6 @@ import { map, tap, switchMap, first, flatMap } from 'rxjs/operators';
 import { Observable, of, combineLatest, from, forkJoin } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { NavParamsService } from 'src/app/services/nav-params.service';
-import { CampInfoPage } from '../camp-info/camp-info.page';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
 import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
 import { CampSearchService, SearchResult } from 'src/app/services/camp-search.service';
@@ -54,7 +53,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   // Camps/Trail attributes filter
   campAttributesFilters: Observable<CampSearchFormValues>;
-  trailAttributesFilters: TrailSearchFormValues;
+  trailAttributesFilters: Observable<TrailSearchFormValues>;
 
   constructor(
     public mapboxService: MapboxService,
@@ -174,23 +173,30 @@ export class Tab1Page implements OnInit, AfterViewInit {
     );
 
     // Filter by attributes
-    this.camps = combineLatest([this.isTrail, this.camps, this.campAttributesFilters]).pipe(
-      map(results => {
-        const isTrail: boolean = results[0];
-        const camps: Camp[] = results[1];
-        const campAttributesFilters: CampSearchFormValues = results[2];
+    this.camps = combineLatest(
+      [
+        this.isTrail,
+        this.camps,
+        this.campAttributesFilters,
+        this.trailAttributesFilters,
+      ]).pipe(
+        map(results => {
+          const isTrail: boolean = results[0];
+          const camps: Camp[] = results[1];
+          const campAttributesFilters: CampSearchFormValues = results[2];
+          const trailAttributesFilters: TrailSearchFormValues = results[3];
 
-        if (isTrail) {
-          return null;
-        } else {
-          if (campAttributesFilters) {
-            return this.filterService.filterCampsByAttributes(camps, campAttributesFilters);
-          } else {
-            return camps;
+          if (isTrail && trailAttributesFilters) {
+            return this.filterService.filterTrailsByAttributes(camps, trailAttributesFilters);
           }
-        }
-      })
-    );
+
+          if (!isTrail && campAttributesFilters) {
+            return this.filterService.filterCampsByAttributes(camps, campAttributesFilters);
+          }
+
+          return camps;
+        })
+      );
 
     this.camps = this.camps.pipe(
       tap(_ => loadCtrl.dismiss())
