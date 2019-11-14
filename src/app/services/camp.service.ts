@@ -11,6 +11,7 @@ import { MapboxService } from './mapbox.service';
 import { IByID } from 'src/models/firebase/IByID';
 import { IAddNew } from 'src/models/firebase/IAddNew';
 import { FirebaseTable } from 'src/models/firebase/statusTable';
+import { Coords } from 'src/models/coords';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,20 @@ export class CampService {
       catchError(_ => of(false)),
       flatMap(_ => of(true))
     );
+  }
+
+  public addToTrailTable(camp: Camp) {
+    const obj = {
+      [camp.id]: true
+    };
+    this.db.updateObjectAtPath(`campsOrTrails/horseTrails/`, obj);
+  }
+
+  public addToCampTable(camp: Camp) {
+    const obj = {
+      [camp.id]: true
+    };
+    this.db.updateObjectAtPath(`campsOrTrails/horseCamps/`, obj);
   }
 
   public getDataSourceAsMap(source: SourceEnum): Observable<FirebaseTable<Camp>> {
@@ -109,7 +124,10 @@ export class CampService {
       tap(camp => {
         // Populate camp coords if camp does not have one yet
         if (camp.coords) {
-          return;
+          if (!camp.city || !camp.state) {
+            this.setCampCityAndState(camp, camp.coords);
+          }
+
         } else {
           console.log('camp coords is null');
           console.log('null camp', camp);
@@ -125,6 +143,14 @@ export class CampService {
       tap(coords => {
         this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords);
         return coords;
+      })
+    );
+  }
+
+  public setCampCityAndState(camp: Camp, coords: Coords) {
+    this.mapboxService.reverseGeocode(coords).pipe(
+      tap(place => {
+        console.log(place);
       })
     );
   }

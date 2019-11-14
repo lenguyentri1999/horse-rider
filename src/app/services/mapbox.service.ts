@@ -106,7 +106,10 @@ export class MapboxService implements AutoCompleteService {
   public reverseGeocode(coords: { long: number, lat: number }): Observable<MapboxPlace> {
     const query = `${coords.long}, ${coords.lat}`;
     return this.autocomplete(query).pipe(
-      map(features => features.length > 0 ? features[0] : null)
+      map(features => features.length > 0 ? features[0] : null),
+      tap(features =>
+        console.log('features', features)
+      )
     );
   }
 

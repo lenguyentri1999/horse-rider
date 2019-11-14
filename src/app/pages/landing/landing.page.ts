@@ -19,6 +19,7 @@ export class LandingPage implements OnInit, AfterViewInit {
   environmentSetting: boolean = environment.production;
   environmentVersion: string = environment.version;
 
+
   place: MapboxPlace;
 
   constructor(
