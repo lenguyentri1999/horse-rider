@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommonFilter } from 'src/models/filter';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-camp-search-form',
@@ -16,6 +17,7 @@ export class CampSearchFormComponent implements OnInit {
 
   constructor(
     protected fb: FormBuilder,
+    protected filterService: FilterService,
   ) { }
 
   ngOnInit() {
@@ -24,6 +26,17 @@ export class CampSearchFormComponent implements OnInit {
       bigRigFriendly: [false],
       petFriendly: [false],
       wifi: [false],
+    });
+
+    this.filterService.getCampAttributesFilter().subscribe(filter => {
+      if (filter) {
+        this.myForm = this.fb.group({
+          name: [filter.name],
+          bigRigFriendly: [filter.bigRigFriendly],
+          petFriendly: [filter.petFriendly],
+          wifi: [filter.wifi]
+        });
+      }
     });
   }
 
