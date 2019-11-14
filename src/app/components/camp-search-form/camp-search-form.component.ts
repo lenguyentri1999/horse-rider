@@ -20,9 +20,8 @@ export class CampSearchFormComponent implements OnInit {
     this.myForm = this.fb.group({
       name: [''],
       bigRigFriendly: [false],
-      facilityCleanliness: [false],
+      petFriendly: [false],
       wifi: [false],
-      horseFacilities: [false],
     });
   }
 
@@ -36,7 +35,6 @@ export class CampSearchFormComponent implements OnInit {
 export interface CampSearchFormValues {
   name: string;
   bigRigFriendly: boolean;
-  facilityCleanliness: boolean;
+  petFriendly: boolean;
   wifi: boolean;
-  horseFacilities: boolean;
 }

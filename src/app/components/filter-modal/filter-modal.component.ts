@@ -17,9 +17,8 @@ export class FilterModalComponent implements OnInit, OnDestroy {
 
   campFilter: Camp['attributes'] = {
     bigRigFriendly: true,
-    facilityCleanliness: true,
+    petFriendly: true,
     wifi: true,
-    horseFacilities: true,
   };
 
   readonly currentSource: SourceEnum;

@@ -65,8 +65,7 @@ export class FilterService {
     // Filter by attributes
     const filters: Camp['attributes'] = {
       bigRigFriendly: values.bigRigFriendly,
-      facilityCleanliness: values.facilityCleanliness,
-      horseFacilities: values.horseFacilities,
+      petFriendly: values.petFriendly,
       wifi: values.wifi,
     };
 

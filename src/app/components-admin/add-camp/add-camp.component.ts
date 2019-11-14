@@ -51,9 +51,8 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     let attributes: Camp['attributes'] = {
       // Camp attributes
       bigRigFriendly: false,
-      facilityCleanliness: false,
+      petFriendly: false,
       wifi: false,
-      horseFacilities: false,
       // Trail attributes
       difficulty: TrailDifficulty.Easy.toString(),
       waterCrossings: TrailWaterCrossings.Puddles.toString(),
@@ -85,9 +84,8 @@ export class AddCampComponent implements OnInit, AfterViewInit {
 
       // Camp attributes
       bigRigFriendly: [attributes.bigRigFriendly],
-      facilityCleanliness: [attributes.facilityCleanliness],
+      petFriendly: [attributes.petFriendly],
       wifi: [attributes.wifi],
-      horseFacilities: [attributes.horseFacilities],
 
       // Trail attributes
       bridges: [attributes.bridges],
@@ -147,9 +145,8 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       ],
       attributes: {
         bigRigFriendly: this.myForm.get('bigRigFriendly').value,
-        facilityCleanliness: this.myForm.get('facilityCleanliness').value,
+        petFriendly: this.myForm.get('petFriendly').value,
         wifi: this.myForm.get('wifi').value,
-        horseFacilities: this.myForm.get('horseFacilities').value,
 
         difficulty: this.myForm.get('difficulty').value,
         parking: this.myForm.get('parking').value,
