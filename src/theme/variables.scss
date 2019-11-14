@@ -89,6 +89,10 @@
   ion-button {
     --background-hover: linear-gradient(to left, #FC8C4C 0%, #DF3416 100%);
   }
+
+  ion-popover {
+    --width: 50vw;
+  }
 }
 
 .ion-color-gold {

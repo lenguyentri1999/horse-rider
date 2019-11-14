@@ -9,6 +9,10 @@ import { CampSearchService, SearchResult } from 'src/app/services/camp-search.se
 import { TrailSearchFormValues } from 'src/app/components/trail-search-form/trail-search-form.component';
 import { CampSearchFormValues } from 'src/app/components/camp-search-form/camp-search-form.component';
 import { FilterService } from 'src/app/services/filter.service';
+import { Observable } from 'rxjs';
+import { Camp } from 'src/models/camp';
+import { CampService } from 'src/app/services/camp.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-landing',
@@ -17,21 +21,33 @@ import { FilterService } from 'src/app/services/filter.service';
 })
 
 export class LandingPage implements OnInit, AfterViewInit {
-  @ViewChild('textSearch', {static: false}) searchBar: AutoCompleteComponent;
-  @ViewChild('locationSearchBar', {static: false}) locationSearchBar: AutoCompleteComponent;
+  @ViewChild('textSearch', { static: false }) searchBar: AutoCompleteComponent;
+  @ViewChild('locationSearchBar', { static: false }) locationSearchBar: AutoCompleteComponent;
   environmentSetting: boolean = environment.production;
   environmentVersion: string = environment.version;
 
-
   place: MapboxPlace;
+
+  // 3 camps
+  threeCamps: Observable<Camp[]>;
+  threeTrails: Observable<Camp[]>;
 
   constructor(
     public mapboxService: MapboxService,
-    protected filterService: FilterService,
     public campSearchService: CampSearchService,
+    protected filterService: FilterService,
+    protected campService: CampService,
     protected router: Router,
     protected navCtrl: NavController,
-  ) { }
+  ) {
+    this.threeCamps = this.campService.getAllHorseCampsAsList().pipe(
+      map(arr => arr.slice(0, 3))
+    );
+
+    this.threeTrails = this.campService.getAllHorseTrailsAsList().pipe(
+      map(arr => arr.slice(0, 3))
+    );
+  }
 
   ngOnInit() {
   }
@@ -53,7 +69,7 @@ export class LandingPage implements OnInit, AfterViewInit {
   }
 
   searchCamps() {
-    this.mapboxService.setSearchQuery({term: this.searchBar.keyword, place: this.place});
+    this.mapboxService.setSearchQuery({ term: this.searchBar.keyword, place: this.place });
     this.router.navigate(['tabs/places/camps']);
   }
 

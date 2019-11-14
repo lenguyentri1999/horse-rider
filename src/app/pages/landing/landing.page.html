@@ -55,14 +55,9 @@
       <h2>Recommended for you.</h2>
     </ion-row>
     <ion-row>
-      <ion-col size="4">
-        Image goes here
-      </ion-col>
-      <ion-col size="4">
-        Image goes here
-      </ion-col>
-      <ion-col size="4">
-        Image goes here
+      <ion-col size="4" *ngFor="let trail of threeTrails | async">
+        <img [src]="trail.pictures[0]" [routerLink]="['/camp-info', trail.id]">
+        <p>{{trail.name}}</p>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -80,14 +75,9 @@
       <h2>Recommended for you.</h2>
     </ion-row>
     <ion-row>
-      <ion-col size="4" class="col-center">
-        Image goes here
-      </ion-col>
-      <ion-col size="4">
-        Image goes here
-      </ion-col>
-      <ion-col size="4">
-        Image goes here
+      <ion-col size="4" class="col-center" *ngFor="let camp of threeCamps | async">
+        <img [src]="camp.pictures[0]" [routerLink]="['/camp-info', camp.id]">
+        <p>{{camp.name}}</p>
       </ion-col>
     </ion-row>
     <ion-row>

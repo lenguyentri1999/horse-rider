@@ -7,6 +7,10 @@
       <ion-input [(ngModel)]="filter.distance" type="number"></ion-input>
     </ion-item>
 
+    <ng-container *ngIf="currentSource == SourceEnum.HorseCamps">
+      <app-camp-search-form></app-camp-search-form>
+    </ng-container>
+
     <!-- Camp section -->
     <!-- <ng-container *ngIf="currentSource == SourceEnum.HorseCamps">
       <ion-item>
