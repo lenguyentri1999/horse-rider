@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery, MapboxSearchResult } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { MapboxPlace } from 'src/models/mapboxResult';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { map, tap, switchMap, first } from 'rxjs/operators';
 import { Observable, of, combineLatest, from, forkJoin } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { NavParamsService } from 'src/app/services/nav-params.service';
@@ -66,7 +66,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   ) {
 
     this.originalDataSource$ = this.initQueryParams();
-    this.filter = this.filterService.getCampFilter();
+    this.filter = this.filterService.getFilter();
     this.isTrail = this.getCampOrTrail().pipe(
       map(val => val === SourceEnum.HorseTrails)
     );
@@ -203,10 +203,17 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   async onFilterButtonClick() {
-    const popover = await this.popoverCtrl.create({
-      component: FilterModalComponent,
+    this.getCampOrTrail().pipe(
+      first()
+    ).
+    subscribe(async source => {
+      this.filterService.setSource(source);
+
+      const popover = await this.popoverCtrl.create({
+        component: FilterModalComponent,
+      });
+      await popover.present();
     });
-    await popover.present();
   }
 
   async onSortButtonClick() {
