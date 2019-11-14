@@ -1,3 +1,3 @@
-export interface Filter {
-    distance: number;
+export interface CommonFilter {
+    distance?: number;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Filter } from 'src/models/filter';
+import { CommonFilter } from 'src/models/filter';
 import { FilterService } from 'src/app/services/filter.service';
 import { PopoverController } from '@ionic/angular';
 import { Camp } from 'src/models/camp';
@@ -11,7 +11,7 @@ import { SourceEnum } from 'src/app/services/camp.service';
   styleUrls: ['./filter-modal.component.scss'],
 })
 export class FilterModalComponent implements OnInit, OnDestroy {
-  filter: Filter = {
+  filter: CommonFilter = {
     distance: null,
   };
 

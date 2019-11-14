@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Filter } from 'src/models/filter';
+import { CommonFilter } from 'src/models/filter';
 import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 import { map, first } from 'rxjs/operators';
 import { SourceEnum } from './camp.service';
@@ -11,31 +11,33 @@ import { TrailSearchFormValues } from '../components/trail-search-form/trail-sea
   providedIn: 'root'
 })
 export class FilterService {
-  defaultFilter: Filter = {
+  defaultFilter: CommonFilter = {
     distance: 500
   };
 
   currentSource = SourceEnum.HorseCamps;
 
-  private currentCampFilter: BehaviorSubject<Filter> = new BehaviorSubject<Filter>(this.defaultFilter);
+  private currentCampFilter: BehaviorSubject<CommonFilter> = new BehaviorSubject<CommonFilter>(this.defaultFilter);
 
-  private campFilters: CampSearchFormValues;
+  private campAttributesFilter: BehaviorSubject<CampSearchFormValues> = new BehaviorSubject<CampSearchFormValues>(null);
+
   private trailFilters: TrailSearchFormValues;
 
   constructor() {
   }
 
   setCampAttributesFilter(values: CampSearchFormValues) {
-    this.campFilters = values;
+    this.campAttributesFilter.next(values);
   }
 
-  getCampAttributesFilter(): CampSearchFormValues {
-    return this.campFilters;
+  getCampAttributesFilter(): Observable<CampSearchFormValues> {
+    return this.campAttributesFilter;
   }
 
   setTrailAttributesFilter(values: TrailSearchFormValues) {
     this.trailFilters = values;
   }
+
   getTrailAttributesFilter(): TrailSearchFormValues {
     return this.trailFilters;
   }
@@ -44,11 +46,11 @@ export class FilterService {
     this.currentSource = sourceEnum;
   }
 
-  getFilter(): Observable<Filter> {
+  getFilter(): Observable<CommonFilter> {
     return this.currentCampFilter;
   }
 
-  setFilter(filter: Filter): void {
+  setFilter(filter: CommonFilter): void {
     this.currentCampFilter.next(filter);
   }
 

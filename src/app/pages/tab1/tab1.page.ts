@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService, SourceEnum } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavController, IonSearchbar, ModalController, PopoverController, ToastController, IonContent } from '@ionic/angular';
+import { NavController, IonSearchbar, ModalController, PopoverController, ToastController, IonContent, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery, MapboxSearchResult } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
@@ -15,7 +15,7 @@ import { CampInfoPage } from '../camp-info/camp-info.page';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
 import { SortPopoverComponent } from 'src/app/components/sort-popover/sort-popover.component';
 import { CampSearchService, SearchResult } from 'src/app/services/camp-search.service';
-import { Filter } from 'src/models/filter';
+import { CommonFilter } from 'src/models/filter';
 import { FilterService } from 'src/app/services/filter.service';
 import { FirebaseTable } from 'src/models/firebase/statusTable';
 import { CampSearchFormValues } from 'src/app/components/camp-search-form/camp-search-form.component';
@@ -37,7 +37,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   p = 1;
   itemsPerPage = 10;
 
-  readonly filter: Observable<Filter>;
+  readonly filter: Observable<CommonFilter>;
   readonly originalDataSource$: Observable<FirebaseTable<Camp>>;
 
   camps: Observable<Camp[]> = new Observable<Camp[]>();
@@ -53,7 +53,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   isMapView = false;
 
   // Camps/Trail attributes filter
-  campAttributesFilters: CampSearchFormValues;
+  campAttributesFilters: Observable<CampSearchFormValues>;
   trailAttributesFilters: TrailSearchFormValues;
 
   constructor(
@@ -69,6 +69,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected modalCtrl: ModalController,
     protected popoverCtrl: PopoverController,
     protected toastCtrl: ToastController,
+    protected loadCtrl: LoadingController,
   ) {
 
     this.originalDataSource$ = this.initQueryParams();
@@ -144,7 +145,10 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.currentCoords = of(this.query.place.geometry.coordinates);
   }
 
-  searchCamps() {
+  async searchCamps() {
+    const loadCtrl = await this.getLoadControl();
+    loadCtrl.present();
+
     let hashMap$ = this.originalDataSource$;
 
     // Filter by distance
@@ -170,22 +174,26 @@ export class Tab1Page implements OnInit, AfterViewInit {
     );
 
     // Filter by attributes
-    this.camps = combineLatest([this.isTrail, this.camps]).pipe(
-      first(),
+    this.camps = combineLatest([this.isTrail, this.camps, this.campAttributesFilters]).pipe(
       map(results => {
         const isTrail: boolean = results[0];
         const camps: Camp[] = results[1];
+        const campAttributesFilters: CampSearchFormValues = results[2];
 
         if (isTrail) {
           return null;
         } else {
-          if (this.campAttributesFilters) {
-            return this.filterService.filterCampsByAttributes(camps, this.campAttributesFilters);
+          if (campAttributesFilters) {
+            return this.filterService.filterCampsByAttributes(camps, campAttributesFilters);
           } else {
             return camps;
           }
         }
       })
+    );
+
+    this.camps = this.camps.pipe(
+      tap(_ => loadCtrl.dismiss())
     );
 
     // Populate markers for map view
@@ -197,6 +205,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     );
 
     this.p = 1;
+
   }
 
   private filterByPlace(camps: Observable<FirebaseTable<Camp>>, currCoords: Coords): Observable<FirebaseTable<Camp>> {
@@ -225,6 +234,14 @@ export class Tab1Page implements OnInit, AfterViewInit {
     return this.mapboxService.straightLineDistance(
       currCoords, camp.coords
     );
+  }
+
+  private async getLoadControl() {
+    const loadCtrl = await this.loadCtrl.create({
+      spinner: 'bubbles',
+      message: 'Loading, please wait...'
+    });
+    return loadCtrl;
   }
 
   async onFilterButtonClick() {

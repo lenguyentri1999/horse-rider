@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { CommonFilter } from 'src/models/filter';
 
 @Component({
   selector: 'app-camp-search-form',
