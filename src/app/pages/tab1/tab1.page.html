@@ -6,8 +6,7 @@
   <!-- Template for image -->
   <ng-template #withCampPics let-attrs="attrs">
     <div>
-      <span style="font-weight: bold" *ngIf="attrs.data.isDefault"
-        [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
+      <span style="font-weight: bold" *ngIf="attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
       <span *ngIf="!attrs.data.isDefault" [innerHTML]="attrs.data.name | boldprefix:attrs.keyword"></span>
       <!-- <img src="{{attrs.data.pictures[0]}}" class="autocomplete-thumbnail" /> -->
     </div>
@@ -16,17 +15,20 @@
 
   <ion-grid>
     <ion-row padding>
-      <h1 *ngIf="isTrail | async">home/Trails</h1>
-      <h1 *ngIf="!(isTrail | async)">home/Camps</h1>
+      <div style="clear: both">
+        <h2 style="float: left">home/ </h2>
+        <h1 *ngIf="isTrail | async" style="float: right">Trails</h1>
+        <h1 style="float: right" *ngIf="!(isTrail | async)">Camps</h1>
+      </div>
     </ion-row>
     <ion-row>
       <ion-col size-lg="5" size="12" size-sm>
-        <ion-auto-complete [options]="{ placeholder : 'Find a camp...' }" [dataProvider]="campSearchService"
-          (itemSelected)="onCampSelected($event)" [template]="withCampPics" #textSearch></ion-auto-complete>
+        <ion-auto-complete class="search-one" [options]="{ placeholder : 'Find a camp...' }" [dataProvider]="campSearchService" (itemSelected)="onCampSelected($event)"
+          [template]="withCampPics" #textSearch></ion-auto-complete>
       </ion-col>
 
       <ion-col size-lg="5" size="12" size-sm>
-        <ion-auto-complete [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
+        <ion-auto-complete class="search-two" [options]="{ placeholder : 'Your location' }" (itemSelected)="onLocationSelected($event)"
           [dataProvider]="mapboxService" #locationSearch></ion-auto-complete>
       </ion-col>
 

@@ -7,3 +7,26 @@
 ion-auto-complete {
   width: 100%;
 }
+
+.search-one{
+  -webkit-box-shadow: -2px -2px 26px -1px rgba(237,232,237,1);
+  -moz-box-shadow: -2px -2px 26px -1px rgba(237,232,237,1);
+  box-shadow: -2px -2px 26px -1px rgba(237,232,237,1);}
+
+  .search-two{
+    -webkit-box-shadow: -2px -2px 26px -1px rgba(237,232,237,1);
+    -moz-box-shadow: -2px -2px 26px -1px rgba(237,232,237,1);
+    box-shadow: -2px -2px 26px -1px rgba(237,232,237,1);}
+  h1{
+    font-family: 'Helvetica Neue';
+    src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
+    font-weight: 1000;
+    font-style: normal;
+    
+  }
+  h2{
+    font-family: 'Chara Serif';
+    src: url('/assets/fonts/Chara\ Font/CharaSerif.otf') format("opentype");
+    font-weight: 100;
+   
+  }
