@@ -84,3 +84,15 @@ ion-auto-complete{
 .col-center {
     text-align: center;
 }
+.trail-rec{
+    position: relative;
+    float: left;
+    width:  36em;
+    height: 18em;
+    background-position: 50% 50%;
+    background-repeat:   no-repeat;
+    object-fit:     cover;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
+    box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
+}
