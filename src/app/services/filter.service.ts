@@ -12,7 +12,7 @@ import { TrailSearchFormValues } from '../components/trail-search-form/trail-sea
 })
 export class FilterService {
   defaultFilter: CommonFilter = {
-    distance: 500
+    distance: Infinity
   };
 
   currentSource = SourceEnum.HorseCamps;
