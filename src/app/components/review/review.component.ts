@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Observable, Subject } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { tap } from 'rxjs/operators';
+import { UserData } from 'src/models/userData';
+import { UserProfileService } from 'src/app/services/user-profile.service';
 
 @Component({
   selector: 'app-review',
@@ -24,6 +26,7 @@ export class ReviewComponent implements OnInit, OnChanges {
 
   // Only when isEditMode is false
   @Input() review?: Review;
+  userData$: Observable<UserData>;
 
   // When editMode is false
   reviewToSubmit?: Review;
@@ -32,6 +35,7 @@ export class ReviewComponent implements OnInit, OnChanges {
 
   constructor(
     protected authService: AuthService,
+    protected userProfileService: UserProfileService,
     protected modalController: ModalController,
   ) {
   }
@@ -39,6 +43,7 @@ export class ReviewComponent implements OnInit, OnChanges {
   ngOnInit() {
     if (!this.isEditMode) {
       this.readyToView = Promise.resolve(true);
+      this.userData$ = this.userProfileService.getUserProfile(this.review.userID);
     } else {
       this.onChanges.pipe(
         tap(changes => {
