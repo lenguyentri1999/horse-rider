@@ -3,6 +3,7 @@ import { Filter } from 'src/models/filter';
 import { FilterService } from 'src/app/services/filter.service';
 import { PopoverController } from '@ionic/angular';
 import { Camp } from 'src/models/camp';
+import { SourceEnum } from 'src/app/services/camp.service';
 
 @Component({
   selector: 'app-filter-modal',
@@ -21,19 +22,25 @@ export class FilterModalComponent implements OnInit, OnDestroy {
     horseFacilities: true,
   };
 
+  readonly currentSource: SourceEnum;
+  readonly SourceEnum = SourceEnum;
+
   constructor(
     protected filterService: FilterService,
     protected popoverCtrl: PopoverController,
-  ) { }
+  ) {
+    this.currentSource = this.filterService.currentSource;
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   done() {
     if (!this.filter.distance) {
       this.filter.distance = Infinity;
     }
 
-    this.filterService.setCampFilter(this.filter);
+    this.filterService.setFilter(this.filter);
     this.popoverCtrl.dismiss();
   }
 

@@ -4,9 +4,10 @@ import { DbService } from 'src/app/services/db.service';
 import { Camp } from 'src/models/camp';
 import { MapboxService, MapboxSearchResult } from 'src/app/services/mapbox.service';
 import { MapboxPlace } from 'src/models/mapboxResult';
-import { CampService } from 'src/app/services/camp.service';
+import { CampService, SourceEnum } from 'src/app/services/camp.service';
 import { ToastController, ModalController } from '@ionic/angular';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
+import { TrailDifficulty, TrailWaterCrossings, TrailFooting, TrailParkingForRigs, TrailBridges } from 'src/models/enums/trail-review-enums';
 
 @Component({
   selector: 'app-add-camp',
@@ -19,6 +20,12 @@ export class AddCampComponent implements OnInit, AfterViewInit {
 
   // If camp is not null, then in edit mode
   camp: Camp;
+
+  // Enums
+  trailEnum: TrailDifficulty;
+  TrailWaterCrossings: any = TrailWaterCrossings;
+
+  type = 'camp';
 
   constructor(
     public mapboxService: MapboxService,
@@ -33,18 +40,26 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     return this.camp != null;
   }
 
-  ngOnInit() {
+  populateForm() {
     let name = '';
     let description = '';
     let address = '';
     let url = '';
     let pictureUrl = '';
     let coords = null;
+
     let attributes: Camp['attributes'] = {
+      // Camp attributes
       bigRigFriendly: false,
       facilityCleanliness: false,
       wifi: false,
-      horseFacilities: false
+      horseFacilities: false,
+      // Trail attributes
+      difficulty: TrailDifficulty.Easy.toString(),
+      waterCrossings: TrailWaterCrossings.Puddles.toString(),
+      footing: TrailFooting.Carriage.toString(),
+      parking: TrailParkingForRigs.Plenty.toString(),
+      bridges: TrailBridges.Low.toString(),
     };
 
     if (this.isEditMode()) {
@@ -60,17 +75,43 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
 
     this.myForm = this.fb.group({
+      // type: [type, Validators.required],
       name: [name, Validators.required],
       description: [description, Validators.required],
       address: [address, Validators.required],
       coords: [coords, Validators.required],
       url: [url, [Validators.required, Validators.pattern(reg)]],
       pictureUrl: [pictureUrl, [Validators.required]],
-      bigRigFriendly: [attributes.bigRigFriendly, Validators.required],
-      facilityCleanliness: [attributes.facilityCleanliness, Validators.required],
-      wifi: [attributes.wifi, Validators.required],
-      horseFacilities: [attributes.horseFacilities, Validators.required],
+
+      // Camp attributes
+      bigRigFriendly: [attributes.bigRigFriendly],
+      facilityCleanliness: [attributes.facilityCleanliness],
+      wifi: [attributes.wifi],
+      horseFacilities: [attributes.horseFacilities],
+
+      // Trail attributes
+      bridges: [attributes.bridges],
+      parking: [attributes.parking],
+      footing: [attributes.footing],
+      difficulty: [attributes.difficulty],
+      waterCrossings: [attributes.waterCrossings],
     });
+  }
+
+  ngOnInit() {
+    this.populateForm();
+
+    if (this.isEditMode()) {
+      this.campService.isTrail(this.camp).subscribe(
+        val => {
+          if (val) {
+            this.type = 'trail';
+          } else {
+            this.type = 'camp';
+          }
+        }
+      );
+    }
   }
 
   ngAfterViewInit() {
@@ -108,7 +149,13 @@ export class AddCampComponent implements OnInit, AfterViewInit {
         bigRigFriendly: this.myForm.get('bigRigFriendly').value,
         facilityCleanliness: this.myForm.get('facilityCleanliness').value,
         wifi: this.myForm.get('wifi').value,
-        horseFacilities: this.myForm.get('horseFacilities').value
+        horseFacilities: this.myForm.get('horseFacilities').value,
+
+        difficulty: this.myForm.get('difficulty').value,
+        parking: this.myForm.get('parking').value,
+        bridges: this.myForm.get('bridges').value,
+        footing: this.myForm.get('footing').value,
+        waterCrossings: this.myForm.get('waterCrossings').value
       }
     };
 
@@ -120,6 +167,21 @@ export class AddCampComponent implements OnInit, AfterViewInit {
         this.onFailureAlert();
       }
     });
+    if (this.type === 'camp') {
+      this.addCamp(camp);
+      return;
+    }
+    if (this.type === 'trail') {
+      this.addTrail(camp);
+    }
+  }
+
+  private addCamp(camp: Camp) {
+    this.campService.addToCampTable(camp);
+  }
+
+  private addTrail(trail: Camp) {
+    this.campService.addToTrailTable(trail);
   }
 
   private async onSuccessAlert() {
@@ -141,6 +203,10 @@ export class AddCampComponent implements OnInit, AfterViewInit {
 
   public onCloseButton() {
     this.modalCtrl.dismiss();
+  }
+
+  public onTypeChange($event) {
+    console.log($event);
   }
 
 }

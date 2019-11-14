@@ -99,11 +99,13 @@
 
     <div *ngIf="(camps | async)?.length == 0" padding>
       <p>
-        0 businesses found. You can change your filter parameters, or contact us at horseridingapp@gmail.com if you want to request
-        adding a new business.
+        0 businesses found. 
       </p>
     </div>
     <ion-grid>
+      <ion-row>
+        <p padding>If you were not able to find a business, contact us at horseridingapp@gmail.com to request adding a new business.</p>
+      </ion-row>
       <ion-row>
         <ion-col>
           <div *ngFor="let camp of camps | async | paginate: { itemsPerPage: itemsPerPage, currentPage: p}">

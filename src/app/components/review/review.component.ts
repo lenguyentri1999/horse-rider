@@ -4,7 +4,6 @@ import { Camp } from 'src/models/camp';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable, Subject } from 'rxjs';
 import { ModalController } from '@ionic/angular';
-import { LoginPage } from 'src/app/pages/login/login.page';
 import { tap } from 'rxjs/operators';
 
 @Component({
