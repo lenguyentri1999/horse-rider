@@ -49,15 +49,19 @@
   </div> -->
   <ion-grid padding>
     <ion-row>
-      <h1>Trails</h1>
+      <h1 class="rec-heading">Trails</h1>
     </ion-row>
     <ion-row>
-      <h2>Recommended for you.</h2>
+      <h2  class="recs">Recommended for you.</h2>
     </ion-row>
     <ion-row>
       <ion-col size="4" *ngFor="let trail of threeTrails | async">
-        <img [src]="trail.pictures[0]" [routerLink]="['/camp-info', trail.id]">
+        <ion-row>
+        <img class ="trail-rec"[src]="trail.pictures[0]" [routerLink]="['/camp-info', trail.id]">
+        </ion-row>
+        <ion-row>
         <p>{{trail.name}}</p>
+      </ion-row>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -69,15 +73,19 @@
 
   <ion-grid padding>
     <ion-row>
-      <h1>Camps</h1>
+      <h1 class="rec-heading">Camps</h1>
     </ion-row>
     <ion-row>
-      <h2>Recommended for you.</h2>
+      <h2 class="recs">Recommended for you.</h2>
     </ion-row>
     <ion-row>
       <ion-col size="4" class="col-center" *ngFor="let camp of threeCamps | async">
-        <img [src]="camp.pictures[0]" [routerLink]="['/camp-info', camp.id]">
-        <p>{{camp.name}}</p>
+        <ion-row>
+            <img class ="trail-rec" [src]="camp.pictures[0]" [routerLink]="['/camp-info', camp.id]">
+        </ion-row>
+        <ion-row>
+            <p class="campName">{{camp.name}}</p>
+        </ion-row>
       </ion-col>
     </ion-row>
     <ion-row>
