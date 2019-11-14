@@ -17,7 +17,7 @@ export class CampSearchService implements AutoCompleteService {
   ) { }
 
   getResults(term: string) {
-    return this.campService.getAllHorseCampsAsList().pipe(
+    return this.campService.getAllAsList().pipe(
       map(camps => camps.filter(camp => camp.name.toLowerCase().indexOf(term.toLowerCase()) > -1)),
       map(camps => camps.slice(0, this.numNonDefaultResults)),
       map(camps => camps.map(camp => this.convertCampToSearchResult(camp))),
