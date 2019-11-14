@@ -88,7 +88,7 @@ ion-auto-complete{
     position: relative;
     float: left;
     width:  36em;
-    height: 18em;
+    height: 20vw;
     background-position: 50% 50%;
     background-repeat:   no-repeat;
     object-fit:     cover;
@@ -102,7 +102,9 @@ p{
     position: relative;
     display: inline-block;
     bottom: 0.3em;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
+    // margin-left: auto;
+    // margin-right: auto;
+    text-align: center;
+    width: 100%;
+    font-family: 'Source Sans Pro', sans-serif;
 }
