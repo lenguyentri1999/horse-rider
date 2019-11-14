@@ -10,6 +10,9 @@
     <ng-container *ngIf="currentSource == SourceEnum.HorseCamps">
       <app-camp-search-form [nameElementHidden]="true" (submitForm)="submitCampAttributesFilter($event)"></app-camp-search-form>
     </ng-container>
+    <ng-container *ngIf="currentSource == SourceEnum.HorseTrails">
+      <app-trail-search-form [nameElementHidden]="true" (submitForm)="submitTrailAttributesFilter($event)"></app-trail-search-form>
+    </ng-container>
 
     <!-- Camp section -->
     <!-- <ng-container *ngIf="currentSource == SourceEnum.HorseCamps">

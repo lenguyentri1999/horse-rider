@@ -5,6 +5,7 @@ import { PopoverController } from '@ionic/angular';
 import { Camp } from 'src/models/camp';
 import { SourceEnum } from 'src/app/services/camp.service';
 import { CampSearchFormValues } from '../camp-search-form/camp-search-form.component';
+import { TrailSearchFormValues } from '../trail-search-form/trail-search-form.component';
 
 @Component({
   selector: 'app-filter-modal',
@@ -37,6 +38,11 @@ export class FilterModalComponent implements OnInit, OnDestroy {
 
   submitCampAttributesFilter(values: CampSearchFormValues) {
     this.filterService.setCampAttributesFilter(values);
+    this.popoverCtrl.dismiss();
+  }
+
+  submitTrailAttributesFilter(values: TrailSearchFormValues) {
+    this.filterService.setTrailAttributesFilter(values);
     this.popoverCtrl.dismiss();
   }
 

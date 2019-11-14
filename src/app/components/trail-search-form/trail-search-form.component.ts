@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 
 export class TrailSearchFormComponent implements OnInit {
+  @Input() nameElementHidden: boolean;
   myForm: FormGroup;
   defaultDifficulty = '';
   defaultBridges = '';
