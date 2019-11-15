@@ -1,7 +1,7 @@
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <ion-grid>
     <ion-row>
-      <ion-col size-lg="4" size="6" size-sm>
+      <ion-col size-lg="4" size="6" size-sm *ngIf="!nameElementHidden">
         <ion-item>
           <ion-input placeholder="Name" formControlName="name"></ion-input>
         </ion-item>
@@ -14,20 +14,14 @@
       </ion-col>
       <ion-col size-lg="4" size="6" size-sm>
         <ion-item>
-          <ion-label>Facility Cleanliness</ion-label>
-          <ion-checkbox slot="end" formControlName="facilityCleanliness"></ion-checkbox>
+          <ion-label>Pet Friendly</ion-label>
+          <ion-checkbox slot="end" formControlName="petFriendly"></ion-checkbox>
         </ion-item>
       </ion-col>
       <ion-col size-lg="4" size="6" size-sm>
         <ion-item>
           <ion-label>Wifi</ion-label>
           <ion-checkbox slot="end" formControlName="wifi"></ion-checkbox>
-        </ion-item>
-      </ion-col>
-      <ion-col size-lg="4" size="6" size-sm>
-        <ion-item>
-          <ion-label>Horse Facilities</ion-label>
-          <ion-checkbox slot="end" formControlName="horseFacilities"></ion-checkbox>
         </ion-item>
       </ion-col>
     </ion-row>

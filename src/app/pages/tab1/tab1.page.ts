@@ -2,13 +2,13 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { CampService, SourceEnum } from '../../services/camp.service';
 import { Camp } from 'src/models/camp';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavController, IonSearchbar, ModalController, PopoverController, ToastController, IonContent, LoadingController } from '@ionic/angular';
+import { NavController, ModalController, PopoverController, ToastController, IonContent, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MapboxService, CampQuery, MapboxSearchResult } from 'src/app/services/mapbox.service';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { MapboxPlace } from 'src/models/mapboxResult';
 import { map, tap, switchMap, first, flatMap } from 'rxjs/operators';
-import { Observable, of, combineLatest, from, forkJoin } from 'rxjs';
+import { Observable, of, combineLatest, from, forkJoin, BehaviorSubject } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { NavParamsService } from 'src/app/services/nav-params.service';
 import { FilterModalComponent } from 'src/app/components/filter-modal/filter-modal.component';
@@ -54,6 +54,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
   // Camps/Trail attributes filter
   campAttributesFilters: Observable<CampSearchFormValues>;
   trailAttributesFilters: Observable<TrailSearchFormValues>;
+  trailFiltersCount: Observable<number>;
 
   constructor(
     public mapboxService: MapboxService,
@@ -78,6 +79,14 @@ export class Tab1Page implements OnInit, AfterViewInit {
     );
 
     this.trailAttributesFilters = this.filterService.getTrailAttributesFilter();
+    this.trailFiltersCount = this.trailAttributesFilters.pipe(
+      map(filters => {
+        if (!filters) {
+          return 0;
+        }
+        return Object.values(filters).filter(val => val !== '').length;
+      })
+    );
     this.campAttributesFilters = this.filterService.getCampAttributesFilter();
   }
 

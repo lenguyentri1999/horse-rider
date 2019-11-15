@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-trail-search-form',
@@ -8,6 +9,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 
 export class TrailSearchFormComponent implements OnInit {
+  @Input() nameElementHidden: boolean;
   myForm: FormGroup;
   defaultDifficulty = '';
   defaultBridges = '';
@@ -19,6 +21,7 @@ export class TrailSearchFormComponent implements OnInit {
 
   constructor(
     protected fb: FormBuilder,
+    protected filterService: FilterService,
   ) { }
 
   ngOnInit() {
@@ -29,6 +32,19 @@ export class TrailSearchFormComponent implements OnInit {
       bridges: [this.defaultBridges],
       parking: [this.defaultParking],
       footing: [this.defaultFooting]
+    });
+
+    this.filterService.getTrailAttributesFilter().subscribe(filter => {
+      if (filter) {
+        this.myForm = this.fb.group({
+          name: [filter.name],
+          difficulty: [filter.difficulty],
+          waterCrossings: [filter.waterCrossings],
+          bridges: [filter.bridges],
+          parking: [filter.parking],
+          footing: [filter.footing]
+        });
+      }
     });
   }
 

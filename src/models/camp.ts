@@ -7,9 +7,8 @@ export interface Camp {
     attributes: {
         // Camp attributes
         bigRigFriendly?: boolean,
-        facilityCleanliness?: boolean,
+        petFriendly?: boolean,
         wifi?: boolean,
-        horseFacilities?: boolean
         // Trail attributes
         difficulty?: string;
         waterCrossings?: string;

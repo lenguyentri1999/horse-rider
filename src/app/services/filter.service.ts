@@ -12,7 +12,7 @@ import { TrailSearchFormValues } from '../components/trail-search-form/trail-sea
 })
 export class FilterService {
   defaultFilter: CommonFilter = {
-    distance: 500
+    distance: Infinity
   };
 
   currentSource = SourceEnum.HorseCamps;
@@ -65,8 +65,7 @@ export class FilterService {
     // Filter by attributes
     const filters: Camp['attributes'] = {
       bigRigFriendly: values.bigRigFriendly,
-      facilityCleanliness: values.facilityCleanliness,
-      horseFacilities: values.horseFacilities,
+      petFriendly: values.petFriendly,
       wifi: values.wifi,
     };
 

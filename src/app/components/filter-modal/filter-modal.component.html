@@ -1,14 +1,17 @@
 <ion-content padding>
   <ion-list>
-    <ion-item>
+    <!-- <ion-item>
       <ion-label>
         Distance (miles):
       </ion-label>
       <ion-input [(ngModel)]="filter.distance" type="number"></ion-input>
-    </ion-item>
+    </ion-item> -->
 
     <ng-container *ngIf="currentSource == SourceEnum.HorseCamps">
-      <app-camp-search-form></app-camp-search-form>
+      <app-camp-search-form [nameElementHidden]="true" (submitForm)="submitCampAttributesFilter($event)"></app-camp-search-form>
+    </ng-container>
+    <ng-container *ngIf="currentSource == SourceEnum.HorseTrails">
+      <app-trail-search-form [nameElementHidden]="true" (submitForm)="submitTrailAttributesFilter($event)"></app-trail-search-form>
     </ng-container>
 
     <!-- Camp section -->
@@ -85,5 +88,5 @@
     </ng-container> -->
 
   </ion-list>
-  <ion-button color="success" (click)="done()">Done</ion-button>
+  <!-- <ion-button color="success" (click)="done()">Done</ion-button> -->
 </ion-content>
