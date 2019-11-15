@@ -23,135 +23,134 @@
         </h1>
         <h2 class="camp-address">
           {{(camp$ | async)?.address | uppercase}}
-          <!-- &#183;
-          <div *ngIf="(camp$ | async)?.distance">
-            {{(camp$ | async)?.distance}}
-          </div> -->
         </h2>
       </ion-col>
     </ion-row>
 
-    <ion-row class="ion-align-items-center">
+    <ion-row class="ion-align-items-start">
       <ion-col size='12' size-sm padding>
         <h2>Description.</h2>
         <p>{{(camp$ | async)?.description}}</p>
       </ion-col>
 
-      <ion-col padding size='12' size-sm padding *ngIf="isTrail$ | async">
+      <ion-col size='12' size-sm padding>
+        <ng-container *ngIf="isTrail$ | async">
+          <ion-row>
+            <ion-col size="6">
+              <ion-list lines="none">
+                <ion-item no-padding>
+                  <ion-icon name="speedometer"></ion-icon> &nbsp;
+                  Difficulty: {{(camp$ | async)?.attributes.difficulty}}
+                </ion-item>
+              </ion-list>
+            </ion-col>
+            <ion-col size="6"></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <h2>Features.</h2>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-list lines="none">
+                <ion-item no-padding>
+                  {{(camp$ | async)?.attributes.waterCrossings}}
+                  <ion-icon name="arrow-dropleft"></ion-icon>
+                  Water Crossings
+                </ion-item>
+                <ion-item no-padding>
+                  {{(camp$ | async)?.attributes.bridges}}
+                  <ion-icon name="arrow-dropleft"></ion-icon>
+                  Bridges
+                </ion-item>
+                <ion-item no-padding>
+                  {{(camp$ | async)?.attributes.parking}}
+                  <ion-icon name="arrow-dropleft"></ion-icon>
+                  Parking for Rigs
+                </ion-item>
+                <ion-item no-padding>
+                  {{(camp$ | async)?.attributes.footing}}
+                  <ion-icon name="arrow-dropleft"></ion-icon>
+                  Footing
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ng-container>
+        <ng-container *ngIf="(isTrail$ | async) == false">
+          <ion-row>
+            <ion-col size='6'>
+              <ion-item lines='none'>
+                <ion-icon item-start name="checkbox-outline" padding
+                  [ngClass]="(camp$ | async)?.attributes.bigRigFriendly ? 'icon-sucess' : ''"></ion-icon>
+                Big Rig Friendly
+              </ion-item>
+
+              <ion-item lines='none'>
+                <ion-icon item-start name="checkbox-outline" padding
+                  [ngClass]="(camp$ | async)?.attributes.wifi ? 'icon-sucess' : ''"></ion-icon>
+                Wifi
+              </ion-item>
+            </ion-col>
+            <ion-col size='6'>
+              <ion-item lines='none'>
+                <ion-icon item-start name="checkbox-outline" padding
+                  [ngClass]="(camp$ | async)?.attributes.petFriendly ? 'icon-sucess' : ''"></ion-icon>
+                Pet Friendly
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ng-container>
+
         <ion-row>
-          <ion-col size="6">
-            <ion-list lines="none">
-              <ion-item no-padding>
-                <ion-icon name="speedometer"></ion-icon> &nbsp;
-                Difficulty: {{(camp$ | async)?.attributes.difficulty}}
-              </ion-item>
-            </ion-list>
+          <!-- Review column -->
+          <ion-col size='12' size-sm padding>
+
+            <ion-row class="ion-align-items-center">
+
+              <ion-col>
+                <ion-button (click)="onWriteReviewButtonClick()">Write a Review</ion-button>
+              </ion-col>
+
+              <ion-col>
+                <h2 class="review">Reviews.</h2>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>{{(avgRating$ | async) | number: '1.2-2'}}</ion-col>
+              <ion-col>{{(campReviews$ | async)?.length || 0}} reviews</ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ng-container *ngIf="isViewing">
+                <ion-col size="12"
+                  *ngFor="let review of campReviews$ | async | paginate: { itemsPerPage: 2, currentPage: pReview}">
+                  <app-review [isEditMode]="false" [review]="review"></app-review>
+                </ion-col>
+
+                <pagination-controls (pageChange)="onPageChange($event)" *ngIf="campReviews$ | async">
+                </pagination-controls>
+              </ng-container>
+              <!-- <ng-container *ngIf="!isViewing">
+            <app-review [isEditMode]="true" [camp]="camp$ | async" (submitReview)="submitReview($event)"></app-review>
+            <ion-button (click)="isViewing = true">Cancel</ion-button>
+          </ng-container> -->
+            </ion-row>
+
           </ion-col>
-          <ion-col size="6"></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <h2>Features.</h2>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-list lines="none">
-              <ion-item no-padding>
-                {{(camp$ | async)?.attributes.waterCrossings}}
-                <ion-icon name="arrow-dropleft"></ion-icon>
-                Water Crossings
-              </ion-item>
-              <ion-item no-padding>
-                {{(camp$ | async)?.attributes.bridges}}
-                <ion-icon name="arrow-dropleft"></ion-icon>
-                Bridges
-              </ion-item>
-              <ion-item no-padding>
-                {{(camp$ | async)?.attributes.parking}}
-                <ion-icon name="arrow-dropleft"></ion-icon>
-                Parking for Rigs
-              </ion-item>
-              <ion-item no-padding>
-                {{(camp$ | async)?.attributes.footing}}
-                <ion-icon name="arrow-dropleft"></ion-icon>
-                Footing
-              </ion-item>
-            </ion-list>
-          </ion-col>
-        </ion-row>
-      </ion-col>
-      <ion-col size='12' size-sm padding *ngIf="(isTrail$ | async) == false">
-        <ion-row>
-          <ion-col size='6'>
-            <ion-item lines='none'>
-              <ion-icon item-start name="checkbox-outline" padding
-                [ngClass]="(camp$ | async)?.attributes.bigRigFriendly ? 'icon-sucess' : ''"></ion-icon>
-              Big Rig Friendly
-            </ion-item>
-            <ion-item lines='none'>
-              <ion-icon item-start name="checkbox-outline" padding
-                [ngClass]="(camp$ | async)?.attributes.facilityCleanliness ? 'icon-sucess' : ''"></ion-icon>
-              Facility Cleanliness
-            </ion-item>
-          </ion-col>
-          <ion-col size='6'>
-            <ion-item lines='none'>
-              <ion-icon item-start name="checkbox-outline" padding
-                [ngClass]="(camp$ | async)?.attributes.wifi ? 'icon-sucess' : ''"></ion-icon>
-              Wifi
-            </ion-item>
-            <ion-item lines='none'>
-              <ion-icon item-start name="checkbox-outline" padding
-                [ngClass]="(camp$ | async)?.attributes.horseFacilities ? 'icon-sucess' : ''"></ion-icon>
-              Horse Facilities
-            </ion-item>
-          </ion-col>
+
+
+
         </ion-row>
       </ion-col>
 
     </ion-row>
 
     <ion-row>
-      <!-- Description column -->
-      <ion-col size='12' size-sm padding>
-      </ion-col>
 
-      <!-- Review column -->
-      <ion-col size='12' size-sm padding>
-
-        <ion-row class="ion-align-items-center">
-
-          <ion-col>
-            <ion-button (click)="onWriteReviewButtonClick()">Write a Review</ion-button>
-          </ion-col>
-
-          <ion-col>
-            <h2 class="review">Reviews.</h2>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>{{(avgRating$ | async) | number: '1.2-2'}}</ion-col>
-          <ion-col>{{(campReviews$ | async)?.length || 0}} reviews</ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ng-container *ngIf="isViewing">
-            <ion-col size="12"
-              *ngFor="let review of campReviews$ | async | paginate: { itemsPerPage: 2, currentPage: pReview}">
-              <app-review [isEditMode]="false" [review]="review"></app-review>
-            </ion-col>
-
-            <pagination-controls (pageChange)="onPageChange($event)" *ngIf="campReviews$ | async"></pagination-controls>
-          </ng-container>
-          <!-- <ng-container *ngIf="!isViewing">
-            <app-review [isEditMode]="true" [camp]="camp$ | async" (submitReview)="submitReview($event)"></app-review>
-            <ion-button (click)="isViewing = true">Cancel</ion-button>
-          </ng-container> -->
-        </ion-row>
-
-      </ion-col>
     </ion-row>
   </ion-grid>
 
