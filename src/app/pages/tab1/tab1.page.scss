@@ -30,3 +30,19 @@ ion-auto-complete {
     font-weight: 100;
    
   }
+  .search-error-div {
+    height: 40vh;
+    background: url('/assets/Null Search Horse.jpg');
+    background-size: cover;
+
+  }
+
+  .search-error{
+    // z-index: 10;
+    // position: absolute;
+    // top: 40vh;
+    left: 15vw;
+    width: 70vw;
+    font-family: 'Samsung Sharp Sans';
+    font-size: 3em;
+  }
