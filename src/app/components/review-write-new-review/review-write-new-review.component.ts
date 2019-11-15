@@ -21,14 +21,16 @@ export class ReviewWriteNewReviewComponent implements OnInit {
     protected campService: CampService,
     protected navParams: NavParams,
     protected popoverCtrl: PopoverController,
-  ) { }
-
-  ngOnInit(
   ) {
+
     this.camp$ = this.navParams.get('camp');
     this.isTrail = this.camp$.pipe(
       switchMap(camp => this.campService.isTrail(camp))
     );
+  }
+
+  ngOnInit(
+  ) {
   }
 
   submitReview(review: Review) {

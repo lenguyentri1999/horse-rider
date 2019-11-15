@@ -32,7 +32,7 @@
     <ion-grid>
         <ion-row>
             <ion-col size="3">
-                <img class="avatar" [src]="(userData$ | async)?.photoUrl">
+                <img class="avatar" [src]="(userData$ | async)?.photoUrl" onError="this.src='assets/blank-profile-picture.png'">
             </ion-col>
             <ion-col size="9">
                 <ion-row>
