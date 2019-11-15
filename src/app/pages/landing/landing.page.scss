@@ -23,14 +23,17 @@
     left: 15vw;
     width: 70vw;
 }
+
 ion-auto-complete {
     display: block;
     width: 70vw;
+
     ul {
         display: block;
         width: 100%;
     }
 }
+
 // ion-auto-complete {
 //     margin-left: auto;
 //     margin-right: auto;
@@ -64,9 +67,10 @@ ul {
     height: 2rem;
     width: 2rem;
     margin-right: 1rem;
-   
+
 }
-ion-auto-complete{
+
+ion-auto-complete {
     background-color: white;
     border: 2px solid rgba(0, 0, 0, 0.705);
     opacity: 0.9;
@@ -78,27 +82,29 @@ ion-auto-complete{
     border-radius: 2px;
     // margin-top: 1em;
     // margin-bottom: 1em;
-    
+
 }
 
 .col-center {
     text-align: center;
 }
-.trail-rec{
+
+.trail-rec {
     position: relative;
     float: left;
-    width:  36em;
+    width: 90%;
     height: 20vw;
     background-position: 50% 50%;
-    background-repeat:   no-repeat;
-    object-fit:     cover;
-    -webkit-box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
-    -moz-box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
-    box-shadow: 10px 10px 5px 0px rgba(248,195,157,1);
+    background-repeat: no-repeat;
+    object-fit: cover;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(248, 195, 157, 1);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(248, 195, 157, 1);
+    box-shadow: 10px 10px 5px 0px rgba(248, 195, 157, 1);
     margin-left: auto;
     margin-right: auto;
 }
-p{
+
+p {
     position: relative;
     display: inline-block;
     bottom: 0.3em;
@@ -108,14 +114,16 @@ p{
     width: 100%;
     font-family: 'Source Sans Pro', sans-serif;
 }
-.rec-heading{
+
+.rec-heading {
     font-family: 'Albra Black';
     font-weight: 1000;
     text-align: center;
     position: relative;
     width: 100%;
 }
-.recs{
+
+.recs {
     font-family: 'Albra Black';
     text-align: center;
     position: relative;
