@@ -19,6 +19,7 @@ import { FilterService } from 'src/app/services/filter.service';
 import { FirebaseTable } from 'src/models/firebase/statusTable';
 import { CampSearchFormValues } from 'src/app/components/camp-search-form/camp-search-form.component';
 import { TrailSearchFormValues } from 'src/app/components/trail-search-form/trail-search-form.component';
+import { RequestNewCampComponent } from 'src/app/components/request-new-camp/request-new-camp.component';
 
 @Component({
   selector: 'app-tab1',
@@ -303,5 +304,12 @@ export class Tab1Page implements OnInit, AfterViewInit {
     if (this.content) {
       this.content.scrollToTop();
     }
+  }
+
+  async onSubmitNewCampRequest() {
+    const popover = await this.popoverCtrl.create({
+      component: RequestNewCampComponent,
+    });
+    popover.present();
   }
 }
