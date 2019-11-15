@@ -4,6 +4,8 @@ import { Camp } from 'src/models/camp';
 import { Observable } from 'rxjs';
 import { Review } from 'src/models/review';
 import { ReviewService } from 'src/app/services/review.service';
+import { map, switchMap } from 'rxjs/operators';
+import { CampService } from 'src/app/services/camp.service';
 
 @Component({
   selector: 'app-review-write-new-review',
@@ -12,16 +14,21 @@ import { ReviewService } from 'src/app/services/review.service';
 })
 export class ReviewWriteNewReviewComponent implements OnInit {
   camp$: Observable<Camp>;
+  isTrail: Observable<boolean>;
 
   constructor(
-    protected navParams: NavParams,
     protected reviewService: ReviewService,
-    protected popoverCtrl: PopoverController
+    protected campService: CampService,
+    protected navParams: NavParams,
+    protected popoverCtrl: PopoverController,
   ) { }
 
   ngOnInit(
   ) {
     this.camp$ = this.navParams.get('camp');
+    this.isTrail = this.camp$.pipe(
+      switchMap(camp => this.campService.isTrail(camp))
+    );
   }
 
   submitReview(review: Review) {

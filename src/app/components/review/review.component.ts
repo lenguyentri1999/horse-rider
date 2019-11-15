@@ -4,9 +4,11 @@ import { Camp } from 'src/models/camp';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable, Subject } from 'rxjs';
 import { ModalController } from '@ionic/angular';
-import { tap } from 'rxjs/operators';
+import { tap, first } from 'rxjs/operators';
 import { UserData } from 'src/models/userData';
 import { UserProfileService } from 'src/app/services/user-profile.service';
+import { CampReview } from 'src/models/campReview';
+import { CampService } from 'src/app/services/camp.service';
 
 @Component({
   selector: 'app-review',
@@ -30,12 +32,16 @@ export class ReviewComponent implements OnInit, OnChanges {
 
   // When editMode is false
   reviewToSubmit?: Review;
+  campReviewToSubmit?: CampReview;
+  isTrail: Observable<boolean>;
   @Output() submitReview = new EventEmitter<Review>();
+  @Output() submitCampReview = new EventEmitter<CampReview>();
   @Output() exitEventEmitter = new EventEmitter<void>();
 
   constructor(
     protected authService: AuthService,
     protected userProfileService: UserProfileService,
+    protected campService: CampService,
     protected modalController: ModalController,
   ) {
   }
@@ -49,15 +55,24 @@ export class ReviewComponent implements OnInit, OnChanges {
         tap(changes => {
           if (changes && changes.camp) {
             this.isAuth = this.authService.isAuthorized();
+            this.isTrail = this.campService.isTrail(changes.camp.currentValue);
 
             if (this.isEditMode) {
               // User is creating new review
               this.reviewToSubmit = {
-                rating: 5,
+                rating: 3,
                 description: '',
                 campID: changes.camp.currentValue.id,
                 userID: this.authService.getUserId(),
                 dateTime: new Date()
+              };
+
+              this.campReviewToSubmit = {
+                campID: changes.camp.currentValue.id,
+                userID: this.authService.getUserId(),
+                dateTime: new Date(),
+                facilityCleanliness: 3,
+                horseFacilities: 3
               };
 
               this.readyToEdit = Promise.resolve(true);
@@ -80,6 +95,11 @@ export class ReviewComponent implements OnInit, OnChanges {
   // Send review to output
   onSubmit() {
     this.submitReview.emit(this.reviewToSubmit);
+    this.isTrail.pipe(first()).subscribe(val => {
+      if (!val) {
+        this.submitCampReview.emit(this.campReviewToSubmit);
+      }
+    });
   }
 
   onLoginButtonClick() {
