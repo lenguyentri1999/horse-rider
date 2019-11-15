@@ -12,8 +12,8 @@
 
   <ion-grid padding>
     <ion-row>
-      <ion-col class="col-image-height">
-        <img src="{{(camp$ | async)?.pictures[0]}}">
+      <ion-col class="col-image-height" style="text-align: center">
+        <img class="camp-pic" src="{{(camp$ | async)?.pictures[0]}}" onError="this.src = 'assets/null-image.png'">
       </ion-col>
     </ion-row>
     <ion-row>
