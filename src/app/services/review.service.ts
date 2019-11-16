@@ -6,6 +6,7 @@ import { IByCampID } from 'src/models/firebase/IByCampID';
 import { IByUserID } from 'src/models/firebase/IByUserID';
 import { IByID } from 'src/models/firebase/IByID';
 import { map, flatMap } from 'rxjs/operators';
+import { CampReview } from 'src/models/campReview';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,21 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
     writes[ref] = review;
     writes[refByUid] = true;
     writes[refByCampID] = true;
+
+    this.db.batchWrite(writes);
+  }
+
+  submitCampReview(campReview: CampReview) {
+    const writes: Map<string, object> = new Map<string, object>();
+    const id = this.db.uuidv4();
+
+    const ref = `campReviews/${id}`;
+    const refByUid = `camp-reviews-by-uid/${campReview.userID}/${id}`;
+    const refByCampId = `camp-reviews-by-campID/${campReview.campID}/${id}`;
+
+    writes[ref] = campReview;
+    writes[refByUid] = true;
+    writes[refByCampId] = true;
 
     this.db.batchWrite(writes);
   }

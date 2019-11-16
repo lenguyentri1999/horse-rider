@@ -1,14 +1,14 @@
 <ng-container *ngIf="(readyToEdit | async)">
     <ng-container *ngIf="isAuth | async">
         <ion-list>
-            <ng-container *ngIf="(isTrail | async) == false">
+            <ng-container *ngIf="(isTrail$ | async) == false">
                 <ion-item>
                     <ion-label>Facility Cleanliness</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.facilityCleanliness"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.facilityCleanliness" (rateChange)="onFacilityCleanlinessRateChange($event)"></ion-rating>
                 </ion-item>
                 <ion-item>
                     <ion-label>Horse Facilities</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.horseFacilities"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.horseFacilities" (rateChange)="onHorseFacilitiesRateChange($event)"></ion-rating>
                 </ion-item>
             </ng-container>
             <ion-item>

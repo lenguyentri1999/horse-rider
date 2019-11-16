@@ -33,7 +33,8 @@ export class ReviewComponent implements OnInit, OnChanges {
   // When editMode is false
   reviewToSubmit?: Review;
   campReviewToSubmit?: CampReview;
-  isTrail: Observable<boolean>;
+  isTrail$: Observable<boolean>;
+  isTrail: boolean;
   @Output() submitReview = new EventEmitter<Review>();
   @Output() submitCampReview = new EventEmitter<CampReview>();
   @Output() exitEventEmitter = new EventEmitter<void>();
@@ -55,7 +56,10 @@ export class ReviewComponent implements OnInit, OnChanges {
         tap(changes => {
           if (changes && changes.camp) {
             this.isAuth = this.authService.isAuthorized();
-            this.isTrail = this.campService.isTrail(changes.camp.currentValue);
+            this.isTrail$ = this.campService.isTrail(changes.camp.currentValue);
+            this.isTrail$.subscribe(val => {
+              this.isTrail = val;
+            });
 
             if (this.isEditMode) {
               // User is creating new review
@@ -92,14 +96,20 @@ export class ReviewComponent implements OnInit, OnChanges {
     this.reviewToSubmit.rating = rating;
   }
 
+  onFacilityCleanlinessRateChange(rating: number) {
+    this.campReviewToSubmit.facilityCleanliness = rating;
+  }
+
+  onHorseFacilitiesRateChange(rating: number) {
+    this.campReviewToSubmit.horseFacilities = rating;
+  }
+
   // Send review to output
   onSubmit() {
+    if (!this.isTrail) {
+      this.submitCampReview.emit(this.campReviewToSubmit);
+    }
     this.submitReview.emit(this.reviewToSubmit);
-    this.isTrail.pipe(first()).subscribe(val => {
-      if (!val) {
-        this.submitCampReview.emit(this.campReviewToSubmit);
-      }
-    });
   }
 
   onLoginButtonClick() {
