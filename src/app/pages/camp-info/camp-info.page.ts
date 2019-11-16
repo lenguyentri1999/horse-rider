@@ -64,13 +64,13 @@ export class CampInfoPage implements OnInit {
   }
 
   async onWriteReviewButtonClick() {
-    const popover = await this.popoverCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: ReviewWriteNewReviewComponent,
       componentProps: {
         camp: this.camp$
       }
     });
-    popover.present();
+    modal.present();
   }
 
   // ADMIN SECTION

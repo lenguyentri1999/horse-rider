@@ -1,7 +1,5 @@
 <div scrollY="true" padding>
-    <h1 *ngIf="camp$ | async">{{(camp$ | async)?.name}}</h1>
+    <h1 *ngIf="camp$ | async">Reviewing {{(camp$ | async)?.name}}</h1>
     <app-review [isEditMode]="true" [camp]="camp$ | async" (exitEventEmitter)="exitPopover()" (submitReview)="submitReview($event)" (submitCampReview)="submitCampReview($event)"></app-review>
-    <ion-button color="danger" (click)="cancel()">Cancel</ion-button>
-
-
+    <ion-button color="danger" (click)="exitPopover()">Cancel</ion-button>
 </div>
