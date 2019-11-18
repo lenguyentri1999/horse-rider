@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.component';
 import { AddTrailComponent } from 'src/app/components-admin/add-trail/add-trail.component';
 import { AddEventComponent } from 'src/app/components-admin/add-event/add-event.component';
+import { AddBlogComponent } from 'src/app/components-admin/add-blog/add-blog.component';
 
 @Component({
   selector: 'app-admin',
@@ -35,6 +36,13 @@ export class AdminPage implements OnInit {
   async addEvent() {
     const modal = await this.modalCtrl.create({
       component: AddEventComponent
+    });
+    modal.present();
+  }
+
+  async addBlog() {
+    const modal = await this.modalCtrl.create({
+      component: AddBlogComponent
     });
     modal.present();
   }

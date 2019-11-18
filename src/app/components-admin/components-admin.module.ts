@@ -7,12 +7,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AddTrailComponent } from './add-trail/add-trail.component';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { AddEventComponent } from './add-event/add-event.component';
+import { AddBlogComponent } from './add-blog/add-blog.component';
 
 @NgModule({
   declarations: [
-      AddCampComponent,
-      AddTrailComponent,
-      AddEventComponent,
+    AddCampComponent,
+    AddTrailComponent,
+    AddEventComponent,
+    AddBlogComponent,
   ],
   imports: [
     CommonModule,
@@ -26,11 +28,13 @@ import { AddEventComponent } from './add-event/add-event.component';
     AddCampComponent,
     AddTrailComponent,
     AddEventComponent,
+    AddBlogComponent,
   ],
   exports: [
-      AddCampComponent,
-      AddTrailComponent,
-      AddEventComponent,
+    AddCampComponent,
+    AddTrailComponent,
+    AddEventComponent,
+    AddBlogComponent,
   ]
 })
 export class ComponentsAdminModule { }
