@@ -14,9 +14,11 @@ h1 {
     padding: 0;
   }​
   h2 {
-    font-family: 'Chara Serif';
-    src: url('/assets/fonts/Chara\ Font/CharaSerif.otf') format("opentype");
     font-weight: 100;
     left: 0;
   
   }
+
+pagination-controls {
+    margin: auto;
+}

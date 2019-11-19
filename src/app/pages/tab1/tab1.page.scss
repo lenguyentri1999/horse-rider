@@ -23,17 +23,22 @@ ion-auto-complete {
 h1 {
   font-family: 'Helvetica Neue';
   src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
-  font-weight: 1000;
+  font-weight: bolder;
   font-style: normal;
-
+  text-align: right;
+    
 }
 
 h2 {
-  font-family: 'Chara Serif';
   src: url('/assets/fonts/Chara\ Font/CharaSerif.otf') format("opentype");
-  font-weight: 100;
+  left: 0;
 
 }
+h2, h1 {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}​
 
 .search-error-div {
   height: 70vh;
@@ -50,4 +55,8 @@ h2 {
   width: 70vw;
   font-family: 'Samsung Sharp Sans';
   font-size: 3em;
+}
+
+pagination-controls {
+  margin: auto;
 }
