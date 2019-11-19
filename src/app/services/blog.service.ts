@@ -5,12 +5,12 @@ import { Observable, from, of } from 'rxjs';
 import { DbService } from './db.service';
 import { catchError, flatMap } from 'rxjs/operators';
 import { IGetAll } from 'src/models/firebase/IGetAll';
+import { IByID } from 'src/models/firebase/IByID';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BlogService implements IAddNew<Blog>, IGetAll<Blog> {
-
+export class BlogService implements IAddNew<Blog>, IGetAll<Blog>, IByID<Blog> {
   constructor(
     protected db: DbService,
   ) { }
@@ -34,4 +34,9 @@ export class BlogService implements IAddNew<Blog>, IGetAll<Blog> {
   getAllAsList(): Observable<Blog[]> {
     return this.db.getListSortedByFunction(`blogs/blogs-details/`, null);
   }
+
+  getByID(id: string): Observable<Blog> {
+    return this.db.getObjectValues(`blogs/blogs-details/${id}`);
+  }
+
 }

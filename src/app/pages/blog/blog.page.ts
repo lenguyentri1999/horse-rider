@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Blog } from 'src/models/blog';
 import { BlogService } from 'src/app/services/blog.service';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-blog',
@@ -9,6 +10,10 @@ import { BlogService } from 'src/app/services/blog.service';
   styleUrls: ['./blog.page.scss'],
 })
 export class BlogPage implements OnInit {
+  @ViewChild(IonContent, { static: false }) content: IonContent;
+
+  p = 1;
+
   blogs$: Observable<Blog[]>;
 
   constructor(
@@ -18,6 +23,13 @@ export class BlogPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onPageChange(page: number) {
+    this.p = page;
+    if (this.content) {
+      this.content.scrollToTop();
+    }
   }
 
 }

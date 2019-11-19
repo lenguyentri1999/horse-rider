@@ -1,15 +1,22 @@
 <app-pwa-nav-bar></app-pwa-nav-bar>
 
-<ion-content>
+<ion-content padding>
   <h1>home/Blog</h1>
   <ion-grid>
     <ion-row>
+      <ion-col *ngIf="(blogs$ | async)?.length == 0">
+        No blogs are f
+      </ion-col>
       <ion-col>
-        <div *ngFor="let blog of blogs$ | async">
-          <app-blog-post [blog]="blog"></app-blog-post>
+        <div *ngFor="let blog of blogs$ | async | paginate: { itemsPerPage: 3, currentPage: p}">
+          <app-blog-post [blog]="blog" [routerLink]="['/blog-info', blog.id]"></app-blog-post>
         </div>
       </ion-col>
 
+    </ion-row>
+
+    <ion-row>
+      <pagination-controls (pageChange)="onPageChange($event)" *ngIf="blogs$ | async"></pagination-controls>
     </ion-row>
   </ion-grid>
 

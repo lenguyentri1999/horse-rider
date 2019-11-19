@@ -1,0 +1,26 @@
+<app-pwa-nav-bar></app-pwa-nav-bar>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h1>{{(blog$ | async)?.title}}</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <p>{{(userData$ | async)?.name}} / {{(blog$ | async)?.dateTime | date: 'mediumDate'}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <img [src]="(blog$ | async)?.pictureUrl">
+    </ion-row>
+    <ion-row>
+      <p>{{(blog$ | async)?.description}}</p>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<app-pwa-nav-footer></app-pwa-nav-footer>

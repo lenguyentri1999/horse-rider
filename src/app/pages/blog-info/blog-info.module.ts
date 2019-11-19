@@ -5,14 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BlogPage } from './blog.page';
+import { BlogInfoPage } from './blog-info.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   {
     path: '',
-    component: BlogPage
+    component: BlogInfoPage
   }
 ];
 
@@ -23,8 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     ComponentsModule,
-    NgxPaginationModule,
   ],
-  declarations: [BlogPage]
+  declarations: [BlogInfoPage]
 })
-export class BlogPageModule {}
+export class BlogInfoPageModule {}
