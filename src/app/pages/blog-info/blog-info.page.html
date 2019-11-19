@@ -4,20 +4,25 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <h1>{{(blog$ | async)?.title}}</h1>
+        <h1 class="title">{{(blog$ | async)?.title}}</h1>
       </ion-col>
     </ion-row>
 
     <ion-row>
+      <div padding style="clear: both">
       <ion-col>
-        <p>{{(userData$ | async)?.name}} / {{(blog$ | async)?.dateTime | date: 'mediumDate'}}</p>
+        <p class="author" style="float: left">{{(userData$ | async)?.name}} /</p>
       </ion-col>
+      <ion-col>
+     <p class="date">{{(blog$ | async)?.dateTime | date: 'mediumDate'}}</p>
+    </ion-col>
+    </div>
     </ion-row>
     <ion-row>
       <img [src]="(blog$ | async)?.pictureUrl">
     </ion-row>
     <ion-row>
-      <p>{{(blog$ | async)?.description}}</p>
+      <p class="description">{{(blog$ | async)?.description}}</p>
     </ion-row>
   </ion-grid>
 
