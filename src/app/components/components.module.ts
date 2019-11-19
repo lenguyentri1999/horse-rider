@@ -14,6 +14,7 @@ import { ReviewWriteNewReviewComponent } from './review-write-new-review/review-
 import { TrailSearchFormComponent } from './trail-search-form/trail-search-form.component';
 import { CampSearchFormComponent } from './camp-search-form/camp-search-form.component';
 import { RequestNewCampComponent } from './request-new-camp/request-new-camp.component';
+import { BlogPostComponent } from './blog-post/blog-post.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RequestNewCampComponent } from './request-new-camp/request-new-camp.com
     TrailSearchFormComponent,
     CampSearchFormComponent,
     RequestNewCampComponent,
+    BlogPostComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { RequestNewCampComponent } from './request-new-camp/request-new-camp.com
     TrailSearchFormComponent,
     CampSearchFormComponent,
     RequestNewCampComponent,
+    BlogPostComponent,
   ],
   exports: [
     CampCardComponent,
@@ -56,6 +59,7 @@ import { RequestNewCampComponent } from './request-new-camp/request-new-camp.com
     TrailSearchFormComponent,
     CampSearchFormComponent,
     RequestNewCampComponent,
+    BlogPostComponent,
   ]
 })
 export class ComponentsModule { }
