@@ -5,7 +5,9 @@
   <ion-grid>
     <ion-row>
       <ion-col *ngIf="(blogs$ | async)?.length == 0">
-        No blogs are f
+        <p>
+          No blogs have been posted.
+        </p>
       </ion-col>
       <ion-col>
         <div *ngFor="let blog of blogs$ | async | paginate: { itemsPerPage: 3, currentPage: p}">
