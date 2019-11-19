@@ -1,6 +1,17 @@
 <app-pwa-nav-bar></app-pwa-nav-bar>
 
 <ion-content>
+  <h1>home/Blog</h1>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div *ngFor="let blog of blogs$ | async">
+          <app-blog-post [blog]="blog"></app-blog-post>
+        </div>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
 

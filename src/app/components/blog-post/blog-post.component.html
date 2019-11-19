@@ -1,3 +1,21 @@
-<p>
-  blog-post works!
-</p>
+<ion-card>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h1>{{blog?.title}}</h1>
+      </ion-col>
+      <ion-col>
+        <p>{{blog?.description | slice:0:100 }}...</p>
+      </ion-col>
+      <ion-col>
+        <img [src]="blog?.pictureUrl">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p>{{(userData$ | async)?.name}}</p>
+        <p>{{blog?.dateTime | date: 'mediumDate'}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>
