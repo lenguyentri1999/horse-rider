@@ -1,0 +1,22 @@
+h1 {
+    font-family: 'Helvetica Neue';
+    src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
+    font-weight: 1000;
+    font-style: normal;
+    text-align: right;
+    
+  
+  }
+
+  h2, h1 {
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }​
+  h2 {
+    font-family: 'Chara Serif';
+    src: url('/assets/fonts/Chara\ Font/CharaSerif.otf') format("opentype");
+    font-weight: 100;
+    left: 0;
+  
+  }
