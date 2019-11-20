@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="isPwa">
   <ion-header no-border>
     <ion-toolbar>
       <a routerLink="">
@@ -22,4 +22,33 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
+</div>
+
+<div *ngIf="!isPwa">
+  <ion-menu side="start" menuId="first">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Start Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>Menu Item</ion-item>
+        <ion-item>Menu Item</ion-item>
+        <ion-item>Menu Item</ion-item>
+        <ion-item>Menu Item</ion-item>
+        <ion-item>Menu Item</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet main id="content"></ion-router-outlet>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-menu-toggle>
+        <ion-button (click)="toggleMenu()">Toggle Menu</ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+
+  </ion-toolbar>
+
 </div>

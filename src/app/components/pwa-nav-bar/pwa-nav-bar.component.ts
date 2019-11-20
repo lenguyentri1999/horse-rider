@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Platform, ModalController, AlertController } from '@ionic/angular';
+import { Platform, ModalController, AlertController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -20,6 +20,7 @@ export class PwaNavBarComponent implements OnInit {
     protected modalCtrl: ModalController,
     protected alertCtrl: AlertController,
     protected authService: AuthService,
+    protected menuCtrl: MenuController,
   ) { }
 
   ngOnInit() {
@@ -28,8 +29,8 @@ export class PwaNavBarComponent implements OnInit {
     this.isAdmin = this.authService.isAdmin();
   }
 
-  goToCamps() {
-    this.router.navigate(['/tabs/tab1']);
+  toggleMenu() {
+    this.menuCtrl.toggle();
   }
 
   async logOut() {

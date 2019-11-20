@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-pwa-nav-footer',
@@ -9,7 +10,9 @@ import { environment } from 'src/environments/environment';
 export class PwaNavFooterComponent implements OnInit {
   versionString = '';
 
-  constructor() { }
+  constructor(
+    protected menuCtrl: MenuController,
+  ) { }
 
   ngOnInit() {
     if (environment.production) {
@@ -18,5 +21,6 @@ export class PwaNavFooterComponent implements OnInit {
       this.versionString = `V${environment.version}.0.0 D`;
     }
   }
+
 
 }
