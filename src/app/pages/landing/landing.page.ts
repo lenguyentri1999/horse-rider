@@ -47,6 +47,7 @@ export class LandingPage implements OnInit, AfterViewInit {
     this.threeTrails = this.campService.getAllHorseTrailsAsList().pipe(
       map(arr => arr.slice(0, 3))
     );
+
   }
 
   ngOnInit() {
