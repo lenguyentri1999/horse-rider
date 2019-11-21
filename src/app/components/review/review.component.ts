@@ -33,6 +33,8 @@ export class ReviewComponent implements OnInit, OnChanges {
   // When editMode is false
   reviewToSubmit?: Review;
   campReviewToSubmit?: CampReview;
+  CampReviewAttributes = CampReviewAttributes;
+
   isTrail$: Observable<boolean>;
   isTrail: boolean;
   @Output() submitReview = new EventEmitter<Review>();
@@ -76,7 +78,10 @@ export class ReviewComponent implements OnInit, OnChanges {
                 userID: this.authService.getUserId(),
                 dateTime: new Date(),
                 facilityCleanliness: 3,
-                horseFacilities: 3
+                horseFacilities: 3,
+                bigRigFriendly: 3,
+                petFriendly: 3,
+                wifi: 3
               };
 
               this.readyToEdit = Promise.resolve(true);
@@ -94,6 +99,10 @@ export class ReviewComponent implements OnInit, OnChanges {
 
   onRateChange(rating: number) {
     this.reviewToSubmit.rating = rating;
+  }
+
+  onCampAttributeRateChange(rating: number, attr: CampReviewAttributes) {
+    this.campReviewToSubmit[attr] = rating;
   }
 
   onFacilityCleanlinessRateChange(rating: number) {
@@ -116,4 +125,12 @@ export class ReviewComponent implements OnInit, OnChanges {
     this.exitEventEmitter.emit();
   }
 
+}
+
+enum CampReviewAttributes {
+  bigRigFriendly = 'bigRigFriendly',
+  petFriendly = 'petFriendly',
+  facilityCleanliness = 'facilityCleanliness',
+  horseFacilities = 'horseFacilities',
+  wifi = 'wifi',
 }
