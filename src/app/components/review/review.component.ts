@@ -66,7 +66,7 @@ export class ReviewComponent implements OnInit, OnChanges {
             if (this.isEditMode) {
               // User is creating new review
               this.reviewToSubmit = {
-                rating: 3,
+                rating: 5,
                 description: '',
                 campID: changes.camp.currentValue.id,
                 userID: this.authService.getUserId(),
@@ -77,11 +77,11 @@ export class ReviewComponent implements OnInit, OnChanges {
                 campID: changes.camp.currentValue.id,
                 userID: this.authService.getUserId(),
                 dateTime: new Date(),
-                facilityCleanliness: 3,
-                horseFacilities: 3,
-                bigRigFriendly: 3,
-                petFriendly: 3,
-                wifi: 3
+                facilityCleanliness: 5,
+                horseFacilities: 5,
+                bigRigFriendly: 5,
+                petFriendly: 5,
+                wifi: 5
               };
 
               this.readyToEdit = Promise.resolve(true);
