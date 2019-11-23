@@ -83,9 +83,9 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       pictureUrl: [pictureUrl, [Validators.required]],
 
       // Camp attributes
-      bigRigFriendly: [attributes.bigRigFriendly],
-      petFriendly: [attributes.petFriendly],
-      wifi: [attributes.wifi],
+      // bigRigFriendly: [attributes.bigRigFriendly],
+      // petFriendly: [attributes.petFriendly],
+      // wifi: [attributes.wifi],
 
       // Trail attributes
       bridges: [attributes.bridges],
@@ -144,9 +144,9 @@ export class AddCampComponent implements OnInit, AfterViewInit {
         this.myForm.get('pictureUrl').value,
       ],
       attributes: {
-        bigRigFriendly: this.myForm.get('bigRigFriendly').value,
-        petFriendly: this.myForm.get('petFriendly').value,
-        wifi: this.myForm.get('wifi').value,
+        // bigRigFriendly: this.myForm.get('bigRigFriendly').value,
+        // petFriendly: this.myForm.get('petFriendly').value,
+        // wifi: this.myForm.get('wifi').value,
 
         difficulty: this.myForm.get('difficulty').value,
         parking: this.myForm.get('parking').value,

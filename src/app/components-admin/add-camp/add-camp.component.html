@@ -8,7 +8,7 @@
 <ion-content>
 
   <ion-item>
-    <ion-label>This is a: </ion-label>
+    <ion-label position="stacked">This is a: </ion-label>
     <ion-select value="camp" [(ngModel)]="type">
       <ion-select-option value="camp">Camp</ion-select-option>
       <ion-select-option value="trail">Trail</ion-select-option>
@@ -30,7 +30,7 @@
             <ion-list>
 
               <ion-item>
-                <ion-label>Name</ion-label>
+                <ion-label position="stacked">Name</ion-label>
                 <ion-input formControlName="name" type="text"></ion-input>
               </ion-item>
 
@@ -40,17 +40,17 @@
               </ion-item>
 
               <ion-item>
-                <ion-label>URL</ion-label>
+                <ion-label position="stacked">URL</ion-label>
                 <ion-input formControlName="url" type="url"></ion-input>
               </ion-item>
 
               <ion-item>
-                <ion-label>Picture URL</ion-label>
+                <ion-label position="stacked">Picture URL</ion-label>
                 <ion-input formControlName="pictureUrl" type="url"></ion-input>
               </ion-item>
 
               <ion-item>
-                <ion-label>Address</ion-label>
+                <ion-label position="stacked">Address</ion-label>
               </ion-item>
               <ion-auto-complete (itemSelected)="onLocationSelected($event)"
                 [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar>
@@ -58,7 +58,7 @@
 
               <ng-container *ngIf="type === 'camp'">
 
-                <ion-item>
+                <!-- <ion-item>
                   <ion-label>Big Rig Friendly</ion-label>
                   <ion-checkbox slot="end" formControlName="bigRigFriendly"></ion-checkbox>
                 </ion-item>
@@ -72,14 +72,14 @@
                 <ion-item>
                   <ion-label>Wifi</ion-label>
                   <ion-checkbox slot="end" formControlName="wifi"></ion-checkbox>
-                </ion-item>
+                </ion-item> -->
               </ng-container>
 
               <!-- Trail attributes -->
               <ng-container *ngIf="type === 'trail'">
 
                 <ion-item>
-                  <ion-label>Difficulty</ion-label>
+                  <ion-label position="stacked">Difficulty</ion-label>
                   <ion-select formControlName="difficulty">
                     <ion-select-option value="Easy">Easy</ion-select-option>
                     <ion-select-option value="Intermediate">Intermediate</ion-select-option>
@@ -88,7 +88,7 @@
                 </ion-item>
 
                 <ion-item>
-                  <ion-label>Water Crossings</ion-label>
+                  <ion-label position="stacked">Water Crossings</ion-label>
                   <ion-select formControlName="waterCrossings">
                     <ion-select-option value="Puddles">Puddles</ion-select-option>
                     <ion-select-option value="Streams">Streams</ion-select-option>
@@ -97,7 +97,7 @@
                 </ion-item>
 
                 <ion-item>
-                  <ion-label>Parking for Rigs</ion-label>
+                  <ion-label position="stacked">Parking for Rigs</ion-label>
                   <ion-select formControlName="parking">
                     <ion-select-option value="Plenty">Plenty</ion-select-option>
                     <ion-select-option value="Limited">Limited</ion-select-option>
@@ -106,7 +106,7 @@
                 </ion-item>
 
                 <ion-item>
-                  <ion-label>Footing</ion-label>
+                  <ion-label position="stacked">Footing</ion-label>
                   <ion-select formControlName="footing">
                     <ion-select-option value="Carriage">Carriage trails</ion-select-option>
                     <ion-select-option value="Sandy">Sandy Loamy</ion-select-option>
@@ -116,7 +116,7 @@
                 </ion-item>
 
                 <ion-item>
-                  <ion-label>Bridges</ion-label>
+                  <ion-label position="stacked">Bridges</ion-label>
                   <ion-select formControlName="bridges">
                     <ion-select-option value="High">High</ion-select-option>
                     <ion-select-option value="Low">Low</ion-select-option>
