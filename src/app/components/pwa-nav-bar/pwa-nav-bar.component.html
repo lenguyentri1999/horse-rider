@@ -25,27 +25,37 @@
 </div>
 
 <div *ngIf="!isPwa">
-  <ion-menu side="start" menuId="first">
+  <ion-menu side="start" menuId="first" contentID="content">
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Start Menu</ion-title>
+        <ion-title>Navigation</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
+        <ion-item routerLink="/blog">Blog</ion-item>
+        <ion-item routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-item>
+        <ion-item routerLink="/tabs/places/trails">Trails</ion-item>
+        <ion-item routerLink="/tabs/places/camps">Camps</ion-item>
+        <!-- <ion-button>Help</ion-button> -->
+
+        <ng-container *ngIf="!(isAuthorized | async)">
+          <ion-item (click)="openLoginModal()">Log in</ion-item>
+          <ion-item class="signup" (click)="openRegisterModal()">Sign up</ion-item>
+        </ng-container>
+        <ng-container *ngIf="isAuthorized | async">
+          <ion-item (click)="logOut()">Log out</ion-item>
+        </ng-container>
       </ion-list>
     </ion-content>
   </ion-menu>
   <ion-router-outlet main id="content"></ion-router-outlet>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons>
       <ion-menu-toggle>
-        <ion-button (click)="toggleMenu()">Toggle Menu</ion-button>
+        <ion-button (click)="toggleMenu()">
+          <ion-icon name="menu"></ion-icon>
+        </ion-button>
       </ion-menu-toggle>
     </ion-buttons>
 
