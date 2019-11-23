@@ -13,8 +13,8 @@
         <!-- <ion-button>Help</ion-button> -->
 
         <ng-container *ngIf="!(isAuthorized | async)">
-          <ion-button (click)="openLoginModal()">Log in</ion-button>
-          <ion-button class="signup" (click)="openRegisterModal()">Sign up</ion-button>
+          <ion-button routerLink="/login">Log in</ion-button>
+          <ion-button routerLink="/register">Sign up</ion-button>
         </ng-container>
         <ng-container *ngIf="isAuthorized | async">
           <ion-button (click)="logOut()">Log out</ion-button>
@@ -22,19 +22,27 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
+  <ion-router-outlet main id="main"></ion-router-outlet>
 </div>
 
 <div *ngIf="!isPwa">
-  <ion-menu side="start" menuId="first" contentID="content">
+  <ion-menu side="start" contentID="main" type="overlay">
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>Navigation</ion-title>
       </ion-toolbar>
     </ion-header>
+
     <ion-content>
       <ion-list>
-        <ion-item routerLink="/blog">Blog</ion-item>
-        <ion-item routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-item>
+        <!-- <ion-menu-toggle> -->
+          <ion-item [routerLink]="blogPage.url">{{blogPage.name}}</ion-item>
+        <!-- </ion-menu-toggle> -->
+        <!-- <ion-menu-toggle> -->
+          <ion-item routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-item>
+          <!-- <ion-item [routerLink]="blogPage.url">{{blogPage.name}}</ion-item> -->
+        <!-- </ion-menu-toggle> -->
+
         <ion-item routerLink="/tabs/places/trails">Trails</ion-item>
         <ion-item routerLink="/tabs/places/camps">Camps</ion-item>
         <!-- <ion-button>Help</ion-button> -->
@@ -49,12 +57,13 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-  <ion-router-outlet main id="content"></ion-router-outlet>
+  <ion-router-outlet main id="main"></ion-router-outlet>
   <ion-toolbar color="primary">
     <ion-buttons>
       <ion-menu-toggle>
         <ion-button (click)="toggleMenu()">
           <ion-icon name="menu"></ion-icon>
+          {{currentPage?.name}}
         </ion-button>
       </ion-menu-toggle>
     </ion-buttons>

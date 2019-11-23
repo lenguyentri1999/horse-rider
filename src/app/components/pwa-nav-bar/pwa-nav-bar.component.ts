@@ -14,6 +14,19 @@ export class PwaNavBarComponent implements OnInit {
   isAuthorized: Observable<boolean>;
   isAdmin: Observable<boolean>;
 
+  // Pages
+  blogPage: Page = {
+    url: '/blog',
+    name: 'Blog',
+  };
+  adminPage: Page;
+  trailsPage: Page;
+  campsPage: Page;
+  loginPage: Page;
+  registerPage: Page;
+
+  currentPage: Page;
+
   constructor(
     protected platform: Platform,
     protected router: Router,
@@ -31,6 +44,10 @@ export class PwaNavBarComponent implements OnInit {
 
   toggleMenu() {
     this.menuCtrl.toggle();
+  }
+
+  setCurrentPage(page: Page) {
+    this.currentPage = page;
   }
 
   async logOut() {
@@ -65,9 +82,11 @@ export class PwaNavBarComponent implements OnInit {
 
   async openRegisterModal() {
     this.router.navigate(['register']);
-    // const modal = await this.modalCtrl.create({ component: RegisterPage
-    // });
-    // await modal.present();
   }
 
+}
+
+interface Page {
+  url: string;
+  name: string;
 }

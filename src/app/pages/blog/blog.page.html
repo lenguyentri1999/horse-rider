@@ -1,11 +1,8 @@
-<app-pwa-nav-bar></app-pwa-nav-bar>
-
-
-  <div padding style="clear: both">
+<div padding style="clear: both">
   <h2 style="float: left">home/ </h2>
   <h1>Blog</h1>
-  </div>
-   <ion-content padding>
+</div>
+<ion-content padding>
   <ion-grid>
     <ion-row>
       <ion-col *ngIf="(blogs$ | async)?.length == 0">
