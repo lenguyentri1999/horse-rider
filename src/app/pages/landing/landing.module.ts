@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { LandingPage } from './landing.page';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { ComponentsMapboxModule } from 'src/app/components-mapbox/components-mapbox.module';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     AutoCompleteModule,
     ComponentsModule,
+    ComponentsMapboxModule,
   ],
   declarations: [LandingPage]
 })

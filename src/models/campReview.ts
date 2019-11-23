@@ -4,4 +4,7 @@ export interface CampReview {
     dateTime: Date;
     facilityCleanliness: number;
     horseFacilities: number;
+    petFriendly: number;
+    wifi: number;
+    bigRigFriendly: number;
 }

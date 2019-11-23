@@ -6,8 +6,8 @@
   <div>
     <div class="container">
       <div class="container2">
-          <h1 align="center"class="description">Adventure is out there.</h1>
-          <h2 align="center"class="slogan">Discover, experience and rate horse camps and trails</h2>
+        <h1 align="center" class="description">Adventure is out there.</h1>
+        <h2 align="center" class="slogan">Discover, experience and rate horse camps and trails</h2>
         <ion-grid>
           <ion-row justify-content-end>
             <ion-col size-lg="5" size="12" size-sm>
@@ -52,16 +52,16 @@
       <h1 class="rec-heading">Trails</h1>
     </ion-row>
     <ion-row>
-      <h2  class="recs">Recommended for you.</h2>
+      <h2 class="recs">Recommended for you.</h2>
     </ion-row>
     <ion-row>
       <ion-col size="4" *ngFor="let trail of threeTrails | async">
         <ion-row>
-        <img class ="trail-rec"[src]="trail.pictures[0]" [routerLink]="['/camp-info', trail.id]">
+          <img class="trail-rec" [src]="trail.pictures[0]" [routerLink]="['/camp-info', trail.id]">
         </ion-row>
         <ion-row>
-        <p>{{trail.name}}</p>
-      </ion-row>
+          <p>{{trail.name}}</p>
+        </ion-row>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -82,10 +82,10 @@
     <ion-row>
       <ion-col size="4" class="col-center" *ngFor="let camp of threeCamps | async">
         <ion-row>
-            <img class ="trail-rec" [src]="camp.pictures[0]" [routerLink]="['/camp-info', camp.id]">
+          <img class="trail-rec" [src]="camp.pictures[0]" [routerLink]="['/camp-info', camp.id]">
         </ion-row>
         <ion-row>
-            <p class="campName">{{camp.name}}</p>
+          <p class="campName">{{camp.name}}</p>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -95,6 +95,13 @@
         <app-camp-search-form (submitForm)="onSearchCamps($event)"></app-camp-search-form>
       </ion-col>
     </ion-row>
+  </ion-grid>
+
+  <ion-grid padding>
+    <h1 class="rec-heading">Map</h1>
+    <ion-card class="map-card">
+      <app-mapboxgl-map></app-mapboxgl-map>
+    </ion-card>
   </ion-grid>
 
 </ion-content>

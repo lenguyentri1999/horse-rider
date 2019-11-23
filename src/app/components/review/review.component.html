@@ -4,11 +4,23 @@
             <ng-container *ngIf="(isTrail$ | async) == false">
                 <ion-item>
                     <ion-label>Facility Cleanliness</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.facilityCleanliness" (rateChange)="onFacilityCleanlinessRateChange($event)"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.facilityCleanliness" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.facilityCleanliness)"></ion-rating>
                 </ion-item>
                 <ion-item>
                     <ion-label>Horse Facilities</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.horseFacilities" (rateChange)="onHorseFacilitiesRateChange($event)"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.horseFacilities" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.horseFacilities)"></ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Big Rig Friendly</ion-label>
+                    <ion-rating [rate]="campReviewToSubmit?.bigRigFriendly" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.bigRigFriendly)"></ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Wifi</ion-label>
+                    <ion-rating [rate]="campReviewToSubmit?.wifi" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.wifi)"></ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Pet Friendly</ion-label>
+                    <ion-rating [rate]="campReviewToSubmit?.petFriendly" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.petFriendly)"></ion-rating>
                 </ion-item>
             </ng-container>
             <ion-item>
