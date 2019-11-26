@@ -1,39 +1,39 @@
 export interface TrailReviewEnums {
-    moderate: TrailModerate;
+    difficulty: TrailDifficulty;
     waterCrossings: TrailWaterCrossings;
     bridges: TrailBridges;
     parking: TrailParkingForRigs;
     footing: TrailFooting;
 }
 
-enum TrailModerate {
-    Challenging,
-    Intermediate,
-    Extreme
+export enum TrailDifficulty {
+    Easy = 'Easy',
+    Intermediate = 'Intermediate',
+    Extreme = 'Extreme'
 }
 
-enum TrailWaterCrossings {
-    Puddles,
-    Streams,
-    Rivers
+export enum TrailWaterCrossings {
+    Puddles = 'Puddles',
+    Streams = 'Streams',
+    Rivers = 'Rivers',
 }
 
-enum TrailBridges {
-    High,
-    Low,
-    Scary
+export enum TrailBridges {
+    High = 'High',
+    Low = 'Low',
+    Scary = 'Scary'
 }
 
-enum TrailParkingForRigs {
-    Plenty = 'Plenty of parking for big & small rigs',
-    Limited = 'Limited parking',
-    None = 'No Big Rig Parking'
+export enum TrailParkingForRigs {
+    Plenty = 'Plenty',
+    Limited = 'Limited',
+    None = 'None',
 }
 
-enum TrailFooting {
-    Carriage = 'Carriage Trails',
-    Sandy = 'Sandy Loamy',
+export enum TrailFooting {
+    Carriage = 'Carriage',
+    Sandy = 'Sandy',
     Muddy = 'Muddy',
-    Rocky = 'Rocky'
+    Rocky = 'Rocky',
 }
 

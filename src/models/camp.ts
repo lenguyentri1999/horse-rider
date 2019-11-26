@@ -1,6 +1,3 @@
-import { Url } from 'url';
-import { Observable } from 'rxjs';
-
 export interface Camp {
     id: string;
     name: string;
@@ -8,10 +5,16 @@ export interface Camp {
     description: string;
     url?: string;
     attributes: {
-        bigRigFriendly: boolean | false,
-        facilityCleanliness: boolean | false,
-        wifi: boolean | false,
-        horseFacilities: boolean | false
+        // Camp attributes
+        bigRigFriendly?: boolean,
+        petFriendly?: boolean,
+        wifi?: boolean,
+        // Trail attributes
+        difficulty?: string;
+        waterCrossings?: string;
+        parking?: string;
+        footing?: string;
+        bridges?: string;
     };
     coords?: {
         lat: number;
@@ -19,4 +22,6 @@ export interface Camp {
     };
     pictures?: Array<string>;
     distance?: number;
+    city?: string;
+    state?: string;
 }

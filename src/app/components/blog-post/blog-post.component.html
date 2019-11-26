@@ -1,0 +1,21 @@
+<ion-card >
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h1 class="title">{{blog?.title| slice:0:100}}</h1>
+      </ion-col>
+      <ion-col>
+        <p class="description">{{blog?.description | slice:0:100 }}...</p>
+      </ion-col>
+      <ion-col>
+        <img [src]="blog?.pictureUrl">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p class="author">{{(userData$ | async)?.name}}</p>
+        <p class="date">{{blog?.dateTime | date: 'mediumDate'}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

@@ -1,20 +1,20 @@
-<div>
+<div *ngIf="isPwa">
   <ion-header no-border>
     <ion-toolbar>
       <a routerLink="">
-        <img class="logo" src="assets/logo.png">
+        <img class="logo" src="assets/logo.png" padding>
       </a>
       <ion-buttons slot="end">
         <!-- <ion-button routerLink="/landing">Home</ion-button> -->
-        <!-- <ion-button class="about">About</ion-button> -->
+        <ion-button routerLink="/blog">Blog</ion-button>
         <ion-button routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-button>
         <ion-button routerLink="/tabs/places/trails">Trails</ion-button>
         <ion-button routerLink="/tabs/places/camps">Camps</ion-button>
         <!-- <ion-button>Help</ion-button> -->
 
         <ng-container *ngIf="!(isAuthorized | async)">
-          <ion-button (click)="openLoginModal()">Log in</ion-button>
-          <ion-button class="signup" (click)="openRegisterModal()">Sign up</ion-button>
+          <ion-button routerLink="/login">Log in</ion-button>
+          <ion-button routerLink="/register">Sign up</ion-button>
         </ng-container>
         <ng-container *ngIf="isAuthorized | async">
           <ion-button (click)="logOut()">Log out</ion-button>
@@ -22,4 +22,55 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
+  <ion-router-outlet main id="main"></ion-router-outlet>
+</div>
+
+<div *ngIf="!isPwa">
+  <ion-menu side="start" contentID="main" type="overlay">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Navigation</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <!-- <ion-menu-toggle> -->
+        <ion-item [routerLink]="blogPage.url" (click)="setCurrentPage(blogPage)">{{blogPage.name}}</ion-item>
+        <!-- </ion-menu-toggle> -->
+        <!-- <ion-menu-toggle> -->
+        <ion-item routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-item>
+        <!-- <ion-item [routerLink]="blogPage.url">{{blogPage.name}}</ion-item> -->
+        <!-- </ion-menu-toggle> -->
+
+        <ion-item routerLink="/tabs/places/trails">Trails</ion-item>
+        <ion-item routerLink="/tabs/places/camps">Camps</ion-item>
+        <!-- <ion-button>Help</ion-button> -->
+
+        <ng-container *ngIf="!(isAuthorized | async)">
+          <ion-item (click)="openLoginModal()">Log in</ion-item>
+          <ion-item class="signup" (click)="openRegisterModal()">Sign up</ion-item>
+        </ng-container>
+        <ng-container *ngIf="isAuthorized | async">
+          <ion-item (click)="logOut()">Log out</ion-item>
+        </ng-container>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet main id="main"></ion-router-outlet>
+
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-menu-toggle>
+        <ion-button (click)="toggleMenu()">
+          <ion-icon name="menu"></ion-icon>
+          <ion-label>
+            {{currentPage?.name}}
+          </ion-label>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+
+  </ion-toolbar>
+
 </div>

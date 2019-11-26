@@ -1,10 +1,11 @@
 import * as mapboxgl from 'mapbox-gl';
-import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { of, Observable, Subject, combineLatest, forkJoin } from 'rxjs';
 import { MapboxMap, MapboxMapOptions } from 'src/models/mapboxMap';
 import { MapboxPlace } from 'src/models/mapboxResult';
 import { tap, flatMap, switchMap } from 'rxjs/operators';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-mapboxgl-map',
@@ -12,12 +13,14 @@ import { tap, flatMap, switchMap } from 'rxjs/operators';
   styleUrls: ['./mapboxgl-map.component.scss'],
 })
 
-export class MapboxglMapComponent implements OnInit, OnChanges, OnDestroy {
+export class MapboxglMapComponent implements OnInit, OnChanges, AfterViewInit {
+  @ViewChild('mapboxMap', { static: false }) mapDiv: { nativeElement: HTMLDivElement };
   @Input() centerCoords: number[];
   @Input() zoomLevel: number;
   @Input() geoJsonData: MapboxPlace[];
 
   isMapShown = true;
+  readonly mapID: string;
 
   defaultZoomLevel = 3;
   sourceName = 'customSource';
@@ -27,9 +30,14 @@ export class MapboxglMapComponent implements OnInit, OnChanges, OnDestroy {
 
   markers: any[] = [];
 
-  constructor() { }
+  constructor(
+    protected db: DbService,
+  ) {
+    this.mapID = this.db.uuidv4();
+  }
 
-  ngOnDestroy() {
+  ngAfterViewInit() {
+    this.initMap();
   }
 
   ngOnInit() {
@@ -56,7 +64,7 @@ export class MapboxglMapComponent implements OnInit, OnChanges, OnDestroy {
   initMap(): Observable<MapboxMap> {
     if (!(this.myMap)) {
       const options: MapboxMapOptions = {
-        container: 'mapboxMap',
+        container: this.mapID,
         style: 'mapbox://styles/lenguyentri1999/ck1nswdml15w61coc8hv8xpmc',
       };
       this.myMap = new mapboxgl.Map(options);

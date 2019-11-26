@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams, PopoverController } from '@ionic/angular';
+import { NavParams, PopoverController, ModalController } from '@ionic/angular';
 import { Camp } from 'src/models/camp';
 import { Observable } from 'rxjs';
 import { Review } from 'src/models/review';
 import { ReviewService } from 'src/app/services/review.service';
+import { map, switchMap } from 'rxjs/operators';
+import { CampService } from 'src/app/services/camp.service';
+import { CampReview } from 'src/models/campReview';
 
 @Component({
   selector: 'app-review-write-new-review',
@@ -12,25 +15,39 @@ import { ReviewService } from 'src/app/services/review.service';
 })
 export class ReviewWriteNewReviewComponent implements OnInit {
   camp$: Observable<Camp>;
+  isTrail: Observable<boolean>;
 
   constructor(
-    protected navParams: NavParams,
     protected reviewService: ReviewService,
-    protected popoverCtrl: PopoverController
-  ) { }
+    protected campService: CampService,
+    protected navParams: NavParams,
+    protected popoverCtrl: PopoverController,
+    protected modalCtrl: ModalController,
+  ) {
+
+    this.camp$ = this.navParams.get('camp');
+    this.isTrail = this.camp$.pipe(
+      switchMap(camp => this.campService.isTrail(camp))
+    );
+  }
 
   ngOnInit(
   ) {
-    this.camp$ = this.navParams.get('camp');
   }
 
   submitReview(review: Review) {
     this.reviewService.submitReview(review);
-    this.popoverCtrl.dismiss();
+    this.exitPopover();
+  }
+
+  submitCampReview(campReview: CampReview) {
+    this.reviewService.submitCampReview(campReview);
+    this.exitPopover();
   }
 
   exitPopover() {
     this.popoverCtrl.dismiss();
+    this.modalCtrl.dismiss();
   }
 
   cancel() {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AddCampComponent } from './components-admin/add-camp/add-camp.component';
 
 const routes: Routes = [
   {
@@ -24,9 +25,14 @@ const routes: Routes = [
   },
   { path: 'launch', loadChildren: './pages/launch/launch.module#LaunchPageModule' },
   { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule' },
-  { path: 'trails', loadChildren: './pages/trails/trails.module#TrailsPageModule' },
-  { path: 'camps', redirectTo: '/tabs/tab1', pathMatch: 'full'}
+  { path: 'blog', loadChildren: './pages/blog/blog.module#BlogPageModule' },
+  { path: 'blog-info/:id', loadChildren: './pages/blog-info/blog-info.module#BlogInfoPageModule' },
+
+  // { path: 'admin-add-camp', loadChildren: './pages/admin-add-camp/admin-add-camp.module#AdminAddCampPageModule' },
+
+
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })

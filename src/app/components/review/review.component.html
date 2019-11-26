@@ -1,9 +1,36 @@
 <ng-container *ngIf="(readyToEdit | async)">
     <ng-container *ngIf="isAuth | async">
-        <ion-rating [rate]="reviewToSubmit?.rating" (rateChange)="onRateChange($event)"></ion-rating>
-        <ion-textarea name="description" [(ngModel)]="reviewToSubmit.description"
-            placeholder="Write your review here...">
-        </ion-textarea>
+        <ion-list>
+            <ng-container *ngIf="(isTrail$ | async) == false">
+                <ion-item>
+                    <ion-label>Facility Cleanliness</ion-label>
+                    <ion-rating [rate]="campReviewToSubmit?.facilityCleanliness" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.facilityCleanliness)"></ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Horse Facilities</ion-label>
+                    <ion-rating [rate]="campReviewToSubmit?.horseFacilities" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.horseFacilities)"></ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Big Rig Friendly</ion-label>
+                    <ion-rating [rate]="campReviewToSubmit?.bigRigFriendly" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.bigRigFriendly)"></ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Wifi</ion-label>
+                    <ion-rating [rate]="campReviewToSubmit?.wifi" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.wifi)"></ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Pet Friendly</ion-label>
+                    <ion-rating [rate]="campReviewToSubmit?.petFriendly" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.petFriendly)"></ion-rating>
+                </ion-item>
+            </ng-container>
+            <ion-item>
+                <ion-label>Overall</ion-label>
+                <ion-rating [rate]="reviewToSubmit?.rating" (rateChange)="onRateChange($event)"></ion-rating>
+            </ion-item>
+            <ion-textarea name="description" [(ngModel)]="reviewToSubmit.description"
+                placeholder="Write your review here...">
+            </ion-textarea>
+        </ion-list>
         <ion-button (click)="onSubmit()">Submit</ion-button>
     </ng-container>
 
@@ -14,6 +41,26 @@
 </ng-container>
 
 <ng-container *ngIf="readyToView | async">
-    <ion-rating [rate]="review.rating" readonly="true"></ion-rating>
-    <ion-textarea name="description" [(ngModel)]="review.description"></ion-textarea>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="3">
+                <img class="avatar" [src]="(userData$ | async)?.photoUrl" onError="this.src='assets/blank-profile-picture.png'">
+            </ion-col>
+            <ion-col size="9">
+                <ion-row>
+                    <ion-col size="6" class="overflow-clip">
+                        {{(userData$ | async)?.name}} &#183; {{review.dateTime | date: 'MMM y'}}
+                    </ion-col>
+                    <ion-col size="6" class="ion-col-review no-wrap">
+                        <ion-rating [rate]="review.rating" readonly="true"></ion-rating>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-textarea name="description" readonly="true" [(ngModel)]="review.description">
+                    </ion-textarea>
+                </ion-row>
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
 </ng-container>

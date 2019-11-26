@@ -24,6 +24,8 @@ import { RegisterPageModule } from './pages/register/register.module';
 import { LoginPageModule } from './pages/login/login.module';
 import { MapboxService } from './services/mapbox.service';
 import { AuthService } from './services/auth.service';
+import { ComponentsModule } from './components/components.module';
+import { ComponentsAdminModule } from './components-admin/components-admin.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { AuthService } from './services/auth.service';
     TabsPageModule,
     RegisterPageModule,
     LoginPageModule,
+    ComponentsModule,
+    ComponentsAdminModule,
   ],
   providers: [
     StatusBar,

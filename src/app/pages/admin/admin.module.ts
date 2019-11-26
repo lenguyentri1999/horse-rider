@@ -7,11 +7,19 @@ import { IonicModule } from '@ionic/angular';
 
 import { AdminPage } from './admin.page';
 import { ComponentsAdminModule } from 'src/app/components-admin/components-admin.module';
+import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminPage
+    component: AdminPage,
+    children: [
+      {
+        path: 'add/:type',
+        // outlet: 'adminOutlet',
+        component: AddCampComponent,
+      }
+    ]
   }
 ];
 

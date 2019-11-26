@@ -3,3 +3,60 @@
   width: 2rem;
   margin-right: 1rem;
 }
+
+ion-auto-complete {
+  width: 100%;
+}
+
+.search-one {
+  -webkit-box-shadow: -2px -2px 26px -1px rgba(237, 232, 237, 1);
+  -moz-box-shadow: -2px -2px 26px -1px rgba(237, 232, 237, 1);
+  box-shadow: -2px -2px 26px -1px rgba(237, 232, 237, 1);
+}
+
+.search-two {
+  -webkit-box-shadow: -2px -2px 26px -1px rgba(237, 232, 237, 1);
+  -moz-box-shadow: -2px -2px 26px -1px rgba(237, 232, 237, 1);
+  box-shadow: -2px -2px 26px -1px rgba(237, 232, 237, 1);
+}
+
+h1 {
+  font-family: 'Helvetica Neue';
+  src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
+  font-weight: bolder;
+  font-style: normal;
+  text-align: right;
+    
+}
+
+h2 {
+  src: url('/assets/fonts/Chara\ Font/CharaSerif.otf') format("opentype");
+  left: 0;
+
+}
+h2, h1 {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}​
+
+.search-error-div {
+  height: 70vh;
+  background: url('/assets/Null Search Horse.jpg');
+  background-size: cover;
+
+}
+
+.search-error {
+  // z-index: 10;
+  // position: absolute;
+  // top: 40vh;
+  left: 15vw;
+  width: 70vw;
+  font-family: 'Samsung Sharp Sans';
+  font-size: 3em;
+}
+
+pagination-controls {
+  margin: auto;
+}

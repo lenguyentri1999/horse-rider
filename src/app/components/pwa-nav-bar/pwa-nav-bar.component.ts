@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Platform, ModalController, AlertController } from '@ionic/angular';
+import { Platform, ModalController, AlertController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,12 +14,26 @@ export class PwaNavBarComponent implements OnInit {
   isAuthorized: Observable<boolean>;
   isAdmin: Observable<boolean>;
 
+  // Pages
+  blogPage: Page = {
+    url: '/blog',
+    name: 'Blog',
+  };
+  adminPage: Page;
+  trailsPage: Page;
+  campsPage: Page;
+  loginPage: Page;
+  registerPage: Page;
+
+  currentPage: Page;
+
   constructor(
     protected platform: Platform,
     protected router: Router,
     protected modalCtrl: ModalController,
     protected alertCtrl: AlertController,
     protected authService: AuthService,
+    protected menuCtrl: MenuController,
   ) { }
 
   ngOnInit() {
@@ -28,8 +42,12 @@ export class PwaNavBarComponent implements OnInit {
     this.isAdmin = this.authService.isAdmin();
   }
 
-  goToCamps() {
-    this.router.navigate(['/tabs/tab1']);
+  toggleMenu() {
+    this.menuCtrl.toggle();
+  }
+
+  setCurrentPage(page: Page) {
+    this.currentPage = page;
   }
 
   async logOut() {
@@ -64,9 +82,11 @@ export class PwaNavBarComponent implements OnInit {
 
   async openRegisterModal() {
     this.router.navigate(['register']);
-    // const modal = await this.modalCtrl.create({ component: RegisterPage
-    // });
-    // await modal.present();
   }
 
+}
+
+interface Page {
+  url: string;
+  name: string;
 }

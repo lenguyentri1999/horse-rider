@@ -1,11 +1,92 @@
 <ion-content padding>
-    <ion-list>
+  <ion-list>
+    <!-- <ion-item>
+      <ion-label>
+        Distance (miles):
+      </ion-label>
+      <ion-input [(ngModel)]="filter.distance" type="number"></ion-input>
+    </ion-item> -->
+
+    <ng-container *ngIf="currentSource == SourceEnum.HorseCamps">
+      <app-camp-search-form [nameElementHidden]="true" (submitForm)="submitCampAttributesFilter($event)"></app-camp-search-form>
+    </ng-container>
+    <ng-container *ngIf="currentSource == SourceEnum.HorseTrails">
+      <app-trail-search-form [nameElementHidden]="true" (submitForm)="submitTrailAttributesFilter($event)"></app-trail-search-form>
+    </ng-container>
+
+    <!-- Camp section -->
+    <!-- <ng-container *ngIf="currentSource == SourceEnum.HorseCamps">
       <ion-item>
-        <ion-label>
-          Distance (miles):
-        </ion-label>
-        <ion-input [(ngModel)]="filter.distance" type="number"></ion-input>
+        <ion-label>Big Rig Friendly</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="campFilter.bigRigFriendly"></ion-checkbox>
       </ion-item>
-    </ion-list>
-    <ion-button color="success" (click)="done()">Done</ion-button>
+
+
+      <ion-item>
+        <ion-label>Facility Cleanliness</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="campFilter.facilityCleanliness"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Wifi</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="campFilter.wifi"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Horse Facilities</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="campFilter.horseFacilities"></ion-checkbox>
+      </ion-item>
+    </ng-container>
+
+    <ng-container *ngIf="currentSource == SourceEnum.HorseTrails">
+      <ion-item>
+        <ion-label>Difficulty</ion-label>
+        <ion-select formControlName="difficulty">
+          <ion-select-option value="Easy">Easy</ion-select-option>
+          <ion-select-option value="Intermediate">Intermediate</ion-select-option>
+          <ion-select-option value="Extreme">Extreme</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Water Crossings</ion-label>
+        <ion-select formControlName="waterCrossings">
+          <ion-select-option value="Puddles">Puddles</ion-select-option>
+          <ion-select-option value="Streams">Streams</ion-select-option>
+          <ion-select-option value="Rivers">Rivers</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Parking for Rigs</ion-label>
+        <ion-select formControlName="parking">
+          <ion-select-option value="Plenty">Plenty</ion-select-option>
+          <ion-select-option value="Limited">Limited</ion-select-option>
+          <ion-select-option value="None">None</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Footing</ion-label>
+        <ion-select formControlName="footing">
+          <ion-select-option value="Carriage">Carriage trails</ion-select-option>
+          <ion-select-option value="Sandy">Sandy Loamy</ion-select-option>
+          <ion-select-option value="Muddy">Muddy</ion-select-option>
+          <ion-select-option value="Rocky">Rocky</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Bridges</ion-label>
+        <ion-select formControlName="bridges">
+          <ion-select-option value="High">High</ion-select-option>
+          <ion-select-option value="Low">Low</ion-select-option>
+          <ion-select-option value="Scary">Scary</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </ng-container> -->
+
+  </ion-list>
+  <!-- <ion-button color="success" (click)="done()">Done</ion-button> -->
 </ion-content>
