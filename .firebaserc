@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "horse-riding-app"
+    "default": "horse-riding-app",
+    "prod": "high-horse-drifter"
   }
 }
