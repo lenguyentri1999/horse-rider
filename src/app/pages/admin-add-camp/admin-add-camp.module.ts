@@ -5,21 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AdminPage } from './admin.page';
+import { AdminAddCampPage } from './admin-add-camp.page';
 import { ComponentsAdminModule } from 'src/app/components-admin/components-admin.module';
-import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminPage,
-    children: [
-      {
-        path: 'add/:type',
-        // outlet: 'adminOutlet',
-        component: AddCampComponent,
-      }
-    ]
+    component: AdminAddCampPage
   }
 ];
 
@@ -31,6 +23,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsAdminModule,
   ],
-  declarations: [AdminPage]
+  declarations: [AdminAddCampPage]
 })
-export class AdminPageModule {}
+export class AdminAddCampPageModule {}

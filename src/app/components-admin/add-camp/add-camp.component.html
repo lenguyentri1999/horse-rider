@@ -1,19 +1,19 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-button slot="end" (click)="onCloseButton()">
       Close
     </ion-button>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 <ion-content>
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="stacked">This is a: </ion-label>
     <ion-select value="camp" [(ngModel)]="type">
       <ion-select-option value="camp">Camp</ion-select-option>
       <ion-select-option value="trail">Trail</ion-select-option>
     </ion-select>
-  </ion-item>
+  </ion-item> -->
 
   <form [formGroup]="myForm" (ngSubmit)="submit()">
     <ion-grid>
@@ -56,7 +56,7 @@
                 [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar>
               </ion-auto-complete>
 
-              <ng-container *ngIf="type === 'camp'">
+              <ng-container *ngIf="(type | async) === 'camp'">
 
                 <!-- <ion-item>
                   <ion-label>Big Rig Friendly</ion-label>
@@ -76,7 +76,7 @@
               </ng-container>
 
               <!-- Trail attributes -->
-              <ng-container *ngIf="type === 'trail'">
+              <ng-container *ngIf="(type | async) === 'trail'">
 
                 <ion-item>
                   <ion-label position="stacked">Difficulty</ion-label>
@@ -129,6 +129,7 @@
           </div>
           <div padding>
             <ion-button size="large" type="submit" [disabled]="myForm.invalid" expand="block">Submit</ion-button>
+            <ion-button size="large" type="button" expand="block" (click)="cancel()" color="danger">Cancel</ion-button>
           </div>
         </ion-col>
       </ion-row>

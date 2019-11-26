@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AddCampComponent } from './components-admin/add-camp/add-camp.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,9 @@ const routes: Routes = [
   { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule' },
   { path: 'blog', loadChildren: './pages/blog/blog.module#BlogPageModule' },
   { path: 'blog-info/:id', loadChildren: './pages/blog-info/blog-info.module#BlogInfoPageModule' },
+
+  // { path: 'admin-add-camp', loadChildren: './pages/admin-add-camp/admin-add-camp.module#AdminAddCampPageModule' },
+
 
 ];
 

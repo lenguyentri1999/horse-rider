@@ -7,33 +7,33 @@ export interface TrailReviewEnums {
 }
 
 export enum TrailDifficulty {
-    Easy,
-    Intermediate,
-    Extreme
+    Easy = 'Easy',
+    Intermediate = 'Intermediate',
+    Extreme = 'Extreme'
 }
 
 export enum TrailWaterCrossings {
-    Puddles,
-    Streams,
-    Rivers
+    Puddles = 'Puddles',
+    Streams = 'Streams',
+    Rivers = 'Rivers',
 }
 
 export enum TrailBridges {
-    High,
-    Low,
-    Scary
+    High = 'High',
+    Low = 'Low',
+    Scary = 'Scary'
 }
 
 export enum TrailParkingForRigs {
-    Plenty,
-    Limited,
-    None,
+    Plenty = 'Plenty',
+    Limited = 'Limited',
+    None = 'None',
 }
 
 export enum TrailFooting {
-    Carriage,
-    Sandy,
-    Muddy,
-    Rocky,
+    Carriage = 'Carriage',
+    Sandy = 'Sandy',
+    Muddy = 'Muddy',
+    Rocky = 'Rocky',
 }
 

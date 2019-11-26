@@ -8,6 +8,9 @@ import { CampService, SourceEnum } from 'src/app/services/camp.service';
 import { ToastController, ModalController } from '@ionic/angular';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { TrailDifficulty, TrailWaterCrossings, TrailFooting, TrailParkingForRigs, TrailBridges } from 'src/models/enums/trail-review-enums';
+import { Observable, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap, tap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-camp',
@@ -25,7 +28,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
   trailEnum: TrailDifficulty;
   TrailWaterCrossings: any = TrailWaterCrossings;
 
-  type = 'camp';
+  type: Observable<string>;
 
   constructor(
     public mapboxService: MapboxService,
@@ -34,7 +37,13 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     protected fb: FormBuilder,
     protected toastCtrl: ToastController,
     protected modalCtrl: ModalController,
-  ) { }
+    protected route: ActivatedRoute,
+  ) {
+    this.type = this.route.paramMap.pipe(
+      map(params => params.get('type')),
+      tap(type => console.log(type)),
+    );
+  }
 
   private isEditMode(): boolean {
     return this.camp != null;
@@ -103,9 +112,9 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       this.campService.isTrail(this.camp).subscribe(
         val => {
           if (val) {
-            this.type = 'trail';
+            this.type = of('trail');
           } else {
-            this.type = 'camp';
+            this.type = of('camp');
           }
         }
       );
@@ -164,13 +173,16 @@ export class AddCampComponent implements OnInit, AfterViewInit {
         this.onFailureAlert();
       }
     });
-    if (this.type === 'camp') {
-      this.addCamp(camp);
-      return;
-    }
-    if (this.type === 'trail') {
-      this.addTrail(camp);
-    }
+
+    this.type.subscribe(type => {
+      if (type === 'camp') {
+        this.addCamp(camp);
+        return;
+      }
+      if (type === 'trail') {
+        this.addTrail(camp);
+      }
+    });
   }
 
   private addCamp(camp: Camp) {
@@ -204,6 +216,11 @@ export class AddCampComponent implements OnInit, AfterViewInit {
 
   public onTypeChange($event) {
     console.log($event);
+  }
+
+  public cancel() {
+    this.myForm.reset();
+    this.modalCtrl.dismiss();
   }
 
 }
