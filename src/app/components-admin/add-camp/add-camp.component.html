@@ -20,37 +20,37 @@
       <ion-row color="primary" justify-content-center>
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
           <div text-center>
-            <h3 *ngIf="!camp">Add New Business</h3>
-            <h3 *ngIf="camp">Edit Business</h3>
+            <h3 class="submit">Submit Camp</h3>
           </div>
           <div padding>
           </div>
           <div padding>
 
             <ion-list>
-
-              <ion-item>
-                <ion-label position="stacked">Name</ion-label>
+              <div class="container">
+              <ion-item class="rounded">
+                <ion-label  class="label"position="stacked">Name</ion-label>
                 <ion-input formControlName="name" type="text"></ion-input>
               </ion-item>
+            </div>
 
               <ion-item>
-                <ion-label>Description</ion-label>
+                <ion-label class="label" position="stacked">Description</ion-label>
                 <ion-textarea formControlName="description" type="text"></ion-textarea>
               </ion-item>
 
               <ion-item>
-                <ion-label position="stacked">URL</ion-label>
+                <ion-label class="label" position="stacked">URL</ion-label>
                 <ion-input formControlName="url" type="url"></ion-input>
               </ion-item>
 
               <ion-item>
-                <ion-label position="stacked">Picture URL</ion-label>
+                <ion-label class="label" position="stacked">Picture URL</ion-label>
                 <ion-input formControlName="pictureUrl" type="url"></ion-input>
               </ion-item>
 
               <ion-item>
-                <ion-label position="stacked">Address</ion-label>
+                <ion-label class="label" position="stacked">Address</ion-label>
               </ion-item>
               <ion-auto-complete (itemSelected)="onLocationSelected($event)"
                 [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar>

@@ -6,3 +6,27 @@ ion-auto-complete {
         width: 100%;
     }
 }
+h3{
+    font-family: 'Samsung Sharp Sans';
+    font-weight: 700;
+    color:#373838;
+    font-size:1.2em;
+}
+.label{
+    font-family: 'Futura';
+    font-weight: 700;
+    font-size: 1.15em;
+}
+.rounded{
+    width: 100%;
+    height: 100px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.container{
+    width: 300px; 
+    margin-left:auto; 
+    margin-right: auto; 
+}
