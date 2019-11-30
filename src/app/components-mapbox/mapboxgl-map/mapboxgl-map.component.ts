@@ -42,6 +42,12 @@ export class MapboxglMapComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit() {
     mapboxgl.accessToken = environment.mapboxKey;
+    // this.initMap().pipe(
+    //   tap(myMap => {
+    //     this.populateMarkers(myMap, this.geoJsonData);
+    //   })
+    // )
+    // .subscribe();
 
     this.onChanges.pipe(
       switchMap(changes => {

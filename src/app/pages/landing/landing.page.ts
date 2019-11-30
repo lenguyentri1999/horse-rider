@@ -32,6 +32,10 @@ export class LandingPage implements OnInit, AfterViewInit {
   threeCamps: Observable<Camp[]>;
   threeTrails: Observable<Camp[]>;
 
+  // Map data
+  mapGeojsonData$: Observable<MapboxPlace[]>;
+  readonly maxMarkers: number = 25;
+
   constructor(
     public mapboxService: MapboxService,
     public campSearchService: CampSearchService,
@@ -48,7 +52,14 @@ export class LandingPage implements OnInit, AfterViewInit {
       map(arr => arr.slice(0, 3))
     );
 
-  }
+    this.mapGeojsonData$ = this.campService.getAllAsList().pipe(
+      map(camps => camps.slice(0, this.maxMarkers)),
+      map(camps =>
+        camps.map(camp => this.mapboxService.campToMapboxPlace(camp))
+      )
+    );
+
+}
 
   ngOnInit() {
   }
