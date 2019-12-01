@@ -44,13 +44,6 @@ export class Tab1Page implements OnInit, AfterViewInit {
   camps: Observable<Camp[]> = new Observable<Camp[]>();
   campsMarkers: Observable<MapboxPlace[]>;
 
-  query: CampQuery = {
-    place: null,
-    term: ''
-  };
-
-  currentCoords: Observable<number[]>;
-
   isMapView = false;
 
   // Camps/Trail attributes filter
@@ -140,11 +133,10 @@ export class Tab1Page implements OnInit, AfterViewInit {
       tap(place => {
         // Set location search bar values
         this.locationSearchBar.setValue(place);
-        this.currentCoords = of(place.geometry.coordinates);
       }),
 
-      tap(_ => {
-        this.searchCamps();
+      tap(place => {
+        this.searchCamps(place);
       })
     ).subscribe();
   }
@@ -155,37 +147,32 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   async onLocateMeButtonClick() {
     const coords = await this.mapboxService.findMe();
-    this.currentCoords = of([coords.long, coords.lat]);
 
     this.mapboxService.reverseGeocode(coords).subscribe(place => {
-      this.query.place = place;
-      this.locationSearchBar.keyword = place.place_name;
-      this.searchCamps();
+      this.locationSearchBar.setValue(place);
+      this.searchCamps(place);
     });
   }
 
   async onLocationSelected(result: MapboxSearchResult) {
-    this.query.place = result.place;
-    this.currentCoords = of(this.query.place.geometry.coordinates);
+    this.searchCamps(result.place);
   }
 
-  async searchCamps() {
+  async searchCamps(place: MapboxPlace) {
     const loadCtrl = await this.getLoadControl();
     loadCtrl.present();
 
     let hashMap$ = this.originalDataSource$;
 
     // Filter by distance
-    if (this.query.place) {
+    if (place) {
       const currCoords: Coords = {
-        long: this.query.place.geometry.coordinates[0],
-        lat: this.query.place.geometry.coordinates[1]
+        long: place.geometry.coordinates[0],
+        lat: place.geometry.coordinates[1]
       };
 
       hashMap$ = this.filterByPlace(hashMap$, currCoords);
     }
-
-    this.query.term = this.textSearchBar.keyword;
 
     // Filter by term
     this.camps = hashMap$.pipe(
@@ -193,7 +180,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
         if (Object.entries(allCamps).length === 0) {
           return [];
         }
-        return this.campService.filterByTerm(this.query.term, allCamps);
+        return this.campService.filterByTerm(this.textSearchBar.keyword, allCamps);
       })
     );
 
