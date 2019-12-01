@@ -153,9 +153,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
         lat: this.myForm.get('coords').value.lat,
       },
       url: this.myForm.get('url').value,
-      pictures: [
-        this.myForm.get('pictureUrl').value,
-      ],
+      pictures: this.myForm.get('pictureUrl').value,
       attributes: {
         // bigRigFriendly: this.myForm.get('bigRigFriendly').value,
         // petFriendly: this.myForm.get('petFriendly').value,
