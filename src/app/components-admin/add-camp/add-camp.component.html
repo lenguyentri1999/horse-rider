@@ -52,7 +52,7 @@
                 <ion-label class="label" position="stacked">Address</ion-label>
               </ion-item>
               <ion-auto-complete (itemSelected)="onLocationSelected($event)"
-                [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar>
+                [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar [keyword]="myForm.get('address').value">
               </ion-auto-complete>
 
               <ng-container *ngIf="(type | async) === 'camp'">

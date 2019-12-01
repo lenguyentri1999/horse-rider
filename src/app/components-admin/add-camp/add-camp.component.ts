@@ -224,6 +224,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
 
   public cancel() {
     this.myForm.reset();
+    this.myForm.get('pictureUrl').setValue([]);
     this.modalCtrl.dismiss();
   }
 
