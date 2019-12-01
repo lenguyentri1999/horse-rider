@@ -139,7 +139,7 @@ export class CampService {
   }
 
   public setCampCoords(camp: Camp): Observable<{ long: number, lat: number }> {
-    return this.mapboxService.forwardGeocode(camp.address).pipe(
+    return this.mapboxService.forwardGeocodeToCoords(camp.address).pipe(
       tap(coords => {
         this.db.setObjectAtPath(`camps/${camp.id}/coords`, coords);
         return coords;

@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { Camp } from 'src/models/camp';
 import { CampService } from 'src/app/services/camp.service';
 import { map } from 'rxjs/operators';
+import { ICampSearchQueryParams } from 'src/models/navModels/campSearchQueryParam';
 
 @Component({
   selector: 'app-landing',
@@ -82,7 +83,11 @@ export class LandingPage implements OnInit, AfterViewInit {
 
   searchCamps() {
     this.mapboxService.setSearchQuery({ term: this.searchBar.keyword, place: this.place });
-    this.router.navigate(['tabs/places/camps']);
+    const queries: ICampSearchQueryParams = {
+      keyword: this.searchBar.keyword,
+      place: this.locationSearchBar.keyword,
+    }
+    this.router.navigate(['tabs/places/camps'], { queryParams: queries});
   }
 
   onSearchTrails(values: TrailSearchFormValues) {

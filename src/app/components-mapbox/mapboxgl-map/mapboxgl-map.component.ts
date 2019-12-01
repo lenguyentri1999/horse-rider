@@ -98,7 +98,7 @@ export class MapboxglMapComponent implements OnInit, OnChanges, AfterViewInit {
 
     // make a marker for each feature and add to the map
     geoJsonData.forEach(place => {
-      console.log(place);
+      // console.log(place);
       const coords = place.geometry.coordinates;
       const marker = new mapboxgl.Marker()
         .setLngLat(coords);

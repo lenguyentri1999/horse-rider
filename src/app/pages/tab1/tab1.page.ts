@@ -20,6 +20,7 @@ import { FirebaseTable } from 'src/models/firebase/statusTable';
 import { CampSearchFormValues } from 'src/app/components/camp-search-form/camp-search-form.component';
 import { TrailSearchFormValues } from 'src/app/components/trail-search-form/trail-search-form.component';
 import { RequestNewCampComponent } from 'src/app/components/request-new-camp/request-new-camp.component';
+import { ICampSearchQueryParams, CampSearchQueryParams } from 'src/models/navModels/campSearchQueryParam';
 
 @Component({
   selector: 'app-tab1',
@@ -72,8 +73,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected toastCtrl: ToastController,
     protected loadCtrl: LoadingController,
   ) {
-
-    this.originalDataSource$ = this.initQueryParams();
+    this.originalDataSource$ = this.initDataSource();
     this.filter = this.filterService.getFilter();
     this.isTrail = this.getCampOrTrail().pipe(
       map(val => val === SourceEnum.HorseTrails)
@@ -107,7 +107,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     );
   }
 
-  private initQueryParams(): Observable<FirebaseTable<Camp>> {
+  private initDataSource(): Observable<FirebaseTable<Camp>> {
     return this.getCampOrTrail().pipe(
       switchMap(sourceEnum => {
         return this.campService.getDataSourceAsMap(sourceEnum);
@@ -116,22 +116,37 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Get query from landing page
-    this.query = this.mapboxService.getSearchQuery();
-    this.textSearchBar.keyword = this.query.term;
+    // Get query 
+    this.route.queryParams.pipe(
 
-    if (this.query.place) {
-      this.currentCoords = of(this.query.place.geometry.coordinates);
-      this.locationSearchBar.setValue(this.query.place);
-      this.searchCamps();
-    } else {
-      this.mapboxService.getDefaultPlace().subscribe(place => {
-        this.query.place = place;
+      map((param: ICampSearchQueryParams) => {
+        // Set default values
+        return new CampSearchQueryParams(param)
+      }),
+
+      tap(param => {
+        // Set search bar values
+        this.textSearchBar.keyword = param.keyword;
+      }),
+
+      switchMap(param => {
+        // Set default place
+        if (param.place.trim() === '') {
+          return this.mapboxService.getDefaultPlace()
+        }
+        return this.mapboxService.forwardGeocode(param.place)
+      }),
+
+      tap(place => {
+        // Set location search bar values
         this.locationSearchBar.setValue(place);
-        this.currentCoords = of(this.query.place.geometry.coordinates);
+        this.currentCoords = of(place.geometry.coordinates);
+      }),
+
+      tap(_ => {
         this.searchCamps();
-      });
-    }
+      })
+    ).subscribe();
   }
 
   onCampSelected(result: SearchResult): void {
