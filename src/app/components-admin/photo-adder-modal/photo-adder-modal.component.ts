@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -13,9 +13,12 @@ export class PhotoAdderModalComponent implements OnInit {
   constructor(
     protected fb: FormBuilder,
     protected modalCtrl: ModalController,
+    protected navParams: NavParams,
   ) { 
+    let urlToBeEdited = this.navParams.get('url') || '';
+
     this.myForm = this.fb.group({
-      url: ['', Validators.required],
+      url: [urlToBeEdited, Validators.required],
     })
   }
 

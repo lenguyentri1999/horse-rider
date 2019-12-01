@@ -16,16 +16,36 @@ export class PhotoAdderComponent implements OnInit {
     protected modalCtrl: ModalController,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async onAddPhotoButton() {
+    this.openPhotoModal();
+  }
+
+  async onEditPhotoButton(index: number) {
+    this.openPhotoModal(true, index);
+  }
+
+  async openPhotoModal(isEdit: boolean = false, index: number = null) {
     const modal = await this.modalCtrl.create({
       component: PhotoAdderModalComponent,
+      componentProps: {
+        url: this.inputUrls[index]
+      }
     });
     modal.present();
-    modal.onDidDismiss().then((detail: OverlayEventDetail<PhotoModalOutput>)=> {
+    modal.onDidDismiss().then((detail: OverlayEventDetail<PhotoModalOutput>) => {
+
       if (detail.data.url) {
-        this.inputUrls.push(detail.data.url);
+
+        if (isEdit) {
+          // Edit
+          this.inputUrls[index] = detail.data.url;
+        } else {
+          // Add new
+          this.inputUrls.push(detail.data.url);
+        }
+
         console.log(this.inputUrls);
       }
     })

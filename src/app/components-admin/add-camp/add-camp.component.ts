@@ -41,7 +41,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
   ) {
     this.type = this.route.paramMap.pipe(
       map(params => params.get('type')),
-      tap(type => console.log(type)),
+      // tap(type => console.log(type)),
     );
   }
 
