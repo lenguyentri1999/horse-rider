@@ -1,0 +1,22 @@
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngIf="(blogs$ | async)?.length == 0">
+        <p>
+          No blogs have been posted.
+        </p>
+      </ion-col>
+      <ion-col>
+        <div *ngFor="let blog of blogs$ | async | paginate: { itemsPerPage: 3, currentPage: p}">
+          <app-blog-post [blog]="blog" [routerLink]="['/blog-info', blog.id]"></app-blog-post>
+        </div>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <pagination-controls (pageChange)="onPageChange($event)" *ngIf="blogs$ | async"></pagination-controls>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

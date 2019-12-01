@@ -10,6 +10,9 @@ import { AddEventComponent } from './add-event/add-event.component';
 import { AddBlogComponent } from './add-blog/add-blog.component';
 import { PhotoAdderComponent } from './photo-adder/photo-adder.component';
 import { PhotoAdderModalComponent } from './photo-adder-modal/photo-adder-modal.component';
+import { AdminBlogComponent } from './admin-blog/admin-blog.component';
+import { ComponentsModule } from '../components/components.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,7 @@ import { PhotoAdderModalComponent } from './photo-adder-modal/photo-adder-modal.
     AddBlogComponent,
     PhotoAdderComponent,
     PhotoAdderModalComponent,
+    AdminBlogComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +31,8 @@ import { PhotoAdderModalComponent } from './photo-adder-modal/photo-adder-modal.
     ReactiveFormsModule,
     FormsModule,
     AutoCompleteModule,
+    ComponentsModule,
+    NgxPaginationModule,
   ],
   entryComponents: [
     AddCampComponent,
@@ -35,6 +41,7 @@ import { PhotoAdderModalComponent } from './photo-adder-modal/photo-adder-modal.
     AddBlogComponent,
     PhotoAdderComponent,
     PhotoAdderModalComponent,
+    AdminBlogComponent,
   ],
   exports: [
     AddCampComponent,
@@ -42,6 +49,7 @@ import { PhotoAdderModalComponent } from './photo-adder-modal/photo-adder-modal.
     AddEventComponent,
     AddBlogComponent,
     PhotoAdderComponent,
+    AdminBlogComponent,
   ]
 })
 export class ComponentsAdminModule { }
