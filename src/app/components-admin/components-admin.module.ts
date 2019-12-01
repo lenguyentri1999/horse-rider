@@ -8,6 +8,8 @@ import { AddTrailComponent } from './add-trail/add-trail.component';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { AddEventComponent } from './add-event/add-event.component';
 import { AddBlogComponent } from './add-blog/add-blog.component';
+import { PhotoAdderComponent } from './photo-adder/photo-adder.component';
+import { PhotoAdderModalComponent } from './photo-adder-modal/photo-adder-modal.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { AddBlogComponent } from './add-blog/add-blog.component';
     AddTrailComponent,
     AddEventComponent,
     AddBlogComponent,
+    PhotoAdderComponent,
+    PhotoAdderModalComponent,
   ],
   imports: [
     CommonModule,
@@ -29,12 +33,15 @@ import { AddBlogComponent } from './add-blog/add-blog.component';
     AddTrailComponent,
     AddEventComponent,
     AddBlogComponent,
+    PhotoAdderComponent,
+    PhotoAdderModalComponent,
   ],
   exports: [
     AddCampComponent,
     AddTrailComponent,
     AddEventComponent,
     AddBlogComponent,
+    PhotoAdderComponent,
   ]
 })
 export class ComponentsAdminModule { }

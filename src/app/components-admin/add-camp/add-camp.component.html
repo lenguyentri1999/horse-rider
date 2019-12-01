@@ -42,10 +42,12 @@
                 <ion-input formControlName="url" type="url"></ion-input>
               </ion-item>
 
-              <ion-item>
+              <!-- <ion-item>
                 <ion-label class="label" position="stacked">Picture URL</ion-label>
                 <ion-input formControlName="pictureUrl" type="url"></ion-input>
-              </ion-item>
+              </ion-item> -->
+
+              <app-photo-adder (onUrlsChange)="onPhotoUrlsChange($event)"></app-photo-adder>
 
               <ion-item>
                 <ion-label class="label" position="stacked">Address</ion-label>

@@ -54,7 +54,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     let description = '';
     let address = '';
     let url = '';
-    let pictureUrl = '';
+    let pictureUrl: string[] = [];
     let coords = null;
 
     let attributes: Camp['attributes'] = {
@@ -76,7 +76,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       address = this.camp.address;
       coords = this.camp.coords;
       url = this.camp.url;
-      pictureUrl = this.camp.pictures && this.camp.pictures.length > 0 ? this.camp.pictures[0] : '';
+      pictureUrl = this.camp.pictures;
       attributes = this.camp.attributes;
     }
 
@@ -134,6 +134,10 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       long: place.geometry.coordinates[0],
       lat: place.geometry.coordinates[1]
     });
+  }
+
+  onPhotoUrlsChange(urls: string[]) {
+    this.myForm.get('pictureUrl').setValue(urls);
   }
 
   async submit() {
