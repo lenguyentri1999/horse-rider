@@ -80,4 +80,8 @@ export class DbService {
     return fileRef.putString(blob, 'data_url')
       .then(data => data, err => err);
   }
+
+  public removeAtPath(path: string): Promise<void> {
+    return this.afDb.database.ref(environment.firebasePath + path).remove();
+  }
 }

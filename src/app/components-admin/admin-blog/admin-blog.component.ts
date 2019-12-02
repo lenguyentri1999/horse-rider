@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BlogService } from 'src/app/services/blog.service';
 import { Observable } from 'rxjs';
 import { Blog } from 'src/models/blog';
-import { IonContent } from '@ionic/angular';
+import { IonContent, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,6 +19,7 @@ export class AdminBlogComponent implements OnInit {
 
   constructor(
     protected blogService: BlogService,
+    protected alertCtrl: AlertController,
     protected router: Router,
   ) {
     this.blogs$ = this.blogService.getAllAsList();
@@ -35,6 +36,27 @@ export class AdminBlogComponent implements OnInit {
 
   onAddBlogButton() {
     this.router.navigate(['/admin/blog-add']);
+  }
+
+  async onRemoveBlogButton(blog: Blog) {
+    const alert = await this.alertCtrl.create({
+      header: 'Deleting blog...',
+      message: 'Are you sure you want to delete this post? This action cannot be undone.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'OK',
+          handler: () => {
+            this.blogService.tryDelete(blog);
+          }
+        }
+      ]
+    })
+
+    alert.present();
   }
 
 }

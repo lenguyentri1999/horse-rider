@@ -14,7 +14,7 @@
       <ion-col>
         <div *ngFor="let blog of blogs$ | async | paginate: { itemsPerPage: 3, currentPage: p}">
           <app-blog-post [blog]="blog" [routerLink]="['/blog-info', blog.id]"></app-blog-post>
-          <ion-button>Edit</ion-button>
+          <ion-button color="danger" (click)="onRemoveBlogButton(blog)">Remove</ion-button>
         </div>
         <div>
         </div>
