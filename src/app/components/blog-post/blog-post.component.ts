@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { Blog } from 'src/models/blog';
 import { Observable } from 'rxjs';
 import { UserData } from 'src/models/userData';
@@ -11,6 +11,7 @@ import { UserProfileService } from 'src/app/services/user-profile.service';
 })
 export class BlogPostComponent implements OnInit, OnChanges {
   @Input() blog: Blog;
+  @Output() onRemoveButton = new EventEmitter<Blog>();
 
   userData$: Observable<UserData>;
 
@@ -25,6 +26,10 @@ export class BlogPostComponent implements OnInit, OnChanges {
       this.blog = changes.blog.currentValue;
       this.userData$ = this.userProfileService.getUserProfile(this.blog.uid);
     }
+  }
+
+  onRemoveButtonClick() {
+    this.onRemoveButton.emit(this.blog);
   }
 
 

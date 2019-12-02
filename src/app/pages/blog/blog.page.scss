@@ -1,24 +1,26 @@
 h1 {
-    font-family: 'Helvetica Neue';
-    src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
-    font-weight: bolder;
-    font-style: normal;
-    text-align: right;
-    
-  
-  }
+  font-family: "Helvetica Neue";
+  src: url("/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf") format("truetype");
+  font-weight: bolder;
+  font-style: normal;
+  text-align: right;
+}
 
-  h2, h1 {
-    display: inline;
-    margin: 0;
-    padding: 0;
-  }​
-  h2 {
-    font-weight: 100;
-    left: 0;
-  
-  }
+h2,
+h1 {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+​ h2 {
+  font-weight: 100;
+  left: 0;
+}
+
+app-blog-post {
+  width: 80vh;
+}
 
 pagination-controls {
-    margin: auto;
+  margin: auto;
 }

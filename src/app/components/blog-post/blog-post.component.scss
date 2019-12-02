@@ -1,33 +1,30 @@
-.title{
-    font-family: 'Samsung Sharp Sans';
-    font-weight: 800;
-    color:#373838;
+.title {
+  font-family: "Samsung Sharp Sans";
+  font-weight: 800;
+  color: #373838;
 }
-.author{
-    font-family: 'Futura';
-    font-weight: 590;
-    color:#373838;
-    font-size: 2em;
-    margin-bottom: 0.3em;
+.author {
+  font-family: "Futura";
+  font-weight: 590;
+  color: #373838;
+  font-size: 2em;
+  margin-bottom: 0.3em;
 }
-.date{
-    font-family: 'Futura';
-    font-weight: 400;
-    color:#373838;
-    font-size: 1.3em;
-    margin-bottom: 0.3em;
-
+.date {
+  font-family: "Futura";
+  font-weight: 400;
+  color: #373838;
+  font-size: 1.3em;
+  margin-bottom: 0.3em;
 }
-.description{
-    color: #373838;
-    font-size: 1.4em;
+.description {
+  color: #373838;
+  font-size: 1.4em;
 }
 ion-card {
-    margin: auto;
-    width: 80vh;
-    max-width: 80%;
-    padding: 10px;
-    box-shadow: none !important;
-    border-bottom: 2px solid #E8E8E8;
+  margin: auto;
+  max-width: 80%;
+  padding: 10px;
+  box-shadow: none !important;
+  border-bottom: 2px solid #e8e8e8;
 }
- 
