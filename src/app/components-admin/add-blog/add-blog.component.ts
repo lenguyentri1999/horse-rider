@@ -5,6 +5,7 @@ import { Blog } from 'src/models/blog';
 import { DbService } from 'src/app/services/db.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-blog',
@@ -20,6 +21,7 @@ export class AddBlogComponent implements OnInit {
     protected blogService: BlogService,
     protected db: DbService,
     protected authService: AuthService,
+    protected router: Router,
   ) {
     this.myForm = fb.group({
       title: ['', Validators.required],
@@ -50,6 +52,7 @@ export class AddBlogComponent implements OnInit {
 
   onCloseButton() {
     this.modalCtrl.dismiss();
+    // TODO: navigate back
   }
 
 }

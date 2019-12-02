@@ -9,6 +9,7 @@ import { AdminPage } from './admin.page';
 import { ComponentsAdminModule } from 'src/app/components-admin/components-admin.module';
 import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.component';
 import { AdminBlogComponent } from 'src/app/components-admin/admin-blog/admin-blog.component';
+import { AddBlogComponent } from 'src/app/components-admin/add-blog/add-blog.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'blog',
         component: AdminBlogComponent,
+      },
+      {
+        path: 'blog-add',
+        component: AddBlogComponent,
       }
     ]
   }
