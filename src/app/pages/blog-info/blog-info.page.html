@@ -20,7 +20,7 @@
       <img [src]="(blog$ | async)?.pictureUrl">
     </ion-row>
     <ion-row>
-      <p class="description">{{(blog$ | async)?.description}}</p>
+      <div class="description" [innerHTML]="(blog$ | async)?.description"></div>
     </ion-row>
   </ion-grid>
 

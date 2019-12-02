@@ -5,7 +5,7 @@
         <h1 class="title">{{blog?.title| slice:0:100}}</h1>
       </ion-col>
       <ion-col>
-        <p class="description">{{blog?.description | slice:0:100 }}...</p>
+        <div class="description" [innerHTML]="blog?.description | slice:0:100" ></div>
       </ion-col>
       <ion-col>
         <img [src]="blog?.pictureUrl">

@@ -1,6 +1,11 @@
 <ion-content padding>
   <ion-grid>
     <ion-row>
+      <ion-col>
+        <ion-button (click)="onAddBlogButton()">Add Blog</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col *ngIf="(blogs$ | async)?.length == 0">
         <p>
           No blogs have been posted.
@@ -9,6 +14,9 @@
       <ion-col>
         <div *ngFor="let blog of blogs$ | async | paginate: { itemsPerPage: 3, currentPage: p}">
           <app-blog-post [blog]="blog" [routerLink]="['/blog-info', blog.id]"></app-blog-post>
+          <ion-button>Edit</ion-button>
+        </div>
+        <div>
         </div>
       </ion-col>
 

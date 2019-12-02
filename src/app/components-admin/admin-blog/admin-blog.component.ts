@@ -3,6 +3,7 @@ import { BlogService } from 'src/app/services/blog.service';
 import { Observable } from 'rxjs';
 import { Blog } from 'src/models/blog';
 import { IonContent } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-blog',
@@ -18,7 +19,7 @@ export class AdminBlogComponent implements OnInit {
 
   constructor(
     protected blogService: BlogService,
-
+    protected router: Router,
   ) {
     this.blogs$ = this.blogService.getAllAsList();
   }
@@ -30,6 +31,10 @@ export class AdminBlogComponent implements OnInit {
     if (this.content) {
       this.content.scrollToTop();
     }
+  }
+
+  onAddBlogButton() {
+    this.router.navigate(['/admin/blog-add']);
   }
 
 }
