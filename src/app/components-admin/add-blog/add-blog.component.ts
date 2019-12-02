@@ -7,12 +7,15 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 @Component({
   selector: 'app-add-blog',
   templateUrl: './add-blog.component.html',
   styleUrls: ['./add-blog.component.scss'],
 })
 export class AddBlogComponent implements OnInit {
+  public Editor = ClassicEditor;
   readonly myForm: FormGroup;
 
   constructor(
@@ -33,6 +36,7 @@ export class AddBlogComponent implements OnInit {
   ngOnInit() { }
 
   submit() {
+    console.log(this.myForm.getRawValue());
     this.authService.tryGetUserId().subscribe(uid => {
 
       const blog: Blog = {
@@ -51,8 +55,10 @@ export class AddBlogComponent implements OnInit {
   }
 
   onCloseButton() {
+    this.myForm.reset();
     this.modalCtrl.dismiss();
     // TODO: navigate back
+    this.router.navigate(["admin/blog"])
   }
 
 }
