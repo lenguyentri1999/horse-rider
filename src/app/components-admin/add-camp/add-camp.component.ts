@@ -11,6 +11,7 @@ import { TrailDifficulty, TrailWaterCrossings, TrailFooting, TrailParkingForRigs
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, map } from 'rxjs/operators';
+import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 
 @Component({
   selector: 'app-add-camp',
@@ -54,7 +55,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     let description = '';
     let address = '';
     let url = '';
-    let pictureUrl: string[] = [];
+    let pictureUrl: PhotoUrlWrapper[] = [];
     let coords = null;
 
     let attributes: Camp['attributes'] = {
@@ -76,14 +77,11 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       address = this.camp.address;
       coords = this.camp.coords;
       url = this.camp.url;
-      pictureUrl = this.camp.pictures;
+      pictureUrl = this.camp.pictures.map(url => PhotoUrlWrapper.getAlreadyUploadedImage(url));
       attributes = this.camp.attributes;
     }
 
-    // const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
-
     this.myForm = this.fb.group({
-      // type: [type, Validators.required],
       name: [name, Validators.required],
       description: [description, Validators.required],
       address: [address, Validators.required],
@@ -136,12 +134,15 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onPhotoUrlsChange(urls: string[]) {
+  onPhotoUrlsChange(urls: PhotoUrlWrapper[]) {
     this.myForm.get('pictureUrl').setValue(urls);
   }
 
   async submit() {
     const campID = this.isEditMode() ? this.camp.id : this.db.uuidv4();
+
+    // TODO: handling this.myForm.get('pictureUrl') here
+    const urlWrappers: PhotoUrlWrapper[] = this.myForm.get('pictureUrl').value;
 
     const camp: Camp = {
       id: campID,

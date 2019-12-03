@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { PhotoAdderModalComponent, PhotoModalOutput } from '../photo-adder-modal/photo-adder-modal.component';
+import { PhotoAdderModalComponent} from '../photo-adder-modal/photo-adder-modal.component';
 import { OverlayEventDetail } from '@ionic/core';
+import { PhotoModalOutput, PhotoUrlWrapper } from 'src/models/photoModalOutput';
 
 @Component({
   selector: 'app-photo-adder',
@@ -9,8 +10,8 @@ import { OverlayEventDetail } from '@ionic/core';
   styleUrls: ['./photo-adder.component.scss'],
 })
 export class PhotoAdderComponent implements OnInit {
-  @Input() inputUrls: string[] = [];
-  @Output() onUrlsChange = new EventEmitter<string[]>();
+  @Input() inputUrls: PhotoUrlWrapper[] = [];
+  @Output() onFilesChanged = new EventEmitter<PhotoModalOutput[]>();
 
   constructor(
     protected modalCtrl: ModalController,
@@ -34,16 +35,16 @@ export class PhotoAdderComponent implements OnInit {
       }
     });
     modal.present();
-    modal.onDidDismiss().then((detail: OverlayEventDetail<PhotoModalOutput>) => {
+    modal.onDidDismiss().then((detail: OverlayEventDetail<PhotoUrlWrapper>) => {
 
-      if (detail.data.url) {
+      if (detail.data) {
 
         if (isEdit) {
           // Edit
-          this.inputUrls[index] = detail.data.url;
+          this.inputUrls[index] = detail.data;
         } else {
           // Add new
-          this.inputUrls.push(detail.data.url);
+          this.inputUrls.push(detail.data);
         }
 
         console.log(this.inputUrls);
@@ -58,7 +59,7 @@ export class PhotoAdderComponent implements OnInit {
   }
 
   updateOutput() {
-    this.onUrlsChange.next(this.inputUrls);
+    this.onFilesChanged.next(this.inputUrls);
   }
 
 }

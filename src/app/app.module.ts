@@ -14,6 +14,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { DbService } from './services/db.service';
 import { ReviewService } from './services/review.service';
 
@@ -41,6 +42,7 @@ import { ComponentsAdminModule } from './components-admin/components-admin.modul
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
     HttpClientModule,
     TabsPageModule,
     RegisterPageModule,

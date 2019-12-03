@@ -11,7 +11,7 @@ export const environment = {
     authDomain: 'horse-riding-app.firebaseapp.com',
     databaseURL: 'https://horse-riding-app.firebaseio.com',
     projectId: 'horse-riding-app',
-    storageBucket: '',
+    storageBucket: 'horse-riding-app.appspot.com',
     messagingSenderId: '215364264641',
     appId: '1:215364264641:web:75095f272cfe5cba'
   },

@@ -1,7 +1,12 @@
 <form [formGroup]="myForm" padding>
-  <ion-item>
+  <!-- <ion-item>
     <ion-label>Enter URL:</ion-label>
     <ion-input type="text" formControlName="url"></ion-input>
+  </ion-item> -->
+
+  <ion-item>
+    <ion-label>Upload image:</ion-label>
+    <input type="file" (change)="onFileChange($event)" accept=".png,.jpg" />
   </ion-item>
 
   <ion-button [disabled]="!myForm.valid" (click)="submit()">Submit</ion-button>
