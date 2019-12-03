@@ -20,16 +20,28 @@ export class PhotoAdderModalComponent implements OnInit {
     protected db: DbService,
   ) {
     let urlToBeEdited = this.navParams.get('url') || '';
+    // const isOnLocalImageInput = urlToBeEdited === '';
 
     this.myForm = this.fb.group({
+      isOnLocalImageInput: [null],
       url: [urlToBeEdited, Validators.required],
-      file: [null, Validators.required]
+      file: [null]
     })
   }
 
   ngOnInit() { }
 
-  submit() {
+  isOnLocalImageInput(): boolean {
+    return this.myForm.get('isOnLocalImageInput').value;
+  }
+
+  submit(isLocal: boolean) {
+    if (isLocal) {
+      // TODO: Handle populating data to be dismisses here, move it from the onload function
+    } else {
+      this.dataToBeDismissed = PhotoUrlWrapper.getAlreadyUploadedImage(this.myForm.get('url').value);
+    }
+
     this.modalCtrl.dismiss(this.dataToBeDismissed);
   }
 
@@ -38,7 +50,7 @@ export class PhotoAdderModalComponent implements OnInit {
   }
 
   onFileChange($event) {
-    const file = $event.target.files[0];
+    const file: File = $event.target.files[0];
     var reader = new FileReader();
 
     reader.readAsDataURL(file) // read file as data url

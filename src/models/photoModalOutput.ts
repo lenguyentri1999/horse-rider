@@ -15,7 +15,7 @@ export class PhotoUrlWrapper {
         this.file = file;
     }
 
-    static getLocalImage(url: string, file: any): PhotoUrlWrapper {
+    static getLocalImage(url: string, file: File): PhotoUrlWrapper {
         return new PhotoUrlWrapper(url, true, file);
     }
 
@@ -28,6 +28,6 @@ export class PhotoUrlWrapper {
     }
 
     static getAlreadyUploadedImage(url: string): PhotoUrlWrapper {
-        return new PhotoUrlWrapper(url, null, false);
+        return new PhotoUrlWrapper(url, false, null);
     }
 }

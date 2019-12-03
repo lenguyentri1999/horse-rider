@@ -1,15 +1,29 @@
 <form [formGroup]="myForm" padding>
-  <!-- <ion-item>
-    <ion-label>Enter URL:</ion-label>
-    <ion-input type="text" formControlName="url"></ion-input>
-  </ion-item> -->
-
   <ion-item>
-    <ion-label>Upload image:</ion-label>
-    <input type="file" (change)="onFileChange($event)" accept=".png,.jpg" />
+    <ion-label>Input type:</ion-label>
+    <ion-select formControlName="isOnLocalImageInput">
+      <ion-select-option [value]="true">From Computer</ion-select-option>
+      <ion-select-option [value]="false">From URL</ion-select-option>
+    </ion-select>
   </ion-item>
+  <ng-container *ngIf="isOnLocalImageInput() === false">
+    <ion-item>
+      <ion-label>Enter URL:</ion-label>
+      <ion-input type="text" formControlName="url"></ion-input>
+    </ion-item>
+  </ng-container>
 
-  <ion-button [disabled]="!myForm.valid" (click)="submit()">Submit</ion-button>
-  <ion-button type="button" color="danger" (click)="cancel()">Cancel</ion-button>
+  <ng-container *ngIf="isOnLocalImageInput() === true">
+    <ion-item>
+      <ion-label>Upload image:</ion-label>
+      <input type="file" (change)="onFileChange($event)" accept=".png,.jpg" />
+    </ion-item>
+
+  </ng-container>
+
+  <ng-container *ngIf="isOnLocalImageInput() != null">
+    <ion-button [disabled]="!myForm.valid" (click)="submit(isOnLocalImageInput())">Submit</ion-button>
+    <ion-button type="button" color="danger" (click)="cancel()">Cancel</ion-button>
+  </ng-container>
 
 </form>
