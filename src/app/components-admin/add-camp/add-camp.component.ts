@@ -9,11 +9,12 @@ import { ToastController, ModalController } from '@ionic/angular';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { TrailDifficulty, TrailWaterCrossings, TrailFooting, TrailParkingForRigs, TrailBridges } from 'src/models/enums/trail-review-enums';
 import { Observable, of, forkJoin } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, tap, map } from 'rxjs/operators';
 import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 import { ImageUploadTask } from 'src/models/firebase/imageUploadTask';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-camp',
@@ -41,6 +42,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     protected toastCtrl: ToastController,
     protected modalCtrl: ModalController,
     protected route: ActivatedRoute,
+    protected router: Router,
   ) {
     this.type = this.route.paramMap.pipe(
       map(params => params.get('type')),
@@ -161,6 +163,10 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     // Upload all photos that are local
     const urlWrappers: PhotoUrlWrapper[] = this.myForm.get('pictureUrl').value;
     const pictureUrls = await Promise.all(this.uploadAllPhotos(urlWrappers));
+    if (pictureUrls.length == 0) {
+      alert("You must add at least one picture!");
+      return;
+    }
     this.myForm.get('pictureUrl').setValue(pictureUrls);
 
     // Populate camp object
@@ -201,12 +207,18 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     this.type.subscribe(type => {
       if (type === 'camp') {
         this.addCamp(camp);
+        this.openNewTab(camp);
         return;
       }
       if (type === 'trail') {
         this.addTrail(camp);
+        this.openNewTab(camp);
       }
     });
+  }
+
+  private openNewTab(camp: Camp) {
+    window.open(environment.baseUrl + `/camp-info/${camp.id}`, '_blank');
   }
 
   private addCamp(camp: Camp) {
