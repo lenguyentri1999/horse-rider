@@ -89,7 +89,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       address: [address, Validators.required],
       coords: [coords, Validators.required],
       url: [url, [Validators.required]],
-      pictureUrl: [pictureUrl, [Validators.required]],
+      pictureUrl: [pictureUrl],
 
       // Camp attributes
       // bigRigFriendly: [attributes.bigRigFriendly],
@@ -155,55 +155,54 @@ export class AddCampComponent implements OnInit, AfterViewInit {
   async submit() {
     const campID = this.isEditMode() ? this.camp.id : this.db.uuidv4();
 
-    // TODO: handling this.myForm.get('pictureUrl') here
+    // Upload all photos that are local
     const urlWrappers: PhotoUrlWrapper[] = this.myForm.get('pictureUrl').value;
-    Promise.all(this.uploadAllPhotos(urlWrappers)).then(res => {
-      console.log(res);
-    })
+    const pictureUrls = await Promise.all(this.uploadAllPhotos(urlWrappers));
+    this.myForm.get('pictureUrl').setValue(pictureUrls);
 
+    // Populate camp object
+    const camp: Camp = {
+      id: campID,
+      name: this.myForm.get('name').value,
+      description: this.myForm.get('description').value,
+      address: this.myForm.get('address').value,
+      coords: {
+        long: this.myForm.get('coords').value.long,
+        lat: this.myForm.get('coords').value.lat,
+      },
+      url: this.myForm.get('url').value,
+      pictures: this.myForm.get('pictureUrl').value,
+      attributes: {
+        // bigRigFriendly: this.myForm.get('bigRigFriendly').value,
+        // petFriendly: this.myForm.get('petFriendly').value,
+        // wifi: this.myForm.get('wifi').value,
 
-    // const camp: Camp = {
-    //   id: campID,
-    //   name: this.myForm.get('name').value,
-    //   description: this.myForm.get('description').value,
-    //   address: this.myForm.get('address').value,
-    //   coords: {
-    //     long: this.myForm.get('coords').value.long,
-    //     lat: this.myForm.get('coords').value.lat,
-    //   },
-    //   url: this.myForm.get('url').value,
-    //   pictures: this.myForm.get('pictureUrl').value,
-    //   attributes: {
-    //     // bigRigFriendly: this.myForm.get('bigRigFriendly').value,
-    //     // petFriendly: this.myForm.get('petFriendly').value,
-    //     // wifi: this.myForm.get('wifi').value,
+        difficulty: this.myForm.get('difficulty').value,
+        parking: this.myForm.get('parking').value,
+        bridges: this.myForm.get('bridges').value,
+        footing: this.myForm.get('footing').value,
+        waterCrossings: this.myForm.get('waterCrossings').value
+      }
+    };
 
-    //     difficulty: this.myForm.get('difficulty').value,
-    //     parking: this.myForm.get('parking').value,
-    //     bridges: this.myForm.get('bridges').value,
-    //     footing: this.myForm.get('footing').value,
-    //     waterCrossings: this.myForm.get('waterCrossings').value
-    //   }
-    // };
+    this.campService.tryAddNew(camp).subscribe(async (success) => {
+      if (success) {
+        this.onSuccessAlert();
+        this.modalCtrl.dismiss();
+      } else {
+        this.onFailureAlert();
+      }
+    });
 
-    // this.campService.tryAddNew(camp).subscribe(async (success) => {
-    //   if (success) {
-    //     this.onSuccessAlert();
-    //     this.modalCtrl.dismiss();
-    //   } else {
-    //     this.onFailureAlert();
-    //   }
-    // });
-
-    // this.type.subscribe(type => {
-    //   if (type === 'camp') {
-    //     this.addCamp(camp);
-    //     return;
-    //   }
-    //   if (type === 'trail') {
-    //     this.addTrail(camp);
-    //   }
-    // });
+    this.type.subscribe(type => {
+      if (type === 'camp') {
+        this.addCamp(camp);
+        return;
+      }
+      if (type === 'trail') {
+        this.addTrail(camp);
+      }
+    });
   }
 
   private addCamp(camp: Camp) {
