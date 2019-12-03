@@ -35,13 +35,9 @@
 
     <ion-content>
       <ion-list>
-        <!-- <ion-menu-toggle> -->
-        <ion-item [routerLink]="blogPage.url" (click)="setCurrentPage(blogPage)">{{blogPage.name}}</ion-item>
-        <!-- </ion-menu-toggle> -->
-        <!-- <ion-menu-toggle> -->
+        <ion-item routerLink="/landing">Home</ion-item>
+        <ion-item [routerLink]="blogPage.url">{{blogPage.name}}</ion-item>
         <ion-item routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-item>
-        <!-- <ion-item [routerLink]="blogPage.url">{{blogPage.name}}</ion-item> -->
-        <!-- </ion-menu-toggle> -->
 
         <ion-item routerLink="/tabs/places/trails">Trails</ion-item>
         <ion-item routerLink="/tabs/places/camps">Camps</ion-item>

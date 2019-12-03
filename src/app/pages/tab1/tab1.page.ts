@@ -158,6 +158,12 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.searchCamps(result.place);
   }
 
+  async onSearchButton() {
+    this.mapboxService.forwardGeocode(this.locationSearchBar.keyword).subscribe(place => {
+      this.searchCamps(place);
+    })
+  }
+
   async searchCamps(place: MapboxPlace) {
     const loadCtrl = await this.getLoadControl();
     loadCtrl.present();
