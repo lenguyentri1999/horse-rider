@@ -1,0 +1,28 @@
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="onAddCampsButton()" *ngIf="!isTrail | async">Add Camps</ion-button>
+        <ion-button (click)="onAddCampsButton()" *ngIf="isTrail | async">Add Trails</ion-button>
+      </ion-col>
+    </ion-row>
+
+    {{isTrail | async}}
+
+    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 10, currentPage: p}">
+      <!-- <ion-col size="9">
+        <app-blog-post [blog]="blog" [routerLink]="['/blog-info', blog.id]"></app-blog-post>
+      </ion-col>
+      <ion-col size="3">
+        <ion-button color="danger" (click)="onRemoveBlogButton(blog)">Remove</ion-button>
+      </ion-col> -->
+    </ion-row>
+
+    <ion-row justify-content-center>
+      <ion-col size="9">
+        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="camps$ | async"></pagination-controls>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

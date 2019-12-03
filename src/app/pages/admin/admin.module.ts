@@ -10,6 +10,7 @@ import { ComponentsAdminModule } from 'src/app/components-admin/components-admin
 import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.component';
 import { AdminBlogComponent } from 'src/app/components-admin/admin-blog/admin-blog.component';
 import { AddBlogComponent } from 'src/app/components-admin/add-blog/add-blog.component';
+import { AdminCampsComponent } from 'src/app/components-admin/admin-camps/admin-camps.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
       {
         path: 'add/:type',
         component: AddCampComponent,
+      },
+      {
+        path: 'places/:source',
+        component: AdminCampsComponent,
       },
       {
         path: 'blog',

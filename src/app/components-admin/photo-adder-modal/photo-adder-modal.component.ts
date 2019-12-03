@@ -55,9 +55,10 @@ export class PhotoAdderModalComponent implements OnInit {
 
     reader.readAsDataURL(file) // read file as data url
 
-    reader.onload = (loadedFile) => { // called once readAsDataURL is completed
+    reader.onload = (loadedFile: any) => { // called once readAsDataURL is completed
       if (loadedFile && loadedFile.target && loadedFile.target.result) {
         const fileUrl: string = loadedFile.target.result.toString();
+        loadedFile.target.result
         this.dataToBeDismissed = PhotoUrlWrapper.getLocalImage(fileUrl, file);
 
         this.myForm.get('url').setValue(loadedFile.target.result);
