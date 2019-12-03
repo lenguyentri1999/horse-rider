@@ -43,6 +43,11 @@
               </ion-item>
 
               <ion-item>
+                <ion-label class="label" position="stacked">Phone number</ion-label>
+                <ion-input formControlName="phoneNumber" type="tel"></ion-input>
+              </ion-item>
+
+              <ion-item>
                 <ion-label class="label" position="stacked">Add Photos</ion-label>
               </ion-item>
               <app-photo-adder (onUrlsChange)="onPhotoUrlsChange($event)" [inputUrls]="myForm.get('pictureUrl').value"></app-photo-adder>

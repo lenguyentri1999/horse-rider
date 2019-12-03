@@ -57,6 +57,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     let description = '';
     let address = '';
     let url = '';
+    let phoneNumber = '';
     let pictureUrl: PhotoUrlWrapper[] = [];
     let coords = null;
 
@@ -79,6 +80,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       address = this.camp.address;
       coords = this.camp.coords;
       url = this.camp.url;
+      phoneNumber = this.camp.phoneNumber;
       pictureUrl = this.camp.pictures.map(url => PhotoUrlWrapper.getAlreadyUploadedImage(url));
       attributes = this.camp.attributes || attributes;
     }
@@ -89,6 +91,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       address: [address, Validators.required],
       coords: [coords, Validators.required],
       url: [url, [Validators.required]],
+      phoneNumber: [phoneNumber, Validators.required],
       pictureUrl: [pictureUrl],
 
       // Camp attributes
@@ -171,6 +174,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
         lat: this.myForm.get('coords').value.lat,
       },
       url: this.myForm.get('url').value,
+      phoneNumber: this.myForm.get('phoneNumber').value,
       pictures: this.myForm.get('pictureUrl').value,
       attributes: {
         // bigRigFriendly: this.myForm.get('bigRigFriendly').value,
