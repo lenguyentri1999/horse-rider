@@ -80,7 +80,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       coords = this.camp.coords;
       url = this.camp.url;
       pictureUrl = this.camp.pictures.map(url => PhotoUrlWrapper.getAlreadyUploadedImage(url));
-      attributes = this.camp.attributes;
+      attributes = this.camp.attributes || attributes;
     }
 
     this.myForm = this.fb.group({
@@ -239,8 +239,8 @@ export class AddCampComponent implements OnInit, AfterViewInit {
   }
 
   public cancel() {
-    this.myForm.reset();
-    this.myForm.get('pictureUrl').setValue([]);
+    // this.myForm.reset();
+    // this.myForm.get('pictureUrl').setValue([]);
     this.modalCtrl.dismiss();
   }
 
