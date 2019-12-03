@@ -8,10 +8,12 @@ import { CampService, SourceEnum } from 'src/app/services/camp.service';
 import { ToastController, ModalController } from '@ionic/angular';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { TrailDifficulty, TrailWaterCrossings, TrailFooting, TrailParkingForRigs, TrailBridges } from 'src/models/enums/trail-review-enums';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, map } from 'rxjs/operators';
 import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
+import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
+import { ImageUploadTask } from 'src/models/firebase/imageUploadTask';
 
 @Component({
   selector: 'app-add-camp',
@@ -138,54 +140,70 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     this.myForm.get('pictureUrl').setValue(urls);
   }
 
+  uploadAllPhotos(wrappers: PhotoUrlWrapper[]): Promise<string>[] {
+    const imageUploadTasks: ImageUploadTask[] = wrappers.map(wrapper => {
+      if (wrapper.isLocal) {
+        const data = this.db.getImageUrl(this.db.uuidv4(), wrapper.file);
+        return ImageUploadTask.getLocalImage(data.ref, data.task);
+      } else {
+        return ImageUploadTask.getUploadedImage(wrapper.url);
+      }
+    });
+    return imageUploadTasks.map(t => t.getUrl());
+  }
+
   async submit() {
     const campID = this.isEditMode() ? this.camp.id : this.db.uuidv4();
 
     // TODO: handling this.myForm.get('pictureUrl') here
     const urlWrappers: PhotoUrlWrapper[] = this.myForm.get('pictureUrl').value;
+    Promise.all(this.uploadAllPhotos(urlWrappers)).then(res => {
+      console.log(res);
+    })
 
-    const camp: Camp = {
-      id: campID,
-      name: this.myForm.get('name').value,
-      description: this.myForm.get('description').value,
-      address: this.myForm.get('address').value,
-      coords: {
-        long: this.myForm.get('coords').value.long,
-        lat: this.myForm.get('coords').value.lat,
-      },
-      url: this.myForm.get('url').value,
-      pictures: this.myForm.get('pictureUrl').value,
-      attributes: {
-        // bigRigFriendly: this.myForm.get('bigRigFriendly').value,
-        // petFriendly: this.myForm.get('petFriendly').value,
-        // wifi: this.myForm.get('wifi').value,
 
-        difficulty: this.myForm.get('difficulty').value,
-        parking: this.myForm.get('parking').value,
-        bridges: this.myForm.get('bridges').value,
-        footing: this.myForm.get('footing').value,
-        waterCrossings: this.myForm.get('waterCrossings').value
-      }
-    };
+    // const camp: Camp = {
+    //   id: campID,
+    //   name: this.myForm.get('name').value,
+    //   description: this.myForm.get('description').value,
+    //   address: this.myForm.get('address').value,
+    //   coords: {
+    //     long: this.myForm.get('coords').value.long,
+    //     lat: this.myForm.get('coords').value.lat,
+    //   },
+    //   url: this.myForm.get('url').value,
+    //   pictures: this.myForm.get('pictureUrl').value,
+    //   attributes: {
+    //     // bigRigFriendly: this.myForm.get('bigRigFriendly').value,
+    //     // petFriendly: this.myForm.get('petFriendly').value,
+    //     // wifi: this.myForm.get('wifi').value,
 
-    this.campService.tryAddNew(camp).subscribe(async (success) => {
-      if (success) {
-        this.onSuccessAlert();
-        this.modalCtrl.dismiss();
-      } else {
-        this.onFailureAlert();
-      }
-    });
+    //     difficulty: this.myForm.get('difficulty').value,
+    //     parking: this.myForm.get('parking').value,
+    //     bridges: this.myForm.get('bridges').value,
+    //     footing: this.myForm.get('footing').value,
+    //     waterCrossings: this.myForm.get('waterCrossings').value
+    //   }
+    // };
 
-    this.type.subscribe(type => {
-      if (type === 'camp') {
-        this.addCamp(camp);
-        return;
-      }
-      if (type === 'trail') {
-        this.addTrail(camp);
-      }
-    });
+    // this.campService.tryAddNew(camp).subscribe(async (success) => {
+    //   if (success) {
+    //     this.onSuccessAlert();
+    //     this.modalCtrl.dismiss();
+    //   } else {
+    //     this.onFailureAlert();
+    //   }
+    // });
+
+    // this.type.subscribe(type => {
+    //   if (type === 'camp') {
+    //     this.addCamp(camp);
+    //     return;
+    //   }
+    //   if (type === 'trail') {
+    //     this.addTrail(camp);
+    //   }
+    // });
   }
 
   private addCamp(camp: Camp) {

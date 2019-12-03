@@ -4,7 +4,8 @@ import { AngularFireDatabase, QueryFn } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import * as firebase from 'firebase';
 import { map, finalize } from 'rxjs/operators';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { AngularFireStorage, AngularFireUploadTask, AngularFireStorageReference } from '@angular/fire/storage';
+import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -76,9 +77,13 @@ export class DbService {
       .then(data => data, err => err);
   }
 
-  public uploadImageAndGetUrl(path: string, img: any): Observable<string>{
-    const storageRef = this.afStorage.ref(environment.firebasePath + path);
-    return storageRef.getDownloadURL();
+  public getImageUrl(path: string, file: File): { ref: AngularFireStorageReference, task: AngularFireUploadTask } {
+    const storageRef = this.afStorage.ref(environment.firebasePath + "images/" + path);
+    const task = storageRef.put(file);
+    return {
+      task,
+      ref: storageRef
+    };
   }
 
   public removeAtPath(path: string): Promise<void> {
