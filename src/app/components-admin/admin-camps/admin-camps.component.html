@@ -23,7 +23,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}">
+    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}" [routerLink]="['/camp-info', camp.id]">
       <ion-col>{{camp.name}}</ion-col>
       <ion-col>{{camp.address}}</ion-col>
       <ion-col>{{camp.city}}</ion-col>
