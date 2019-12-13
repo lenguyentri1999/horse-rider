@@ -145,10 +145,8 @@ export class CampService {
   public setCampCityAndState(camp: Camp): Observable<any> {
     return this.mapboxService.reverseGeocode(camp.coords).pipe(
       tap(place => {
-        console.log('place', place);
         const state = this.parseStateFromContext(place.context);
         const city = this.parseCityFromContext(place.context);
-        console.log('state', state);
 
         if (state != null) {
           this.db.setObjectAtPath(`camps/${camp.id}/state`, state);

@@ -2,32 +2,51 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-card>Total {{title | async}}: {{(dataSource$ | async)?.length}}</ion-card>
+        <ion-card padding class="ion-card-total">
+          <ion-card-subtitle>
+            Total {{title | async}}:
+          </ion-card-subtitle>
+          <ion-card-header>
+            <h1>
+              {{(dataSource$ | async)?.length}}
+            </h1>
+          </ion-card-header>
+        </ion-card>
       </ion-col>
-      <ion-col>
+      <ion-col style="text-align: right;">
         <ion-button (click)="onAddCampsButton()">Add {{title | async}}</ion-button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-searchbar [(ngModel)]="currQueries.name" (ionChange)="onAnySearchBarChange($event)" placeholder="Name"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="currQueries.name" (ionChange)="onAnySearchBarChange($event)" placeholder="Name">
+        </ion-searchbar>
       </ion-col>
       <ion-col>
-        <ion-searchbar [(ngModel)]="currQueries.address" (ionChange)="onAnySearchBarChange($event)" placeholder="Address"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="currQueries.address" (ionChange)="onAnySearchBarChange($event)"
+          placeholder="Address"></ion-searchbar>
       </ion-col>
       <ion-col>
-        <ion-searchbar [(ngModel)]="currQueries.city" (ionChange)="onAnySearchBarChange($event)" placeholder="City"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="currQueries.city" (ionChange)="onAnySearchBarChange($event)" placeholder="City">
+        </ion-searchbar>
       </ion-col>
       <ion-col>
-        <ion-searchbar [(ngModel)]="currQueries.state" (ionChange)="onAnySearchBarChange($event)" placeholder="State"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="currQueries.state" (ionChange)="onAnySearchBarChange($event)" placeholder="State">
+        </ion-searchbar>
       </ion-col>
+      <ion-col size="1"></ion-col>
     </ion-row>
 
-    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}" [routerLink]="['/camp-info', camp.id]">
-      <ion-col>{{camp.name}}</ion-col>
+    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}">
+      <ion-col [routerLink]="['/camp-info', camp.id]">{{camp.name}}</ion-col>
       <ion-col>{{camp.address}}</ion-col>
       <ion-col>{{camp.city}}</ion-col>
       <ion-col>{{camp.state}}</ion-col>
+      <ion-col size="1">
+        <ion-button (click)="onEditCampButtonClick(camp)">
+          Edit
+        </ion-button>
+      </ion-col>
     </ion-row>
 
     <ion-row justify-content-center>

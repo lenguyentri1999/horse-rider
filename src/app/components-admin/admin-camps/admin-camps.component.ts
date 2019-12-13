@@ -6,6 +6,8 @@ import { map, switchMap, first, tap } from 'rxjs/operators';
 import { CampService } from 'src/app/services/camp.service';
 import { MapboxService } from 'src/app/services/mapbox.service';
 import { MapboxContext } from 'src/models/mapboxResult';
+import { AddCampComponent } from '../add-camp/add-camp.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-admin-camps',
@@ -31,6 +33,7 @@ export class AdminCampsComponent implements OnInit {
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
+    protected modalCtrl: ModalController,
     protected campService: CampService,
     protected mapboxService: MapboxService,
   ) {
@@ -85,18 +88,28 @@ export class AdminCampsComponent implements OnInit {
       // Filter by city
       map(camps => {
         if (this.currQueries.city === '') { return camps };
-        return camps.filter(camp => camp.city.toLowerCase().includes(this.currQueries.city.toLowerCase()))
+        return camps.filter(camp => camp.city ? camp.city.toLowerCase().includes(this.currQueries.city.toLowerCase()) : false)
       }),
 
       // Filter by state
       map(camps => {
         if (this.currQueries.state === '') { return camps };
-        return camps.filter(camp => camp.state.toLowerCase().includes(this.currQueries.state.toLowerCase()))
+        return camps.filter(camp => camp.state ? camp.state.toLowerCase().includes(this.currQueries.state.toLowerCase()) : false)
       }),
     );
   }
 
-  onPageChange(page: number) {
-    this.p = page;
-  }
+  async onEditCampButtonClick(camp: Camp) {
+    const modal = await this.modalCtrl.create({
+      component: AddCampComponent,
+      componentProps: {
+        camp
+      }
+    });
+    modal.present();
+}
+
+onPageChange(page: number) {
+  this.p = page;
+}
 }
