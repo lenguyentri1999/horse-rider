@@ -14,7 +14,17 @@ import { MapboxContext } from 'src/models/mapboxResult';
 })
 export class AdminCampsComponent implements OnInit {
   dataSource$: Observable<Camp[]>;
+  originalDataSource$: Observable<Camp[]>;
   isTrail: Observable<boolean>;
+  title: Observable<string>;
+
+  currQueries = {
+    name: '',
+    address: '',
+    state: '',
+    city: ''
+  };
+  queries: string[] = Object.keys(this.currQueries);
 
   p = 1;
 
@@ -28,34 +38,28 @@ export class AdminCampsComponent implements OnInit {
     this.isTrail = this.route.paramMap.pipe(
       map(param => param.get('source') === 'trails')
     );
+    this.title = this.isTrail.pipe(
+      map(isTrail => isTrail ? 'Trails' : 'Camps')
+    );
+
+
     this.dataSource$ = this.isTrail.pipe(
       switchMap(isTrail => isTrail ?
         this.campService.getAllHorseTrailsAsList() :
         this.campService.getAllHorseCampsAsList()
       ),
-      // tap(camps => {
-      //   this.populateCampState(camps);
-      // })
+    );
 
-    )
+    this.originalDataSource$ = this.dataSource$;
   }
-
-  // populateCampState(camps: Camp[]) {
-  //   camps.forEach(camp => {
-  //     this.mapboxService.reverseGeocode(camp.coords).subscribe(place => {
-  //       camp.state = this.parseStateFromContext(place.context);
-  //     })
-  //   })
-  // }
-
 
   ngOnInit() { }
 
   onAddCampsButton() {
     this.isTrail.pipe(
       first(),
-    ).subscribe(val => {
-      if (val) {
+    ).subscribe(isTrail => {
+      if (isTrail) {
         this.router.navigate(['/admin/add/trail'])
       } else {
         this.router.navigate(['/admin/add/camp']);
@@ -63,11 +67,36 @@ export class AdminCampsComponent implements OnInit {
     })
   }
 
-  onPageChange(page: number) {
-    this.p = page;
-    // if (this.content) {
-    //   this.content.scrollToTop();
-    // }
+  onAnySearchBarChange() {
+    this.dataSource$ = this.originalDataSource$.pipe(
+
+      // Filter by name
+      map(camps => {
+        if (this.currQueries.name === '') { return camps };
+        return camps.filter(camp => camp.name.toLowerCase().includes(this.currQueries.name.toLowerCase()))
+      }),
+
+      // Filter by address
+      map(camps => {
+        if (this.currQueries.address === '') { return camps };
+        return camps.filter(camp => camp.address.toLowerCase().includes(this.currQueries.address.toLowerCase()))
+      }),
+
+      // Filter by city
+      map(camps => {
+        if (this.currQueries.city === '') { return camps };
+        return camps.filter(camp => camp.city.toLowerCase().includes(this.currQueries.city.toLowerCase()))
+      }),
+
+      // Filter by state
+      map(camps => {
+        if (this.currQueries.state === '') { return camps };
+        return camps.filter(camp => camp.state.toLowerCase().includes(this.currQueries.state.toLowerCase()))
+      }),
+    );
   }
 
+  onPageChange(page: number) {
+    this.p = page;
+  }
 }

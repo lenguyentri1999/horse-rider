@@ -2,7 +2,24 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-button (click)="onAddCampsButton()">Add {{(isTrail | async) ? 'Trails' : 'Camps'}}</ion-button>
+        <ion-card>Total {{title | async}}: {{(dataSource$ | async)?.length}}</ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="onAddCampsButton()">Add {{title | async}}</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.name" (ionChange)="onAnySearchBarChange($event)" placeholder="Name"></ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.address" (ionChange)="onAnySearchBarChange($event)" placeholder="Address"></ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.city" (ionChange)="onAnySearchBarChange($event)" placeholder="City"></ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.state" (ionChange)="onAnySearchBarChange($event)" placeholder="State"></ion-searchbar>
       </ion-col>
     </ion-row>
 
