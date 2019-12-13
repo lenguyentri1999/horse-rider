@@ -5,6 +5,9 @@ import { Blog } from 'src/models/blog';
 import { DbService } from 'src/app/services/db.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
+
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-add-blog',
@@ -12,6 +15,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./add-blog.component.scss'],
 })
 export class AddBlogComponent implements OnInit {
+  public Editor = ClassicEditor;
   readonly myForm: FormGroup;
 
   constructor(
@@ -20,6 +24,7 @@ export class AddBlogComponent implements OnInit {
     protected blogService: BlogService,
     protected db: DbService,
     protected authService: AuthService,
+    protected router: Router,
   ) {
     this.myForm = fb.group({
       title: ['', Validators.required],
@@ -31,6 +36,7 @@ export class AddBlogComponent implements OnInit {
   ngOnInit() { }
 
   submit() {
+    console.log(this.myForm.getRawValue());
     this.authService.tryGetUserId().subscribe(uid => {
 
       const blog: Blog = {
@@ -49,7 +55,10 @@ export class AddBlogComponent implements OnInit {
   }
 
   onCloseButton() {
+    this.myForm.reset();
     this.modalCtrl.dismiss();
+    // TODO: navigate back
+    this.router.navigate(["admin/blog"])
   }
 
 }

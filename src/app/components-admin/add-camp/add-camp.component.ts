@@ -8,9 +8,13 @@ import { CampService, SourceEnum } from 'src/app/services/camp.service';
 import { ToastController, ModalController } from '@ionic/angular';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { TrailDifficulty, TrailWaterCrossings, TrailFooting, TrailParkingForRigs, TrailBridges } from 'src/models/enums/trail-review-enums';
-import { Observable, of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { Observable, of, forkJoin } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, tap, map } from 'rxjs/operators';
+import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
+import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
+import { ImageUploadTask } from 'src/models/firebase/imageUploadTask';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-camp',
@@ -38,10 +42,11 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     protected toastCtrl: ToastController,
     protected modalCtrl: ModalController,
     protected route: ActivatedRoute,
+    protected router: Router,
   ) {
     this.type = this.route.paramMap.pipe(
       map(params => params.get('type')),
-      tap(type => console.log(type)),
+      // tap(type => console.log(type)),
     );
   }
 
@@ -54,7 +59,8 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     let description = '';
     let address = '';
     let url = '';
-    let pictureUrl = '';
+    let phoneNumber = '';
+    let pictureUrl: PhotoUrlWrapper[] = [];
     let coords = null;
 
     let attributes: Camp['attributes'] = {
@@ -76,20 +82,19 @@ export class AddCampComponent implements OnInit, AfterViewInit {
       address = this.camp.address;
       coords = this.camp.coords;
       url = this.camp.url;
-      pictureUrl = this.camp.pictures && this.camp.pictures.length > 0 ? this.camp.pictures[0] : '';
-      attributes = this.camp.attributes;
+      phoneNumber = this.camp.phoneNumber;
+      pictureUrl = this.camp.pictures.map(url => PhotoUrlWrapper.getAlreadyUploadedImage(url));
+      attributes = this.camp.attributes || attributes;
     }
 
-    // const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
-
     this.myForm = this.fb.group({
-      // type: [type, Validators.required],
       name: [name, Validators.required],
       description: [description, Validators.required],
       address: [address, Validators.required],
       coords: [coords, Validators.required],
       url: [url, [Validators.required]],
-      pictureUrl: [pictureUrl, [Validators.required]],
+      phoneNumber: [phoneNumber, Validators.required],
+      pictureUrl: [pictureUrl],
 
       // Camp attributes
       // bigRigFriendly: [attributes.bigRigFriendly],
@@ -136,9 +141,35 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onPhotoUrlsChange(urls: PhotoUrlWrapper[]) {
+    this.myForm.get('pictureUrl').setValue(urls);
+  }
+
+  uploadAllPhotos(wrappers: PhotoUrlWrapper[]): Promise<string>[] {
+    const imageUploadTasks: ImageUploadTask[] = wrappers.map(wrapper => {
+      if (wrapper.isLocal) {
+        const data = this.db.getImageUrl(this.db.uuidv4(), wrapper.file);
+        return ImageUploadTask.getLocalImage(data.ref, data.task);
+      } else {
+        return ImageUploadTask.getUploadedImage(wrapper.url);
+      }
+    });
+    return imageUploadTasks.map(t => t.getUrl());
+  }
+
   async submit() {
     const campID = this.isEditMode() ? this.camp.id : this.db.uuidv4();
 
+    // Upload all photos that are local
+    const urlWrappers: PhotoUrlWrapper[] = this.myForm.get('pictureUrl').value;
+    const pictureUrls = await Promise.all(this.uploadAllPhotos(urlWrappers));
+    if (pictureUrls.length == 0) {
+      alert("You must add at least one picture!");
+      return;
+    }
+    this.myForm.get('pictureUrl').setValue(pictureUrls);
+
+    // Populate camp object
     const camp: Camp = {
       id: campID,
       name: this.myForm.get('name').value,
@@ -149,9 +180,8 @@ export class AddCampComponent implements OnInit, AfterViewInit {
         lat: this.myForm.get('coords').value.lat,
       },
       url: this.myForm.get('url').value,
-      pictures: [
-        this.myForm.get('pictureUrl').value,
-      ],
+      phoneNumber: this.myForm.get('phoneNumber').value,
+      pictures: this.myForm.get('pictureUrl').value,
       attributes: {
         // bigRigFriendly: this.myForm.get('bigRigFriendly').value,
         // petFriendly: this.myForm.get('petFriendly').value,
@@ -177,12 +207,18 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     this.type.subscribe(type => {
       if (type === 'camp') {
         this.addCamp(camp);
+        this.openNewTab(camp);
         return;
       }
       if (type === 'trail') {
         this.addTrail(camp);
+        this.openNewTab(camp);
       }
     });
+  }
+
+  private openNewTab(camp: Camp) {
+    window.open(environment.baseUrl + `/camp-info/${camp.id}`, '_blank');
   }
 
   private addCamp(camp: Camp) {
@@ -219,7 +255,8 @@ export class AddCampComponent implements OnInit, AfterViewInit {
   }
 
   public cancel() {
-    this.myForm.reset();
+    // this.myForm.reset();
+    // this.myForm.get('pictureUrl').setValue([]);
     this.modalCtrl.dismiss();
   }
 

@@ -4,6 +4,7 @@ export interface Camp {
     address: string;
     description: string;
     url?: string;
+    phoneNumber?: string;
     attributes: {
         // Camp attributes
         bigRigFriendly?: boolean,

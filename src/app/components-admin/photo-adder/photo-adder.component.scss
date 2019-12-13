@@ -1,0 +1,14 @@
+.container {
+    height: 20vh;
+    position: relative;
+}
+.btn-remove-overlay {
+    --background-hover: transparent;
+    position: absolute;
+}
+
+.img-underneath {
+    position: absolute;
+    max-width: 80%;
+    max-height: 100%;
+}

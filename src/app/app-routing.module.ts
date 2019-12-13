@@ -28,9 +28,6 @@ const routes: Routes = [
   { path: 'blog', loadChildren: './pages/blog/blog.module#BlogPageModule' },
   { path: 'blog-info/:id', loadChildren: './pages/blog-info/blog-info.module#BlogInfoPageModule' },
 
-  // { path: 'admin-add-camp', loadChildren: './pages/admin-add-camp/admin-add-camp.module#AdminAddCampPageModule' },
-
-
 ];
 
 @NgModule({

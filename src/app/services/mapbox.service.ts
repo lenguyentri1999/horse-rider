@@ -83,25 +83,36 @@ export class MapboxService implements AutoCompleteService {
       );
   }
 
-  public forwardGeocode(address: string): Observable<{ long: number, lat: number }> {
+  public forwardGeocodeToCoords(address: string): Observable<{ long: number, lat: number }> {
+    return this.forwardGeocode(address).pipe(
+      map(feature => {
+        return {
+          long: feature.geometry.coordinates[0],
+          lat: feature.geometry.coordinates[1]
+        };
+      })
+    )
+  }
+
+  public forwardGeocode(address: string): Observable<MapboxPlace> {
     return this.autocomplete(address).pipe(
       catchError(err => {
         console.log(err);
         console.log('Wrong address:', address);
         return of([]);
       }),
+
       map(features => {
         if (features.length === 0) {
-          return null;
+          return [];
         } else {
-          return {
-            long: features[0].geometry.coordinates[0],
-            lat: features[0].geometry.coordinates[1]
-          };
+          return features[0];
         }
       })
     );
+
   }
+
 
   public reverseGeocode(coords: { long: number, lat: number }): Observable<MapboxPlace> {
     const query = `${coords.long}, ${coords.lat}`;

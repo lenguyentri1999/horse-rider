@@ -1,5 +1,3 @@
-<app-pwa-nav-bar></app-pwa-nav-bar>
-
 <ion-content>
 
   <!-- Maybe you could use ion grid for aligning the pictures and the autocomplete -->
@@ -100,7 +98,7 @@
   <ion-grid padding>
     <h1 class="rec-heading">Map</h1>
     <ion-card class="map-card">
-      <app-mapboxgl-map></app-mapboxgl-map>
+      <app-mapboxgl-map [geoJsonData]="mapGeojsonData$ | async"></app-mapboxgl-map>
     </ion-card>
   </ion-grid>
 

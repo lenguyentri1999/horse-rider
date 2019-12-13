@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { Camp } from 'src/models/camp';
 import { CampService } from 'src/app/services/camp.service';
 import { map } from 'rxjs/operators';
+import { ICampSearchQueryParams } from 'src/models/navModels/campSearchQueryParam';
 
 @Component({
   selector: 'app-landing',
@@ -32,6 +33,10 @@ export class LandingPage implements OnInit, AfterViewInit {
   threeCamps: Observable<Camp[]>;
   threeTrails: Observable<Camp[]>;
 
+  // Map data
+  mapGeojsonData$: Observable<MapboxPlace[]>;
+  readonly maxMarkers: number = 25;
+
   constructor(
     public mapboxService: MapboxService,
     public campSearchService: CampSearchService,
@@ -48,7 +53,14 @@ export class LandingPage implements OnInit, AfterViewInit {
       map(arr => arr.slice(0, 3))
     );
 
-  }
+    this.mapGeojsonData$ = this.campService.getAllAsList().pipe(
+      map(camps => camps.slice(0, this.maxMarkers)),
+      map(camps =>
+        camps.map(camp => this.mapboxService.campToMapboxPlace(camp))
+      )
+    );
+
+}
 
   ngOnInit() {
   }
@@ -71,7 +83,11 @@ export class LandingPage implements OnInit, AfterViewInit {
 
   searchCamps() {
     this.mapboxService.setSearchQuery({ term: this.searchBar.keyword, place: this.place });
-    this.router.navigate(['tabs/places/camps']);
+    const queries: ICampSearchQueryParams = {
+      keyword: this.searchBar.keyword,
+      place: this.locationSearchBar.keyword,
+    }
+    this.router.navigate(['tabs/places/camps'], { queryParams: queries});
   }
 
   onSearchTrails(values: TrailSearchFormValues) {

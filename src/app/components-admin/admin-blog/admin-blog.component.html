@@ -1,0 +1,32 @@
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="onAddBlogButton()">Add Blog</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col *ngIf="(blogs$ | async)?.length == 0">
+        <p>
+          No blogs have been posted.
+        </p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let blog of blogs$ | async | paginate: { itemsPerPage: 3, currentPage: p}">
+      <ion-col size="9">
+        <app-blog-post [blog]="blog" [routerLink]="['/blog-info', blog.id]"></app-blog-post>
+      </ion-col>
+      <ion-col size="3">
+        <ion-button color="danger" (click)="onRemoveBlogButton(blog)">Remove</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row justify-content-center>
+      <ion-col size="9">
+        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="blogs$ | async"></pagination-controls>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

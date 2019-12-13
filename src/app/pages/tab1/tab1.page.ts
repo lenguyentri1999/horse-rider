@@ -20,6 +20,7 @@ import { FirebaseTable } from 'src/models/firebase/statusTable';
 import { CampSearchFormValues } from 'src/app/components/camp-search-form/camp-search-form.component';
 import { TrailSearchFormValues } from 'src/app/components/trail-search-form/trail-search-form.component';
 import { RequestNewCampComponent } from 'src/app/components/request-new-camp/request-new-camp.component';
+import { ICampSearchQueryParams, CampSearchQueryParams } from 'src/models/navModels/campSearchQueryParam';
 
 @Component({
   selector: 'app-tab1',
@@ -43,13 +44,6 @@ export class Tab1Page implements OnInit, AfterViewInit {
   camps: Observable<Camp[]> = new Observable<Camp[]>();
   campsMarkers: Observable<MapboxPlace[]>;
 
-  query: CampQuery = {
-    place: null,
-    term: ''
-  };
-
-  currentCoords: Observable<number[]>;
-
   isMapView = false;
 
   // Camps/Trail attributes filter
@@ -72,8 +66,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     protected toastCtrl: ToastController,
     protected loadCtrl: LoadingController,
   ) {
-
-    this.originalDataSource$ = this.initQueryParams();
+    this.originalDataSource$ = this.initDataSource();
     this.filter = this.filterService.getFilter();
     this.isTrail = this.getCampOrTrail().pipe(
       map(val => val === SourceEnum.HorseTrails)
@@ -107,7 +100,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     );
   }
 
-  private initQueryParams(): Observable<FirebaseTable<Camp>> {
+  private initDataSource(): Observable<FirebaseTable<Camp>> {
     return this.getCampOrTrail().pipe(
       switchMap(sourceEnum => {
         return this.campService.getDataSourceAsMap(sourceEnum);
@@ -116,22 +109,36 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Get query from landing page
-    this.query = this.mapboxService.getSearchQuery();
-    this.textSearchBar.keyword = this.query.term;
+    // Get query 
+    this.route.queryParams.pipe(
 
-    if (this.query.place) {
-      this.currentCoords = of(this.query.place.geometry.coordinates);
-      this.locationSearchBar.setValue(this.query.place);
-      this.searchCamps();
-    } else {
-      this.mapboxService.getDefaultPlace().subscribe(place => {
-        this.query.place = place;
+      map((param: ICampSearchQueryParams) => {
+        // Set default values
+        return new CampSearchQueryParams(param)
+      }),
+
+      tap(param => {
+        // Set search bar values
+        this.textSearchBar.keyword = param.keyword;
+      }),
+
+      switchMap(param => {
+        // Set default place
+        if (param.place.trim() === '') {
+          return this.mapboxService.getDefaultPlace()
+        }
+        return this.mapboxService.forwardGeocode(param.place)
+      }),
+
+      tap(place => {
+        // Set location search bar values
         this.locationSearchBar.setValue(place);
-        this.currentCoords = of(this.query.place.geometry.coordinates);
-        this.searchCamps();
-      });
-    }
+      }),
+
+      tap(place => {
+        this.searchCamps(place);
+      })
+    ).subscribe();
   }
 
   onCampSelected(result: SearchResult): void {
@@ -140,37 +147,38 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
   async onLocateMeButtonClick() {
     const coords = await this.mapboxService.findMe();
-    this.currentCoords = of([coords.long, coords.lat]);
 
     this.mapboxService.reverseGeocode(coords).subscribe(place => {
-      this.query.place = place;
-      this.locationSearchBar.keyword = place.place_name;
-      this.searchCamps();
+      this.locationSearchBar.setValue(place);
+      this.searchCamps(place);
     });
   }
 
   async onLocationSelected(result: MapboxSearchResult) {
-    this.query.place = result.place;
-    this.currentCoords = of(this.query.place.geometry.coordinates);
+    this.searchCamps(result.place);
   }
 
-  async searchCamps() {
+  async onSearchButton() {
+    this.mapboxService.forwardGeocode(this.locationSearchBar.keyword).subscribe(place => {
+      this.searchCamps(place);
+    })
+  }
+
+  async searchCamps(place: MapboxPlace) {
     const loadCtrl = await this.getLoadControl();
     loadCtrl.present();
 
     let hashMap$ = this.originalDataSource$;
 
     // Filter by distance
-    if (this.query.place) {
+    if (place) {
       const currCoords: Coords = {
-        long: this.query.place.geometry.coordinates[0],
-        lat: this.query.place.geometry.coordinates[1]
+        long: place.geometry.coordinates[0],
+        lat: place.geometry.coordinates[1]
       };
 
       hashMap$ = this.filterByPlace(hashMap$, currCoords);
     }
-
-    this.query.term = this.textSearchBar.keyword;
 
     // Filter by term
     this.camps = hashMap$.pipe(
@@ -178,7 +186,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
         if (Object.entries(allCamps).length === 0) {
           return [];
         }
-        return this.campService.filterByTerm(this.query.term, allCamps);
+        return this.campService.filterByTerm(this.textSearchBar.keyword, allCamps);
       })
     );
 

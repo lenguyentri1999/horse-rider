@@ -19,31 +19,4 @@ export class AdminPage implements OnInit {
   ngOnInit() {
   }
 
-  async addCamp() {
-    const modal = await this.modalCtrl.create({
-      component: AddCampComponent
-    });
-    modal.present();
-  }
-
-  async addTrail() {
-    const modal = await this.modalCtrl.create({
-      component: AddTrailComponent
-    });
-    modal.present();
-  }
-
-  async addEvent() {
-    const modal = await this.modalCtrl.create({
-      component: AddEventComponent
-    });
-    modal.present();
-  }
-
-  async addBlog() {
-    const modal = await this.modalCtrl.create({
-      component: AddBlogComponent
-    });
-    modal.present();
-  }
 }

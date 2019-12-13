@@ -16,15 +16,28 @@ export class BlogService implements IAddNew<Blog>, IGetAll<Blog>, IByID<Blog> {
   ) { }
 
   tryAddNew(blog: Blog): Observable<boolean> {
-    const hashMap: Map<string, object> = new Map<string, object>();
-
-    hashMap[`blogs/blogs-details/${blog.id}`] = blog;
-    hashMap[`blogs/blogs-by-uid/${blog.uid}/${blog.id}`] = true;
+    const hashMap = this.getAllRefs(blog);
 
     return from(this.db.batchWrite(hashMap)).pipe(
       catchError(_ => of(false)),
       flatMap(_ => of(true))
     );
+  }
+
+  async tryDelete(blog: Blog): Promise<void> {
+    const hashMap = this.getAllRefs(blog);
+    Object.keys(hashMap).forEach(async key => {
+      await this.db.removeAtPath(key);
+    })
+  }
+
+  private getAllRefs(blog: Blog): Map<string, object> {
+    const hashMap: Map<string, object> = new Map<string, object>();
+
+    hashMap[`blogs/blogs-details/${blog.id}`] = blog;
+    hashMap[`blogs/blogs-by-uid/${blog.uid}/${blog.id}`] = true;
+    
+    return hashMap;
   }
 
   getAllAsMap(): Observable<Map<string, Blog>> {

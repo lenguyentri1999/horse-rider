@@ -28,7 +28,7 @@
 
             <ion-list>
               <ion-item>
-                <ion-label  class="label"position="stacked">Name</ion-label>
+                <ion-label class="label" position="stacked">Name</ion-label>
                 <ion-input formControlName="name" type="text"></ion-input>
               </ion-item>
 
@@ -43,15 +43,21 @@
               </ion-item>
 
               <ion-item>
-                <ion-label class="label" position="stacked">Picture URL</ion-label>
-                <ion-input formControlName="pictureUrl" type="url"></ion-input>
+                <ion-label class="label" position="stacked">Phone number</ion-label>
+                <ion-input formControlName="phoneNumber" type="tel"></ion-input>
               </ion-item>
+
+              <ion-item>
+                <ion-label class="label" position="stacked">Add Photos</ion-label>
+              </ion-item>
+              <app-photo-adder (onUrlsChange)="onPhotoUrlsChange($event)" [inputUrls]="myForm.get('pictureUrl').value"></app-photo-adder>
+
 
               <ion-item>
                 <ion-label class="label" position="stacked">Address</ion-label>
               </ion-item>
               <ion-auto-complete (itemSelected)="onLocationSelected($event)"
-                [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar>
+                [options]="{ placeholder : 'Enter address' }" [dataProvider]="mapboxService" #addressSearchbar [keyword]="myForm.get('address').value">
               </ion-auto-complete>
 
               <ng-container *ngIf="(type | async) === 'camp'">
@@ -126,7 +132,10 @@
             </ion-list>
           </div>
           <div padding>
-            <ion-button size="large" type="submit" [disabled]="myForm.invalid" expand="block">Submit {{type | async | titlecase}}</ion-button>
+            <!-- <ion-button size="large" type="submit" expand="block">Submit
+              {{type | async | titlecase}}</ion-button> -->
+            <ion-button size="large" type="submit" [disabled]="myForm.invalid" expand="block">Submit
+              {{type | async | titlecase}}</ion-button>
             <ion-button size="large" type="button" expand="block" (click)="cancel()" color="danger">Cancel</ion-button>
           </div>
         </ion-col>

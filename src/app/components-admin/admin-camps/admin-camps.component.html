@@ -1,0 +1,22 @@
+<!-- <ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="onAddCampsButton()" *ngIf="!isTrail | async">Add Camps</ion-button>
+        <ion-button (click)="onAddCampsButton()" *ngIf="isTrail | async">Add Trails</ion-button>
+      </ion-col>
+    </ion-row>
+
+    {{isTrail | async}}
+
+    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}">
+    </ion-row>
+
+    <ion-row justify-content-center>
+      <ion-col size="9">
+        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="camps$ | async"></pagination-controls>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content> -->
