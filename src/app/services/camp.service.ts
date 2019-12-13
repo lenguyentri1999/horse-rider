@@ -12,6 +12,7 @@ import { IByID } from 'src/models/firebase/IByID';
 import { IAddNew } from 'src/models/firebase/IAddNew';
 import { FirebaseTable } from 'src/models/firebase/statusTable';
 import { Coords } from 'src/models/coords';
+import { MapboxContext } from 'src/models/mapboxResult';
 
 @Injectable({
   providedIn: 'root'
@@ -53,10 +54,6 @@ export class CampService {
       case (SourceEnum.HorseTrails):
         return this.getAllHorseTrailsAsMap();
     }
-  }
-
-  public getDataSourceAsList() {
-
   }
 
   public isTrail(camp: Camp): Observable<boolean> {
@@ -122,14 +119,12 @@ export class CampService {
   public getByID(id: string): Observable<Camp> {
     return this.db.getObjectValues<Camp>(`${this.basePath}/${id}`).pipe(
       tap(camp => {
-        // Populate camp coords if camp does not have one yet
+        // Populate camp city and state if camp does not have one yet
         if (camp.coords) {
           if (!camp.city || !camp.state) {
-            this.setCampCityAndState(camp, camp.coords);
+            this.setCampCityAndState(camp).subscribe();
           }
-
         } else {
-          console.log('camp coords is null');
           console.log('null camp', camp);
           this.setCampCoords(camp).subscribe();
         }
@@ -147,12 +142,46 @@ export class CampService {
     );
   }
 
-  public setCampCityAndState(camp: Camp, coords: Coords) {
-    this.mapboxService.reverseGeocode(coords).pipe(
+  public setCampCityAndState(camp: Camp): Observable<any> {
+    return this.mapboxService.reverseGeocode(camp.coords).pipe(
       tap(place => {
-        console.log(place);
+        console.log('place', place);
+        const state = this.parseStateFromContext(place.context);
+        const city = this.parseCityFromContext(place.context);
+        console.log('state', state);
+
+        if (state != null) {
+          this.db.setObjectAtPath(`camps/${camp.id}/state`, state);
+        }
+
+        if (city != null) {
+          this.db.setObjectAtPath(`camps/${camp.id}/city`, city);
+        }
+
       })
     );
+  }
+
+  private parseStateFromContext(context: MapboxContext[]): string | null {
+    if (!context || context.length < 2) {
+      return null;
+    }
+    const stateContext = context[context.length - 2];
+    if (!stateContext.id.startsWith('region')) {
+      return null;
+    }
+    return stateContext.text;
+  }
+
+  private parseCityFromContext(context: MapboxContext[]): string | null {
+    if (!context || context.length < 3) {
+      return null;
+    }
+    const cityContext = context[context.length - 3];
+    if (!cityContext.id.startsWith('place')) {
+      return null;
+    }
+    return cityContext.text;
   }
 
   public filterByTerm(term: string, camps: FirebaseTable<Camp>): Camp[] {

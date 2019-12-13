@@ -1,22 +1,23 @@
-<!-- <ion-content padding>
+<ion-content padding>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-button (click)="onAddCampsButton()" *ngIf="!isTrail | async">Add Camps</ion-button>
-        <ion-button (click)="onAddCampsButton()" *ngIf="isTrail | async">Add Trails</ion-button>
+        <ion-button (click)="onAddCampsButton()">Add {{(isTrail | async) ? 'Trails' : 'Camps'}}</ion-button>
       </ion-col>
     </ion-row>
 
-    {{isTrail | async}}
-
     <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}">
+      <ion-col>{{camp.name}}</ion-col>
+      <ion-col>{{camp.address}}</ion-col>
+      <ion-col>{{camp.city}}</ion-col>
+      <ion-col>{{camp.state}}</ion-col>
     </ion-row>
 
     <ion-row justify-content-center>
       <ion-col size="9">
-        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="camps$ | async"></pagination-controls>
+        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="dataSource$ | async"></pagination-controls>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-</ion-content> -->
+</ion-content>

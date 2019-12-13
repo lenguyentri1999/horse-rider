@@ -224,7 +224,7 @@ export class Tab1Page implements OnInit, AfterViewInit {
     this.campsMarkers = this.camps.pipe(
       map(camps => this.sliceCampByPage(camps)),
       map(camps => {
-        return camps.map(camp => this.mapboxService.campToMapboxPlace(camp));
+        return camps.map(camp => this.mapboxService.campToMapboxMarker(camp));
       })
     );
 

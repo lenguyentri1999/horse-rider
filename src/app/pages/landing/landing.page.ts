@@ -56,7 +56,7 @@ export class LandingPage implements OnInit, AfterViewInit {
     this.mapGeojsonData$ = this.campService.getAllAsList().pipe(
       map(camps => camps.slice(0, this.maxMarkers)),
       map(camps =>
-        camps.map(camp => this.mapboxService.campToMapboxPlace(camp))
+        camps.map(camp => this.mapboxService.campToMapboxMarker(camp))
       )
     );
 
