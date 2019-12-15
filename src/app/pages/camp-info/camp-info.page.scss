@@ -1,36 +1,49 @@
 .camp-pic {
-    height: 20vw;
-    width: auto;
-    // object-fit: cover;
-    // width: 50%;
+  height: 20vw;
+  width: auto;
+  // object-fit: cover;
+  // width: 50%;
 }
 
 .icon-sucess {
-    color: var(--ion-color-success);
+  color: var(--ion-color-success);
 }
 
 .ion-col-align-right {
-    text-align: right;
+  text-align: right;
 }
 
 h1 {
-    font-family: 'Samsung Sharp Sans';
-    src: url('/assets/fonts/SamsungSharpSans/samsungsharpsans-bold.otf') format("opentype");
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Samsung Sharp Sans";
+  src: url("/assets/fonts/SamsungSharpSans/samsungsharpsans-bold.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
 }
 
 .camp-address {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1.3em;
-    text-transform: capitalize;
-    display: inline-block;
-    margin-top: 0.2em;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.3em;
+  text-transform: capitalize;
+  display: inline-block;
+  margin-top: 0.2em;
 }
 
 .review {
-    font-family: 'Albra sans';
-    src: url('/assets/fonts/Albra-Font-Family/Albra\ Regular.otf') format("opentype");
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Albra sans";
+  src: url("/assets/fonts/Albra-Font-Family/Albra\ Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.difficulty-card {
+  width: 100%;
+  -webkit-box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
+  -moz-box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
+  box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
+}
+
+.features-card {
+  -webkit-box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
+  -moz-box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
+  box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
 }
