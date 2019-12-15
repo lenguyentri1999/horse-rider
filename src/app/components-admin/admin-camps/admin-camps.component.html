@@ -3,10 +3,10 @@
     <ion-row>
       <ion-col>
         <ion-card padding class="ion-card-total">
-          <ion-card-subtitle style="float:left">
+          <ion-card-subtitle style="float:left;font-weight:950;">
             Total {{title | async}}:
           </ion-card-subtitle>
-          <h1>
+          <h1 class="total-number">
             {{(dataSource$ | async)?.length}}
           </h1>
         </ion-card>
