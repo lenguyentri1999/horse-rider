@@ -1,8 +1,14 @@
 .ion-card-total {
-    width: 50%;
+  -webkit-box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
+  -moz-box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
+  box-shadow: 10px 10px 22px 0px rgba(179, 177, 179, 0.49);
+  width: 30%;
+  height: 100%;
+  text-align: left;
+  
 }
 
 ion-col {
-    text-align: center;
-    margin: auto;
+  text-align: center;
+  margin: auto;
 }

@@ -3,14 +3,12 @@
     <ion-row>
       <ion-col>
         <ion-card padding class="ion-card-total">
-          <ion-card-subtitle>
+          <ion-card-subtitle style="float:left">
             Total {{title | async}}:
           </ion-card-subtitle>
-          <ion-card-header>
-            <h1>
-              {{(dataSource$ | async)?.length}}
-            </h1>
-          </ion-card-header>
+          <h1>
+            {{(dataSource$ | async)?.length}}
+          </h1>
         </ion-card>
       </ion-col>
       <ion-col style="text-align: right;">
@@ -37,7 +35,8 @@
       <ion-col size="1"></ion-col>
     </ion-row>
 
-    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}">
+    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}"
+    style="border-bottom:0.06em solid #E8E8E8;"> 
       <ion-col [routerLink]="['/camp-info', camp.id]">{{camp.name}}</ion-col>
       <ion-col>{{camp.address}}</ion-col>
       <ion-col>{{camp.city}}</ion-col>

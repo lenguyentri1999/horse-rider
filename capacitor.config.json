@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "horse-rider",
+  "appId": "com.company.highhorsedrifter",
+  "appName": "high-horse-drifter",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www"
