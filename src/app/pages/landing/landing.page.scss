@@ -34,12 +34,6 @@ ion-auto-complete {
     }
 }
 
-// ion-auto-complete {
-//     margin-left: auto;
-//     margin-right: auto;
-//     width: 70vw;
-// }
-
 ul {
     width: 70vw;
 }
@@ -51,7 +45,6 @@ ul {
     font-weight: bolder;
     font-family: 'Helvetica Neue';
     src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
-    // font-weight: 00;
     font-style: normal;
 }
 
@@ -78,11 +71,7 @@ ion-auto-complete {
     text-decoration: none;
     cursor: pointer;
     width: 100%;
-    // height: 50%;
     border-radius: 2px;
-    // margin-top: 1em;
-    // margin-bottom: 1em;
-
 }
 
 .col-center {
@@ -108,8 +97,6 @@ p {
     position: relative;
     display: inline-block;
     bottom: 0.3em;
-    // margin-left: auto;
-    // margin-right: auto;
     text-align: center;
     width: 100%;
     font-family: 'Source Sans Pro', sans-serif;
@@ -132,5 +119,6 @@ p {
 
 .map-card {
     height: 70vh;
-    width: auto;
+    width: 80vw;
+    margin: auto;
 }
