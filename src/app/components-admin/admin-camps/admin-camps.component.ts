@@ -70,7 +70,7 @@ export class AdminCampsComponent implements OnInit {
     })
   }
 
-  onAnySearchBarChange() {
+  onAnySearchBarChange($event) {
     this.dataSource$ = this.originalDataSource$.pipe(
 
       // Filter by name

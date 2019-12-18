@@ -37,7 +37,7 @@
       <ion-list>
         <ion-item (click)="routeAndCloseMenu(['/landing'], 'Home')">Home</ion-item>
         <ion-item (click)="routeAndCloseMenu(['/blog'], 'Blogs')">Blogs</ion-item>
-        <ion-item (click)="routeAndCloseMenu(['/admin'], 'Admin')" *ngIf="isAdmin | async">Admin</ion-item>
+        <!-- <ion-item (click)="routeAndCloseMenu(['/admin'], 'Admin')" *ngIf="isAdmin | async">Admin</ion-item> -->
 
         <ion-item (click)="routeAndCloseMenu(['/tabs/places/trails'], 'Trails')">Trails</ion-item>
         <ion-item (click)="routeAndCloseMenu(['/tabs/places/camps'], 'Camps')">Camps</ion-item>

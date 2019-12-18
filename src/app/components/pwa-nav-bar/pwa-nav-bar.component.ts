@@ -56,7 +56,7 @@ export class PwaNavBarComponent implements OnInit {
     alert.present();
   }
 
-  async routeAndCloseMenu(commands: [], currPageName: string = '') {
+  async routeAndCloseMenu(commands: any[], currPageName: string = '') {
     this.router.navigate(commands);
     this.currPageName = currPageName;
     this.menuCtrl.toggle();
