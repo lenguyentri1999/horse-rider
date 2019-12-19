@@ -1,6 +1,6 @@
 {
-  "appId": "com.company.highhorsedrifter",
-  "appName": "high-horse-drifter",
+  "appId": "com.highhorsedrifter.app",
+  "appName": "android",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www"
