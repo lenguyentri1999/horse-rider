@@ -5,9 +5,11 @@
 
   <ion-grid padding>
     <ion-row>
-      <ion-col class="col-image-height" style="text-align: center">
-        <img class="camp-pic" src="{{(camp$ | async)?.pictures[0]}}" onError="this.src = 'assets/null-image.png'">
-      </ion-col>
+      <ion-slides pager="true">
+        <ion-slide *ngFor="let picture of (camp$ | async)?.pictures">
+          <img [src]="picture" class="camp-pic">
+        </ion-slide>
+      </ion-slides>
     </ion-row>
     <ion-row>
       <ion-col padding>
