@@ -4,14 +4,10 @@ import { Camp } from 'src/models/camp';
 import { Observable, combineLatest, zip, from, of } from 'rxjs';
 import { map, tap, flatMap, switchMap, take, catchError, filter, first } from 'rxjs/operators';
 import { ReviewService } from './review.service';
-import { IGetAll } from 'src/models/firebase/IGetAll';
 import * as stringSim from 'string-similarity';
 import { StringMatch } from 'src/models/string-similarity/stringMatch';
 import { MapboxService } from './mapbox.service';
-import { IByID } from 'src/models/firebase/IByID';
-import { IAddNew } from 'src/models/firebase/IAddNew';
 import { FirebaseTable } from 'src/models/firebase/statusTable';
-import { Coords } from 'src/models/coords';
 import { MapboxContext } from 'src/models/mapboxResult';
 
 @Injectable({
@@ -31,6 +27,12 @@ export class CampService {
       catchError(_ => of(false)),
       flatMap(_ => of(true))
     );
+  }
+
+  public delete(obj: Camp) {
+    this.db.removeAtPath(`${this.basePath}/${obj.id}`)
+    this.db.removeAtPath(`campsOrTrails/horseTrails/${obj.id}`)
+    this.db.removeAtPath(`campsOrTrails/horseCamps/${obj.id}`)
   }
 
   public addToTrailTable(camp: Camp) {

@@ -32,7 +32,7 @@
         <ion-searchbar [(ngModel)]="currQueries.state" (ionChange)="onAnySearchBarChange($event)" placeholder="State">
         </ion-searchbar>
       </ion-col>
-      <ion-col size="1"></ion-col>
+      <ion-col size="2"></ion-col>
     </ion-row>
 
     <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}"
@@ -41,9 +41,12 @@
       <ion-col>{{camp.address}}</ion-col>
       <ion-col>{{camp.city}}</ion-col>
       <ion-col>{{camp.state}}</ion-col>
-      <ion-col size="1">
+      <ion-col size="2">
         <ion-button (click)="onEditCampButtonClick(camp)">
           Edit
+        </ion-button>
+        <ion-button color="danger" (click)="onDeleteCampButtonClick(camp)">
+          Delete
         </ion-button>
       </ion-col>
     </ion-row>

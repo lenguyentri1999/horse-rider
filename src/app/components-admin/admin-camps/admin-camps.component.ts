@@ -7,7 +7,7 @@ import { CampService } from 'src/app/services/camp.service';
 import { MapboxService } from 'src/app/services/mapbox.service';
 import { MapboxContext } from 'src/models/mapboxResult';
 import { AddCampComponent } from '../add-camp/add-camp.component';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-admin-camps',
@@ -34,6 +34,7 @@ export class AdminCampsComponent implements OnInit {
     protected router: Router,
     protected route: ActivatedRoute,
     protected modalCtrl: ModalController,
+    protected alertCtrl: AlertController,
     protected campService: CampService,
     protected mapboxService: MapboxService,
   ) {
@@ -107,9 +108,29 @@ export class AdminCampsComponent implements OnInit {
       }
     });
     modal.present();
-}
+  }
 
-onPageChange(page: number) {
-  this.p = page;
-}
+  async onDeleteCampButtonClick(camp: Camp) {
+    const alert = await this.alertCtrl.create({
+      message: `Are you sure you want to delete ${camp.name}? This action is irreversible!`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.campService.delete(camp);
+          }
+        }
+      ]
+    })
+
+    alert.present();
+  }
+
+  onPageChange(page: number) {
+    this.p = page;
+  }
 }
