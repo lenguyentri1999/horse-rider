@@ -5,16 +5,18 @@ import { Camp } from 'src/models/camp';
 import { MapboxService, MapboxSearchResult } from 'src/app/services/mapbox.service';
 import { MapboxPlace } from 'src/models/mapboxResult';
 import { CampService, SourceEnum } from 'src/app/services/camp.service';
-import { ToastController, ModalController } from '@ionic/angular';
+import { ToastController, ModalController, AlertController } from '@ionic/angular';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
 import { TrailDifficulty, TrailWaterCrossings, TrailFooting, TrailParkingForRigs, TrailBridges } from 'src/models/enums/trail-review-enums';
 import { Observable, of, forkJoin } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, tap, map } from 'rxjs/operators';
+import { switchMap, tap, map, first } from 'rxjs/operators';
 import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 import { ImageUploadTask } from 'src/models/firebase/imageUploadTask';
 import { environment } from 'src/environments/environment';
+import { Coords } from 'src/models/coords';
+import { OverlayEventDetail } from '@ionic/core';
 
 @Component({
   selector: 'app-add-camp',
@@ -43,6 +45,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     protected modalCtrl: ModalController,
     protected route: ActivatedRoute,
     protected router: Router,
+    protected alertCtrl: AlertController,
   ) {
     this.type = this.route.paramMap.pipe(
       map(params => params.get('type')),
@@ -157,16 +160,71 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     return imageUploadTasks.map(t => t.getUrl());
   }
 
+  async checkForDuplicates(center: Coords, distance = 10) {
+    const filteredCamps = await this.campService.getAllAsList().pipe(
+      map(camps => camps.filter(camp => {
+        const d = this.mapboxService.straightLineDistance(center, camp.coords);
+        console.log(d);
+        return d < distance;
+      })),
+      first(),
+    ).toPromise();
+
+    // found some camps within the set distance
+    if (filteredCamps.length > 0) {
+
+      // tslint:disable-next-line:max-line-length
+      let message = `We found these camps already on the database within ${distance} miles of where you added, please check to make sure that you are not adding duplicates: <br>`;
+
+      message += `
+      <ul>
+      ${filteredCamps.map(camp => '<li>' + camp.name + '</li>')}
+      </ul>`;
+
+      const alert = await this.alertCtrl.create({
+        message,
+        buttons: [
+          {
+            text: `I'm sure, go ahead and add!`,
+            handler: () => {
+              alert.dismiss(true);
+              return false;
+            }
+          },
+          {
+            text: 'Cancel',
+            handler: () => {
+              alert.dismiss(false);
+              return false;
+            }
+          }
+        ]
+      });
+      alert.present();
+      return alert.onDidDismiss().then((val: OverlayEventDetail<boolean>) => val.data);
+    } else {
+      return true;
+    }
+  }
+
   async submit() {
+    const passDuplicateCheck = await this.checkForDuplicates(this.myForm.get('coords').value);
+    if (!passDuplicateCheck) {
+      return;
+    }
+
     const campID = this.isEditMode() ? this.camp.id : this.db.uuidv4();
 
     // Upload all photos that are local
     const urlWrappers: PhotoUrlWrapper[] = this.myForm.get('pictureUrl').value;
     const pictureUrls = await Promise.all(this.uploadAllPhotos(urlWrappers));
-    if (pictureUrls.length == 0) {
-      alert("You must add at least one picture!");
+
+    const passPictureCheck = pictureUrls.length > 0;
+    if (!passPictureCheck) {
+      alert('You must add at least one picture!');
       return;
     }
+
     this.myForm.get('pictureUrl').setValue(pictureUrls);
 
     // Populate camp object
