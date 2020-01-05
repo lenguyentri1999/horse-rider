@@ -154,7 +154,7 @@ export class MapboxService implements AutoCompleteService {
     }
   }
 
-  public campToMapboxPlace(camp: Camp): MapboxPlace {
+  public campToMapboxMarker(camp: Camp): MapboxPlace {
     const mapboxPlace: MapboxPlace = {
       type: 'Feature',
       place_name: camp.name,

@@ -35,17 +35,16 @@
 
     <ion-content>
       <ion-list>
-        <ion-item routerLink="/landing">Home</ion-item>
-        <ion-item [routerLink]="blogPage.url">{{blogPage.name}}</ion-item>
-        <ion-item routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-item>
+        <ion-item (click)="routeAndCloseMenu(['/landing'], 'Home')">Home</ion-item>
+        <ion-item (click)="routeAndCloseMenu(['/blog'], 'Blogs')">Blogs</ion-item>
+        <!-- <ion-item (click)="routeAndCloseMenu(['/admin'], 'Admin')" *ngIf="isAdmin | async">Admin</ion-item> -->
 
-        <ion-item routerLink="/tabs/places/trails">Trails</ion-item>
-        <ion-item routerLink="/tabs/places/camps">Camps</ion-item>
-        <!-- <ion-button>Help</ion-button> -->
+        <ion-item (click)="routeAndCloseMenu(['/tabs/places/trails'], 'Trails')">Trails</ion-item>
+        <ion-item (click)="routeAndCloseMenu(['/tabs/places/camps'], 'Camps')">Camps</ion-item>
 
         <ng-container *ngIf="!(isAuthorized | async)">
-          <ion-item (click)="openLoginModal()">Log in</ion-item>
-          <ion-item class="signup" (click)="openRegisterModal()">Sign up</ion-item>
+          <ion-item (click)="routeAndCloseMenu(['/login'], 'Login') ">Log in</ion-item>
+          <ion-item class="signup" (click)="routeAndCloseMenu(['/register'], 'Sign Up')">Sign up</ion-item>
         </ng-container>
         <ng-container *ngIf="isAuthorized | async">
           <ion-item (click)="logOut()">Log out</ion-item>
@@ -61,7 +60,7 @@
         <ion-button (click)="toggleMenu()">
           <ion-icon name="menu"></ion-icon>
           <ion-label>
-            {{currentPage?.name}}
+            <!-- {{currPageName}} -->
           </ion-label>
         </ion-button>
       </ion-menu-toggle>

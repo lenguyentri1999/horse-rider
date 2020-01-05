@@ -1,17 +1,17 @@
   <ion-card>
     <ion-card-content>
       <ion-grid>
-        <ion-row class="ion-justify-content-start">
-          <ion-col size="3">       
-              <img [src]="camp.pictures[0]" />
+        <ion-row justify-content-center>
+          <ion-col size-md="3" size-lg="3" size-xs="12">       
+              <img [src]="camp.pictures[0]" class="camp-image" />
           </ion-col>
-          <ion-col size="4">
+          <ion-col size-md="5" size-lg="5" size-xs="6">
             <h1 class="camp-name">{{camp.name}}</h1>
             <h2 class="camp-address">{{camp.address}}</h2>
             <h2 *ngIf="camp.distance">{{camp.distance | number: '1.1-1'}} miles</h2>
             <p>{{camp.description | slice:0:100}}...</p>
           </ion-col>
-          <ion-col size="5">
+          <ion-col size-md="4" size-lg="4" size-xs="6">
             <ion-item lines="none">
               <ion-icon class="icon-gold" ios="ios-star" md="md-star"></ion-icon>
             <p class="review" >{{avgRating | async | number: '1.2-2'}} ({{(numReviews | async) || 0}})</p>

@@ -1,22 +1,61 @@
-<!-- <ion-content padding>
+<ion-content padding>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-button (click)="onAddCampsButton()" *ngIf="!isTrail | async">Add Camps</ion-button>
-        <ion-button (click)="onAddCampsButton()" *ngIf="isTrail | async">Add Trails</ion-button>
+        <ion-card padding class="ion-card-total">
+          <ion-card-subtitle style="float:left;font-weight:950;">
+            Total {{title | async}}:
+          </ion-card-subtitle>
+          <h1 class="total-number">
+            {{(dataSource$ | async)?.length}}
+          </h1>
+        </ion-card>
+      </ion-col>
+      <ion-col style="text-align: right;">
+        <ion-button (click)="onAddCampsButton()">Add {{title | async}}</ion-button>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.name" (ionChange)="onAnySearchBarChange($event)" placeholder="Name">
+        </ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.address" (ionChange)="onAnySearchBarChange($event)"
+          placeholder="Address"></ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.city" (ionChange)="onAnySearchBarChange($event)" placeholder="City">
+        </ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.state" (ionChange)="onAnySearchBarChange($event)" placeholder="State">
+        </ion-searchbar>
+      </ion-col>
+      <ion-col size="2"></ion-col>
+    </ion-row>
 
-    {{isTrail | async}}
-
-    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}">
+    <ion-row *ngFor="let camp of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}"
+    style="border-bottom:0.06em solid #E8E8E8;"> 
+      <ion-col [routerLink]="['/camp-info', camp.id]">{{camp.name}}</ion-col>
+      <ion-col>{{camp.address}}</ion-col>
+      <ion-col>{{camp.city}}</ion-col>
+      <ion-col>{{camp.state}}</ion-col>
+      <ion-col size="2">
+        <ion-button (click)="onEditCampButtonClick(camp)">
+          Edit
+        </ion-button>
+        <ion-button color="danger" (click)="onDeleteCampButtonClick(camp)">
+          Delete
+        </ion-button>
+      </ion-col>
     </ion-row>
 
     <ion-row justify-content-center>
       <ion-col size="9">
-        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="camps$ | async"></pagination-controls>
+        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="dataSource$ | async"></pagination-controls>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-</ion-content> -->
+</ion-content>

@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.highhorsedrifter.app;
 
 import android.os.Bundle;
 

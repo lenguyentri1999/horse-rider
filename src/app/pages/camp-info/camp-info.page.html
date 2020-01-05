@@ -5,9 +5,11 @@
 
   <ion-grid padding>
     <ion-row>
-      <ion-col class="col-image-height" style="text-align: center">
-        <img class="camp-pic" src="{{(camp$ | async)?.pictures[0]}}" onError="this.src = 'assets/null-image.png'">
-      </ion-col>
+      <ion-slides pager="true">
+        <ion-slide *ngFor="let picture of (camp$ | async)?.pictures">
+          <img [src]="picture" class="camp-pic">
+        </ion-slide>
+      </ion-slides>
     </ion-row>
     <ion-row>
       <ion-col padding>
@@ -29,47 +31,53 @@
       <ion-col size='12' size-sm padding>
         <ng-container *ngIf="isTrail$ | async">
           <ion-row>
-            <ion-col size="6">
-              <ion-list lines="none">
-                <ion-item no-padding>
-                  <ion-icon name="speedometer"></ion-icon> &nbsp;
-                  Difficulty: {{(camp$ | async)?.attributes.difficulty}}
-                </ion-item>
-              </ion-list>
-            </ion-col>
-            <ion-col size="6"></ion-col>
+            <ion-card class="difficulty-card" padding>
+              <div class="difficulty-div">
+                <ion-col size="6">
+                  <ion-list lines="none">
+                    <ion-item no-padding>
+                      <ion-icon name="speedometer"></ion-icon> &nbsp;
+                      Difficulty: {{(camp$ | async)?.attributes.difficulty}}
+                    </ion-item>
+                  </ion-list>
+                </ion-col>
+                <ion-col size="6"></ion-col>
+              </div>
+            </ion-card>
           </ion-row>
-          <ion-row>
-            <ion-col>
-              <h2>Features.</h2>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-list lines="none">
-                <ion-item no-padding>
-                  {{(camp$ | async)?.attributes.waterCrossings}}
-                  <ion-icon name="arrow-dropleft"></ion-icon>
-                  Water Crossings
-                </ion-item>
-                <ion-item no-padding>
-                  {{(camp$ | async)?.attributes.bridges}}
-                  <ion-icon name="arrow-dropleft"></ion-icon>
-                  Bridges
-                </ion-item>
-                <ion-item no-padding>
-                  {{(camp$ | async)?.attributes.parking}}
-                  <ion-icon name="arrow-dropleft"></ion-icon>
-                  Parking for Rigs
-                </ion-item>
-                <ion-item no-padding>
-                  {{(camp$ | async)?.attributes.footing}}
-                  <ion-icon name="arrow-dropleft"></ion-icon>
-                  Footing
-                </ion-item>
-              </ion-list>
-            </ion-col>
-          </ion-row>
+          <ion-card class="features-card" padding>
+            <ion-row>
+              <ion-col>
+                <h2>Features.</h2>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-list lines="none">
+                  <ion-item no-padding>
+                    {{(camp$ | async)?.attributes.waterCrossings}}
+                    <ion-icon name="arrow-dropleft"></ion-icon>
+                    Water Crossings
+                  </ion-item>
+                  <ion-item no-padding>
+                    {{(camp$ | async)?.attributes.bridges}}
+                    <ion-icon name="arrow-dropleft"></ion-icon>
+                    Bridges
+                  </ion-item>
+                  <ion-item no-padding>
+                    {{(camp$ | async)?.attributes.parking}}
+                    <ion-icon name="arrow-dropleft"></ion-icon>
+                    Parking for Rigs
+                  </ion-item>
+                  <ion-item no-padding>
+                    {{(camp$ | async)?.attributes.footing}}
+                    <ion-icon name="arrow-dropleft"></ion-icon>
+                    Footing
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+          </ion-card>
         </ng-container>
         <ng-container *ngIf="(isTrail$ | async) == false">
           <ion-row>
@@ -96,7 +104,7 @@
           </ion-row>
 
         </ng-container>
-
+        <div style="height: 1em; border-bottom:0.09em solid #E8E8E8"></div>
         <ion-row>
           <!-- Review column -->
           <ion-col size='12' size-sm padding>
