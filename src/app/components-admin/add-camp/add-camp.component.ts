@@ -207,7 +207,7 @@ export class AddCampComponent implements OnInit, AfterViewInit {
   }
 
   async submit() {
-    if (this.isEditMode()) {
+    if (!this.isEditMode()) {
       const passDuplicateCheck = await this.checkForDuplicates(this.myForm.get('coords').value);
       if (!passDuplicateCheck) {
         return;
@@ -266,12 +266,12 @@ export class AddCampComponent implements OnInit, AfterViewInit {
     this.type.subscribe(type => {
       if (type === 'camp') {
         this.addCamp(camp);
-        this.openNewTab(camp);
+        // this.openNewTab(camp);
         return;
       }
       if (type === 'trail') {
         this.addTrail(camp);
-        this.openNewTab(camp);
+        // this.openNewTab(camp);
       }
     });
   }
