@@ -19,6 +19,15 @@
         <h2 class="camp-address">
           {{(camp$ | async)?.address | uppercase}}
         </h2>
+        <p *ngIf="(camp$ | async)?.phoneNumber">Phone: {{(camp$ | async)?.phoneNumber}}</p>
+        <p *ngIf="(camp$ | async)?.url">Website:
+          <a *ngIf="(camp$ | async)?.url.startsWith('http')" [href]="(camp$ | async)?.url">
+            {{(camp$ | async)?.url}}
+          </a>
+          <a *ngIf="!(camp$ | async)?.url.startsWith('http')" [href]="'http://' + (camp$ | async)?.url">
+            {{(camp$ | async)?.url}}
+          </a>
+        </p>
       </ion-col>
     </ion-row>
 
