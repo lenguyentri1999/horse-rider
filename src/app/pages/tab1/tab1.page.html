@@ -1,10 +1,10 @@
-<div padding style="clear: both">
-  <h2 style="float: left">home/ </h2>
-  <h1 *ngIf="isTrail | async">Trails</h1>
-  <h1 *ngIf="!(isTrail | async)">Camps</h1>
-</div>
-
 <ion-content>
+
+  <div padding>
+    <h2>home/ </h2>
+    <h1 *ngIf="isTrail | async">Trails</h1>
+    <h1 *ngIf="!(isTrail | async)">Camps</h1>
+  </div>
 
 
   <!-- Template for image -->
@@ -130,7 +130,7 @@
 
   <!-- Map view -->
   <ng-container *ngIf="isMapView">
-    <ion-card style="height: 80vh; width: 100vw; margin-left: auto; margin-right: auto">
+    <ion-card style="height: 80vh; width: 80vw; margin-left: auto; margin-right: auto">
       <app-mapboxgl-map [geoJsonData]="campsMarkers | async"></app-mapboxgl-map>
     </ion-card>
   </ng-container>
