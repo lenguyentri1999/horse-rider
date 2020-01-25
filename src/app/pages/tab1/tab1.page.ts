@@ -216,6 +216,11 @@ export class Tab1Page implements OnInit, AfterViewInit {
         })
       );
 
+    // Sort by distance
+    this.camps = this.camps.pipe(
+      map(camps => camps.sort(this.sortByDistance))
+    );
+
     this.camps = this.camps.pipe(
       tap(_ => loadCtrl.dismiss())
     );
@@ -230,6 +235,10 @@ export class Tab1Page implements OnInit, AfterViewInit {
 
     this.p = 1;
 
+  }
+
+  private sortByDistance(a: Camp, b: Camp): number {
+    return (a.distance - b.distance);
   }
 
   private filterByPlace(camps: Observable<FirebaseTable<Camp>>, currCoords: Coords): Observable<FirebaseTable<Camp>> {
