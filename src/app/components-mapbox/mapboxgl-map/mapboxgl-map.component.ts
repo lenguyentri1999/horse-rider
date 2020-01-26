@@ -103,7 +103,7 @@ export class MapboxglMapComponent implements OnInit, OnChanges, AfterViewInit {
       const marker = new mapboxgl.Marker()
         .setLngLat(coords);
       marker.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-        .setHTML('<p>' + place.properties.title + '</p>'));
+        .setHTML(`<a href='camp-info/${place.properties.id}'>` + place.properties.title + '</a>'));
       marker.addTo(myMap);
       this.markers.push(marker);
     });

@@ -167,7 +167,8 @@ export class MapboxService implements AutoCompleteService {
       },
       properties: {
         title: camp.name,
-        description: ''
+        description: '',
+        id: camp.id
       }
     };
     return mapboxPlace;
