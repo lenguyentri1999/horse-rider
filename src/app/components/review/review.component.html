@@ -1,35 +1,65 @@
+<!-- <ion-content> -->
 <ng-container *ngIf="(readyToEdit | async)">
     <ng-container *ngIf="isAuth | async">
         <ion-list>
+
+            <!-- <app-photo-adder (onUrlsChange)="onPhotoUrlsChange($event)">
+                </app-photo-adder> -->
             <ng-container *ngIf="(isTrail$ | async) == false">
                 <ion-item>
                     <ion-label>Facility Cleanliness</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.facilityCleanliness" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.facilityCleanliness)"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.facilityCleanliness"
+                        (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.facilityCleanliness)">
+                    </ion-rating>
                 </ion-item>
                 <ion-item>
                     <ion-label>Horse Facilities</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.horseFacilities" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.horseFacilities)"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.horseFacilities"
+                        (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.horseFacilities)">
+                    </ion-rating>
                 </ion-item>
                 <ion-item>
                     <ion-label>Big Rig Friendly</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.bigRigFriendly" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.bigRigFriendly)"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.bigRigFriendly"
+                        (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.bigRigFriendly)">
+                    </ion-rating>
                 </ion-item>
                 <ion-item>
                     <ion-label>Wifi</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.wifi" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.wifi)"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.wifi"
+                        (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.wifi)"></ion-rating>
                 </ion-item>
                 <ion-item>
                     <ion-label>Pet Friendly</ion-label>
-                    <ion-rating [rate]="campReviewToSubmit?.petFriendly" (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.petFriendly)"></ion-rating>
+                    <ion-rating [rate]="campReviewToSubmit?.petFriendly"
+                        (rateChange)="onCampAttributeRateChange($event, CampReviewAttributes.petFriendly)">
+                    </ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Overall</ion-label>
+                    <!-- <ion-rating [rate]="reviewToSubmit?.rating" (rateChange)="campReviewToSubmi"></ion-rating> -->
                 </ion-item>
             </ng-container>
-            <ion-item>
-                <ion-label>Overall</ion-label>
-                <ion-rating [rate]="reviewToSubmit?.rating" (rateChange)="onRateChange($event)"></ion-rating>
-            </ion-item>
-            <ion-textarea name="description" [(ngModel)]="reviewToSubmit.description"
+
+
+            <ng-container *ngIf="(isTrail$ | async) == true">
+                <ion-item>
+                    <ion-label>Trail Condition</ion-label>
+                    <ion-rating [rate]="trailReviewToSubmit?.trailCondition"
+                        (rateChange)="onTrailAttributeRateChange(TrailReviewAttributes.trailCondition, $event)">
+                    </ion-rating>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Overall</ion-label>
+                    <ion-rating [rate]="trailReviewToSubmit?.rating" (rateChange)="trailReviewToSubmit.rating = $event">
+                    </ion-rating>
+                </ion-item>
+            </ng-container>
+
+
+            <!-- <ion-textarea name="description" [(ngModel)]="reviewToSubmit.description"
                 placeholder="Write your review here...">
-            </ion-textarea>
+            </ion-textarea> -->
         </ion-list>
         <ion-button (click)="onSubmit()">Submit</ion-button>
     </ng-container>
@@ -44,7 +74,8 @@
     <ion-grid>
         <ion-row>
             <ion-col size="3">
-                <img class="avatar" [src]="(userData$ | async)?.photoUrl" onError="this.src='assets/blank-profile-picture.png'">
+                <img class="avatar" [src]="(userData$ | async)?.photoUrl"
+                    onError="this.src='assets/blank-profile-picture.png'">
             </ion-col>
             <ion-col size="9">
                 <ion-row>
@@ -64,3 +95,4 @@
         </ion-row>
     </ion-grid>
 </ng-container>
+<!-- </ion-content> -->

@@ -60,7 +60,6 @@ import { ComponentsAdminModule } from './components-admin/components-admin.modul
   ],
   bootstrap: [AppComponent],
   exports: [
-    // StarRating,
   ]
 })
 export class AppModule { }

@@ -1,15 +1,15 @@
-<ion-grid padding>
-  <ion-row padding>
-    <ion-col *ngFor="let wrapper of inputUrls; let i = index" class="container" size="4" padding>
-      <img [src]="wrapper.url" class="img-underneath" (click)="onEditPhotoButton(i)">
-      <ion-button fill="clear" class="btn-remove-overlay" (click)="onRemovePhotoButton(i)">
-        <ion-icon color="danger" name="close"></ion-icon>
-      </ion-button>
-    </ion-col>
-    <ion-col>
-      <ion-button (click)="onAddPhotoButton()">
-        Add Photo
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</ion-grid>
+  <ion-grid padding>
+    <ion-row padding>
+      <ion-col *ngFor="let wrapper of inputUrls; let i = index" class="container" size="4" padding>
+        <img [src]="wrapper.url" class="img-underneath" (click)="onEditPhotoButton(i)">
+        <ion-button fill="clear" class="btn-remove-overlay" (click)="onRemovePhotoButton(i)">
+          <ion-icon color="danger" name="close"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="onAddPhotoButton()">
+          Add Photo
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>

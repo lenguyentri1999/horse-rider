@@ -67,18 +67,19 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
   }
 
   submitReview(review: Review) {
-    const writes: Map<string, object> = new Map<string, object>();
-    const id = this.db.uuidv4();
+    review.submitReview(this.db);
+    // const writes: Map<string, object> = new Map<string, object>();
+    // const id = this.db.uuidv4();
 
-    const ref = `reviews/${id}`;
-    const refByUid = `reviews-by-uid/${review.userID}/${id}`;
-    const refByCampID = `reviews-by-campID/${review.campID}/${id}`;
+    // const ref = `reviews/${id}`;
+    // const refByUid = `reviews-by-uid/${review.userID}/${id}`;
+    // const refByCampID = `reviews-by-campID/${review.campID}/${id}`;
 
-    writes[ref] = review;
-    writes[refByUid] = true;
-    writes[refByCampID] = true;
+    // writes[ref] = review;
+    // writes[refByUid] = true;
+    // writes[refByCampID] = true;
 
-    this.db.batchWrite(writes);
+    // this.db.batchWrite(writes);
   }
 
   submitCampReview(campReview: CampReview) {
