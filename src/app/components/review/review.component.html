@@ -37,8 +37,12 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>Overall</ion-label>
-                    <!-- <ion-rating [rate]="reviewToSubmit?.rating" (rateChange)="campReviewToSubmi"></ion-rating> -->
+                    <ion-rating [rate]="campReviewToSubmit?.rating" (rateChange)="campReviewToSubmit.rating = $event">
+                    </ion-rating>
                 </ion-item>
+                <ion-textarea name="description" [(ngModel)]="campReviewToSubmit.description"
+                    placeholder="Write your review here...">
+                </ion-textarea>
             </ng-container>
 
 
@@ -46,7 +50,7 @@
                 <ion-item>
                     <ion-label>Trail Condition</ion-label>
                     <ion-rating [rate]="trailReviewToSubmit?.trailCondition"
-                        (rateChange)="onTrailAttributeRateChange(TrailReviewAttributes.trailCondition, $event)">
+                        (rateChange)="onTrailAttributeRateChange($event, TrailReviewAttributes.trailCondition)">
                     </ion-rating>
                 </ion-item>
                 <ion-item>
@@ -54,12 +58,10 @@
                     <ion-rating [rate]="trailReviewToSubmit?.rating" (rateChange)="trailReviewToSubmit.rating = $event">
                     </ion-rating>
                 </ion-item>
+                <ion-textarea name="description" [(ngModel)]="trailReviewToSubmit.description"
+                    placeholder="Write your review here...">
+                </ion-textarea>
             </ng-container>
-
-
-            <!-- <ion-textarea name="description" [(ngModel)]="reviewToSubmit.description"
-                placeholder="Write your review here...">
-            </ion-textarea> -->
         </ion-list>
         <ion-button (click)="onSubmit()">Submit</ion-button>
     </ng-container>
