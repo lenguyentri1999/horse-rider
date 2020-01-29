@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
-import { Review } from 'src/models/review';
+import { Review } from 'src/models/reviews/review';
 import { Observable, combineLatest, of } from 'rxjs';
 import { IByCampID } from 'src/models/firebase/IByCampID';
 import { IByUserID } from 'src/models/firebase/IByUserID';
 import { IByID } from 'src/models/firebase/IByID';
 import { map, flatMap } from 'rxjs/operators';
-import { CampReview } from 'src/models/campReview';
 
 @Injectable({
   providedIn: 'root'
@@ -68,33 +67,6 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
 
   submitReview(review: Review) {
     review.submitReview(this.db);
-    // const writes: Map<string, object> = new Map<string, object>();
-    // const id = this.db.uuidv4();
-
-    // const ref = `reviews/${id}`;
-    // const refByUid = `reviews-by-uid/${review.userID}/${id}`;
-    // const refByCampID = `reviews-by-campID/${review.campID}/${id}`;
-
-    // writes[ref] = review;
-    // writes[refByUid] = true;
-    // writes[refByCampID] = true;
-
-    // this.db.batchWrite(writes);
-  }
-
-  submitCampReview(campReview: CampReview) {
-    const writes: Map<string, object> = new Map<string, object>();
-    const id = this.db.uuidv4();
-
-    const ref = `campReviews/${id}`;
-    const refByUid = `camp-reviews-by-uid/${campReview.userID}/${id}`;
-    const refByCampId = `camp-reviews-by-campID/${campReview.campID}/${id}`;
-
-    writes[ref] = campReview;
-    writes[refByUid] = true;
-    writes[refByCampId] = true;
-
-    this.db.batchWrite(writes);
   }
 
   private getReviewRating(id: string): Observable<number> {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camp } from 'src/models/camp';
-import { Review } from 'src/models/review';
+import { Review } from 'src/models/reviews/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { CampService } from 'src/app/services/camp.service';
 import { Observable, of } from 'rxjs';

@@ -1,14 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Review, TrailReviewAttributes, TrailReview, CampReviewAttributes, CampReview } from 'src/models/review';
+import { Review } from 'src/models/reviews/review';
 import { Camp } from 'src/models/camp';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable, Subject } from 'rxjs';
 import { ModalController } from '@ionic/angular';
-import { tap, first } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { UserData } from 'src/models/userData';
 import { UserProfileService } from 'src/app/services/user-profile.service';
 import { CampService } from 'src/app/services/camp.service';
 import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
+import { TrailReview, TrailReviewAttributes } from 'src/models/reviews/trailReview';
+import { CampReview, CampReviewAttributes } from 'src/models/reviews/campReview';
 
 @Component({
   selector: 'app-review',

@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NavParams, PopoverController, ModalController } from '@ionic/angular';
 import { Camp } from 'src/models/camp';
 import { Observable } from 'rxjs';
-import { Review } from 'src/models/review';
+import { Review } from 'src/models/reviews/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { map, switchMap } from 'rxjs/operators';
 import { CampService } from 'src/app/services/camp.service';
-import { CampReview } from 'src/models/campReview';
 
 @Component({
   selector: 'app-review-write-new-review',
@@ -37,11 +36,6 @@ export class ReviewWriteNewReviewComponent implements OnInit {
 
   submitReview(review: Review) {
     this.reviewService.submitReview(review);
-    this.exitPopover();
-  }
-
-  submitCampReview(campReview: CampReview) {
-    this.reviewService.submitCampReview(campReview);
     this.exitPopover();
   }
 
