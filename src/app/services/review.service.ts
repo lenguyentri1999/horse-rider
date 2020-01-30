@@ -6,6 +6,8 @@ import { IByCampID } from 'src/models/firebase/IByCampID';
 import { IByUserID } from 'src/models/firebase/IByUserID';
 import { IByID } from 'src/models/firebase/IByID';
 import { map, flatMap } from 'rxjs/operators';
+import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
+import { ReviewImgHandler } from 'src/models/reviews/reviewImgHandler';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +69,11 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
 
   submitReview(review: Review) {
     review.submitReview(this.db);
+  }
+
+  submitReviewPhotos(review: Review, preUploadedImgs: PhotoUrlWrapper[]) {
+    const reviewImgHandler = new ReviewImgHandler(review, preUploadedImgs);
+    reviewImgHandler.uploadPhotos(this.db);
   }
 
   private getReviewRating(id: string): Observable<number> {

@@ -3,6 +3,7 @@ import { DbService } from 'src/app/services/db.service';
 
 export class CampReview implements Review {
     // Review attributes
+    id: string;
     rating: number;
     description: string;
     campID: string;
@@ -16,7 +17,8 @@ export class CampReview implements Review {
     horseFacilities: number = 5;
     wifi: number = 5;
 
-    constructor(campID: string, userID: string, rating: number, description: string) {
+    constructor(id: string, campID: string, userID: string, rating: number, description: string) {
+        this.id = id;
         this.campID = campID;
         this.userID = userID;
         this.rating = rating;
@@ -30,10 +32,9 @@ export class CampReview implements Review {
 
     public submitReview(db: DbService) {
         const writes: Map<string, object> = new Map<string, object>();
-        const id = db.uuidv4();
-        const ref = `reviews/camps/review-info/${id}`;
-        const refByUid = `reviews/camps/review-by-uid/${this.userID}/${id}`;
-        const refByCampID = `reviews/camps/review-by-campID/${this.campID}/${id}`;
+        const ref = `reviews/camps/review-info/${this.id}`;
+        const refByUid = `reviews/camps/review-by-uid/${this.userID}/${this.id}`;
+        const refByCampID = `reviews/camps/review-by-campID/${this.campID}/${this.id}`;
 
         writes[ref] = this;
         writes[refByUid] = true;

@@ -6,6 +6,8 @@ import * as firebase from 'firebase';
 import { map, finalize } from 'rxjs/operators';
 import { AngularFireStorage, AngularFireUploadTask, AngularFireStorageReference } from '@angular/fire/storage';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
+import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
+import { ImageUploadTask } from 'src/models/firebase/imageUploadTask';
 
 @Injectable({
   providedIn: 'root'
@@ -88,5 +90,17 @@ export class DbService {
 
   public removeAtPath(path: string): Promise<void> {
     return this.afDb.database.ref(environment.firebasePath + path).remove();
+  }
+
+  public uploadAllPhotos(wrappers: PhotoUrlWrapper[]): Promise<string>[] {
+    const imageUploadTasks: ImageUploadTask[] = wrappers.map(wrapper => {
+      if (wrapper.isLocal) {
+        const data = this.getImageUrl(this.uuidv4(), wrapper.file);
+        return ImageUploadTask.getLocalImage(data.ref, data.task);
+      } else {
+        return ImageUploadTask.getUploadedImage(wrapper.url);
+      }
+    });
+    return imageUploadTasks.map(t => t.getUrl());
   }
 }

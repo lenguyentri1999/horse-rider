@@ -12,16 +12,3 @@ describe('CampService', () => {
   });
 });
 
-describe('CampService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-  });
-
-  it('should be null', () => {
-    const service: CampService = TestBed.get(CampService);
-    const camp = null;
-    service.isCamp(camp).subscribe(val => {
-      expect(val).toBeFalsy();
-    });
-  });
-});

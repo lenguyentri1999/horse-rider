@@ -16,6 +16,7 @@ import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 export class ReviewWriteNewReviewComponent implements OnInit {
   camp$: Observable<Camp>;
   isTrail: Observable<boolean>;
+  reviewImgs: PhotoUrlWrapper[];
 
   // Template attrs
   isAddingPhoto: boolean;
@@ -40,14 +41,13 @@ export class ReviewWriteNewReviewComponent implements OnInit {
 
   submitReview(review: Review) {
     this.reviewService.submitReview(review);
+    this.reviewService.submitReviewPhotos(review, this.reviewImgs);
     this.exitPopover();
   }
 
   onPhotoUrlsChange(urls: PhotoUrlWrapper[]) {
-    console.log(urls);
+    this.reviewImgs = urls;
   }
-
-
 
   exitPopover() {
     this.popoverCtrl.dismiss();

@@ -11,6 +11,7 @@ import { CampService } from 'src/app/services/camp.service';
 import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 import { TrailReview, TrailReviewAttributes } from 'src/models/reviews/trailReview';
 import { CampReview, CampReviewAttributes } from 'src/models/reviews/campReview';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-review',
@@ -46,6 +47,7 @@ export class ReviewComponent implements OnInit, OnChanges {
 
   constructor(
     protected authService: AuthService,
+    protected db: DbService,
     protected userProfileService: UserProfileService,
     protected campService: CampService,
     protected modalController: ModalController,
@@ -78,6 +80,7 @@ export class ReviewComponent implements OnInit, OnChanges {
               const defaultRating = 5;
 
               this.campReviewToSubmit = new CampReview(
+                this.db.uuidv4(),
                 changes.camp.currentValue.id,
                 this.authService.getUserId(),
                 defaultRating,
@@ -85,6 +88,7 @@ export class ReviewComponent implements OnInit, OnChanges {
               );
 
               this.trailReviewToSubmit = new TrailReview(
+                this.db.uuidv4(),
                 changes.camp.currentValue.id,
                 this.authService.getUserId(),
                 defaultRating,

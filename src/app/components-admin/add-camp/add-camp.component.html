@@ -50,7 +50,7 @@
               <ion-item>
                 <ion-label class="label" position="stacked">Add Photos</ion-label>
               </ion-item>
-              <app-photo-adder (onUrlsChange)="onPhotoUrlsChange($event)" [inputUrls]="myForm.get('pictureUrl').value"></app-photo-adder>
+              <app-photo-adder (onFilesChanged)="onPhotoUrlsChange($event)" [inputUrls]="myForm.get('pictureUrl').value"></app-photo-adder>
 
 
               <ion-item>

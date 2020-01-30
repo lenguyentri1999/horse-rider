@@ -11,7 +11,7 @@ import { PhotoModalOutput, PhotoUrlWrapper } from 'src/models/photoModalOutput';
 })
 export class PhotoAdderComponent implements OnInit {
   @Input() inputUrls: PhotoUrlWrapper[] = [];
-  @Output() onFilesChanged = new EventEmitter<PhotoModalOutput[]>();
+  @Output() onFilesChanged = new EventEmitter<PhotoUrlWrapper[]>();
 
   constructor(
     protected modalCtrl: ModalController,

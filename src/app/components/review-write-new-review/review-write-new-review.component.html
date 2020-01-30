@@ -1,7 +1,7 @@
 <ion-content padding>
     <h1 *ngIf="camp$ | async">Reviewing {{(camp$ | async)?.name}}</h1>
     <span class="fake-link" (click)="isAddingPhoto = !isAddingPhoto">Have some photos to add to your review?</span>
-    <app-photo-adder *ngIf="isAddingPhoto" (onUrlsChanged)="onPhotoUrlsChange($event)"></app-photo-adder>
+    <app-photo-adder *ngIf="isAddingPhoto" (onFilesChanged)="onPhotoUrlsChange($event)"></app-photo-adder>
     <app-review [isEditMode]="true" [camp]="camp$ | async" (exitEventEmitter)="exitPopover()"
         (submitReview)="submitReview($event)"></app-review>
     <ion-button color="danger" (click)="exitPopover()">Cancel</ion-button>
