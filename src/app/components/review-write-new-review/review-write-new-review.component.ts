@@ -6,6 +6,7 @@ import { Review } from 'src/models/reviews/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { map, switchMap } from 'rxjs/operators';
 import { CampService } from 'src/app/services/camp.service';
+import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 
 @Component({
   selector: 'app-review-write-new-review',
@@ -15,6 +16,9 @@ import { CampService } from 'src/app/services/camp.service';
 export class ReviewWriteNewReviewComponent implements OnInit {
   camp$: Observable<Camp>;
   isTrail: Observable<boolean>;
+
+  // Template attrs
+  isAddingPhoto: boolean;
 
   constructor(
     protected reviewService: ReviewService,
@@ -38,6 +42,12 @@ export class ReviewWriteNewReviewComponent implements OnInit {
     this.reviewService.submitReview(review);
     this.exitPopover();
   }
+
+  onPhotoUrlsChange(urls: PhotoUrlWrapper[]) {
+    console.log(urls);
+  }
+
+
 
   exitPopover() {
     this.popoverCtrl.dismiss();
