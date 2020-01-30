@@ -6,7 +6,7 @@ import { ReviewService } from 'src/app/services/review.service';
 import { CampService } from 'src/app/services/camp.service';
 import { Observable, of } from 'rxjs';
 import { NavParamsService } from 'src/app/services/nav-params.service';
-import { map, flatMap, switchMap, first } from 'rxjs/operators';
+import { map, flatMap, switchMap, first, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.component';
@@ -19,7 +19,8 @@ import { ReviewWriteNewReviewComponent } from 'src/app/components/review-write-n
   styleUrls: ['./camp-info.page.scss'],
 })
 export class CampInfoPage implements OnInit {
-  pReview: number;
+  pReview: number = 1;
+  pReviewPhoto: number = 1;
   isViewing = true;
   isAdmin: Observable<boolean>;
 
@@ -27,6 +28,7 @@ export class CampInfoPage implements OnInit {
   isTrail$: Observable<boolean>;
   avgRating$: Observable<number>;
   campReviews$: Observable<Review[]>;
+  campReviewPhotos$: Observable<any>;
 
   constructor(
     protected route: ActivatedRoute,
@@ -54,6 +56,13 @@ export class CampInfoPage implements OnInit {
       ));
     this.avgRating$ = this.camp$.pipe(
       switchMap(camp => this.reviewService.getAverageRating(camp.id))
+    );
+
+    this.campReviewPhotos$ = this.camp$.pipe(
+      switchMap(camp => {
+        return this.reviewService.getAllReviewPhotos(camp.id);
+      }),
+      tap(val => console.log(val))
     );
   }
 
@@ -91,5 +100,8 @@ export class CampInfoPage implements OnInit {
 
   onPageChange(page: number) {
     this.pReview = page;
+  }
+  onReviewPhotoPageChange(pagePhoto: number) {
+    this.pReviewPhoto = pagePhoto;
   }
 }

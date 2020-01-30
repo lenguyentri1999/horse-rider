@@ -69,11 +69,50 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
     }
   }
 
-  submitReview(review: Review) {
+  public getAllReviewPhotos(campID: string): Observable<string[]> {
+    try {
+      const ids = this.getAllCampReviewIds(campID);
+      const photos = ids.pipe(
+        flatMap(arr => {
+          if (arr.length === 0) {
+            return of([]);
+          }
+
+          let observables: Observable<string[]>[] = [];
+          observables = arr.map(id => this.getReviewPhotos(id));
+
+          return combineLatest(observables);
+        }),
+        map(arr => this.flatten<string>(arr))
+      );
+
+      return photos;
+
+    } catch (err) {
+      throw new Error(err);
+    }
+
+  }
+
+  // Source: https://stackoverflow.com/questions/10865025/merge-flatten-an-array-of-arrays/39000004#39000004
+  // Returns a flattenned array
+  private flatten<T>(arr: T[], result = []): T[] {
+    for (let i = 0, length = arr.length; i < length; i++) {
+      const value = arr[i];
+      if (Array.isArray(value)) {
+        this.flatten(value, result);
+      } else {
+        result.push(value);
+      }
+    }
+    return result;
+  };
+
+  public submitReview(review: Review) {
     review.submitReview(this.db);
   }
 
-  submitReviewPhotos(review: Review, preUploadedImgs: PhotoUrlWrapper[]) {
+  public submitReviewPhotos(review: Review, preUploadedImgs: PhotoUrlWrapper[]) {
     const reviewImgHandler = new ReviewImgHandler(review, preUploadedImgs);
     reviewImgHandler.uploadPhotos(this.db);
   }
@@ -95,6 +134,10 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
 
   private getReviewRating(id: string): Observable<number> {
     return this.db.getObjectValues<number>(`reviews/review-info/${id}/rating`);
+  }
+
+  private getReviewPhotos(id: string): Observable<string[]> {
+    return this.db.getObjectValues<string[]>(`reviews/review-imgs/${id}`);
   }
 
   private getAllCampReviewIds(campID: string): Observable<string[]> {

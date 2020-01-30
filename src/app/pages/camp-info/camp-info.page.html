@@ -12,7 +12,7 @@
       </ion-slides>
     </ion-row>
     <ion-row>
-      <ion-col padding>
+      <ion-col size-lg="6" size="12" size-sm padding>
         <h1>
           {{(camp$ | async)?.name}}
         </h1>
@@ -28,6 +28,15 @@
             {{(camp$ | async)?.url}}
           </a>
         </p>
+      </ion-col>
+      <ion-col size-lg="6" size="12" size-sm padding>
+        <h2>Review images.</h2>
+        <ion-col size="12" *ngFor="let url of campReviewPhotos$ | async | paginate: { id: 'pagination1', itemsPerPage: 2, currentPage: pReviewPhoto}">
+          <img class="review-photo" src={{url}}>
+        </ion-col>
+
+        <pagination-controls id="pagination1" (pageChange)="onReviewPhotoPageChange($event)" *ngIf="campReviewPhotos$ | async">
+        </pagination-controls>
       </ion-col>
     </ion-row>
 
@@ -137,11 +146,11 @@
             <ion-row>
               <ng-container *ngIf="isViewing">
                 <ion-col size="12"
-                  *ngFor="let review of campReviews$ | async | paginate: { itemsPerPage: 2, currentPage: pReview}">
+                  *ngFor="let review of campReviews$ | async | paginate: { id: 'pagination2', itemsPerPage: 2, currentPage: pReview}">
                   <app-review [isEditMode]="false" [review]="review"></app-review>
                 </ion-col>
 
-                <pagination-controls (pageChange)="onPageChange($event)" *ngIf="campReviews$ | async">
+                <pagination-controls id="pagination2" (pageChange)="onPageChange($event)" *ngIf="campReviews$ | async">
                 </pagination-controls>
               </ng-container>
               <!-- <ng-container *ngIf="!isViewing">
