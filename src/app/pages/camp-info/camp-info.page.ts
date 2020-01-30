@@ -53,7 +53,7 @@ export class CampInfoPage implements OnInit {
       }
       ));
     this.avgRating$ = this.camp$.pipe(
-      switchMap(camp => this.campService.getAverageRating(camp.id))
+      switchMap(camp => this.reviewService.getAverageRating(camp.id))
     );
   }
 

@@ -21,7 +21,7 @@ export class CampCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.avgRating = this.campService.getAverageRating(this.camp.id);
+    this.avgRating = this.reviewService.getAverageRating(this.camp.id);
     this.numReviews = this.reviewService.getByCampID(this.camp.id).pipe(
       map(reviews => reviews.length)
     );

@@ -8,13 +8,15 @@ import { IByID } from 'src/models/firebase/IByID';
 import { map, flatMap } from 'rxjs/operators';
 import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 import { ReviewImgHandler } from 'src/models/reviews/reviewImgHandler';
+import { CampService } from './camp.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByID<Review> {
   constructor(
-    protected db: DbService
+    protected db: DbService,
+    protected campService: CampService,
   ) { }
 
   getByCampID(campID: string): Observable<Review[]> {
@@ -41,7 +43,7 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
   }
 
   getByID(id: string): Observable<Review> {
-    return this.db.getObjectValues<Review>(`reviews/${id}`);
+    return this.db.getObjectValues<Review>(`reviews/review-info/${id}`);
   }
 
   getAllReviewRatings(campID: string): Observable<number[]> {
@@ -76,12 +78,27 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
     reviewImgHandler.uploadPhotos(this.db);
   }
 
+  public getAverageRating(campID: string): Observable<number> {
+    return this.getAllReviewRatings(campID)
+      .pipe(
+        map(ratings => {
+          if (ratings.length === 0) {
+            return 0;
+          }
+
+          let sum = 0;
+          ratings.forEach(rating => sum += rating);
+          return sum / ratings.length;
+        })
+      );
+  }
+
   private getReviewRating(id: string): Observable<number> {
-    return this.db.getObjectValues<number>(`reviews/${id}/rating`);
+    return this.db.getObjectValues<number>(`reviews/review-info/${id}/rating`);
   }
 
   private getAllCampReviewIds(campID: string): Observable<string[]> {
-    const ids = this.db.getObjectValues<Map<string, boolean>>(`reviews-by-campID/${campID}`)
+    const ids = this.db.getObjectValues<Map<string, boolean>>(`reviews/review-by-campID/${campID}`)
       .pipe(
         map(hashmap => {
           if (!(hashmap)) {

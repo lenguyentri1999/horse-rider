@@ -32,9 +32,9 @@ export class CampReview implements Review {
 
     public submitReview(db: DbService) {
         const writes: Map<string, object> = new Map<string, object>();
-        const ref = `reviews/camps/review-info/${this.id}`;
-        const refByUid = `reviews/camps/review-by-uid/${this.userID}/${this.id}`;
-        const refByCampID = `reviews/camps/review-by-campID/${this.campID}/${this.id}`;
+        const ref = `reviews/review-info/${this.id}`;
+        const refByUid = `reviews/review-by-uid/${this.userID}/${this.id}`;
+        const refByCampID = `reviews/review-by-campID/${this.campID}/${this.id}`;
 
         writes[ref] = this;
         writes[refByUid] = true;
