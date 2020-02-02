@@ -92,6 +92,9 @@
                     <ion-icon name="arrow-dropleft"></ion-icon>
                     Footing
                   </ion-item>
+                  <ion-item no-padding>
+                    Trail condition: {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.trailCondition) | async}}
+                  </ion-item>
                 </ion-list>
               </ion-col>
             </ion-row>

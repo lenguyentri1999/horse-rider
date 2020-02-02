@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
-import { Review } from 'src/models/reviews/review';
+import { Review, ReviewAttrs } from 'src/models/reviews/review';
 import { Observable, combineLatest, of } from 'rxjs';
 import { IByCampID } from 'src/models/firebase/IByCampID';
 import { IByUserID } from 'src/models/firebase/IByUserID';
@@ -9,6 +9,8 @@ import { map, flatMap } from 'rxjs/operators';
 import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 import { ReviewImgHandler } from 'src/models/reviews/reviewImgHandler';
 import { CampService } from './camp.service';
+import { TrailReviewAttributes } from 'src/models/reviews/trailReview';
+import { CampReviewAttributes } from 'src/models/reviews/campReview';
 
 @Injectable({
   providedIn: 'root'
@@ -44,29 +46,6 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
 
   getByID(id: string): Observable<Review> {
     return this.db.getObjectValues<Review>(`reviews/review-info/${id}`);
-  }
-
-  getAllReviewRatings(campID: string): Observable<number[]> {
-    try {
-      const ids = this.getAllCampReviewIds(campID);
-      const ratings = ids.pipe(
-        flatMap(arr => {
-          if (arr.length === 0) {
-            return of([]);
-          }
-
-          let observables: Observable<number>[] = [];
-          observables = arr.map(id => this.getReviewRating(id));
-
-          return combineLatest(observables);
-        })
-      );
-
-      return ratings;
-
-    } catch (err) {
-      throw new Error(err);
-    }
   }
 
   public getAllReviewPhotos(campID: string): Observable<string[]> {
@@ -117,8 +96,9 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
     reviewImgHandler.uploadPhotos(this.db);
   }
 
-  public getAverageRating(campID: string): Observable<number> {
-    return this.getAllReviewRatings(campID)
+  // Get the average rating based on all the ratings for the camp
+  public getAverageRating(campID: string, attr: ReviewAttrs | TrailReviewAttributes | CampReviewAttributes): Observable<number> {
+    return this.getAllReviewRatings(campID, attr)
       .pipe(
         map(ratings => {
           if (ratings.length === 0) {
@@ -132,9 +112,35 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
       );
   }
 
-  private getReviewRating(id: string): Observable<number> {
-    return this.db.getObjectValues<number>(`reviews/review-info/${id}/rating`);
+  // Get all the ratings for a specific camp
+  public getAllReviewRatings(campID: string, attr: ReviewAttrs | CampReviewAttributes | TrailReviewAttributes): Observable<number[]> {
+    try {
+      const ids = this.getAllCampReviewIds(campID);
+      const ratings = ids.pipe(
+        flatMap(arr => {
+          if (arr.length === 0) {
+            return of([]);
+          }
+
+          let observables: Observable<number>[] = [];
+          observables = arr.map(id => this.getReviewInfo(id, attr));
+
+          return combineLatest(observables);
+        })
+      );
+
+      return ratings;
+
+    } catch (err) {
+      throw new Error(err);
+    }
   }
+
+  // Get specific information about a rating
+  private getReviewInfo(id: string, attr: ReviewAttrs | CampReviewAttributes | TrailReviewAttributes): Observable<number> {
+    return this.db.getObjectValues<number>(`reviews/review-info/${id}/${attr}`);
+  }
+
 
   private getReviewPhotos(id: string): Observable<string[]> {
     return this.db.getObjectValues<string[]>(`reviews/review-imgs/${id}`);

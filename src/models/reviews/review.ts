@@ -1,5 +1,8 @@
 import { DbService } from 'src/app/services/db.service';
-import { PhotoUrlWrapper } from '../photoModalOutput';
+
+export enum ReviewAttrs {
+    rating = 'rating',
+}
 
 export interface Review {
     id: string;

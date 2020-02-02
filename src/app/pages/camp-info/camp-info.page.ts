@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camp } from 'src/models/camp';
-import { Review } from 'src/models/reviews/review';
+import { Review, ReviewAttrs } from 'src/models/reviews/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { CampService } from 'src/app/services/camp.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, combineLatest, forkJoin } from 'rxjs';
 import { NavParamsService } from 'src/app/services/nav-params.service';
 import { map, flatMap, switchMap, first, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
@@ -12,6 +12,8 @@ import { ModalController, PopoverController } from '@ionic/angular';
 import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.component';
 import { ReviewComponent } from 'src/app/components/review/review.component';
 import { ReviewWriteNewReviewComponent } from 'src/app/components/review-write-new-review/review-write-new-review.component';
+import { TrailReviewAttributes } from 'src/models/reviews/trailReview';
+import { ReviewAvgHandler } from 'src/models/reviews/reviewAvgHandler';
 
 @Component({
   selector: 'app-camp-info',
@@ -24,11 +26,14 @@ export class CampInfoPage implements OnInit {
   isViewing = true;
   isAdmin: Observable<boolean>;
 
+  TrailReviewAttributes = TrailReviewAttributes;
+
   camp$: Observable<Camp>;
   isTrail$: Observable<boolean>;
   avgRating$: Observable<number>;
   campReviews$: Observable<Review[]>;
   campReviewPhotos$: Observable<any>;
+  campAvgRatingHandler:ReviewAvgHandler;
 
   constructor(
     protected route: ActivatedRoute,
@@ -44,10 +49,9 @@ export class CampInfoPage implements OnInit {
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
     this.camp$ = this.initQueryParams();
-
-    this.camp$.subscribe(camp => {
-      this.isTrail$ = this.campService.isTrail(camp);
-    });
+    this.isTrail$ = this.camp$.pipe(
+      switchMap(camp => this.campService.isTrail(camp))
+    );
 
     this.campReviews$ = this.camp$.pipe(
       switchMap(camp => {
@@ -55,7 +59,7 @@ export class CampInfoPage implements OnInit {
       }
       ));
     this.avgRating$ = this.camp$.pipe(
-      switchMap(camp => this.reviewService.getAverageRating(camp.id))
+      switchMap(camp => this.reviewService.getAverageRating(camp.id, ReviewAttrs.rating))
     );
 
     this.campReviewPhotos$ = this.camp$.pipe(
@@ -64,7 +68,12 @@ export class CampInfoPage implements OnInit {
       }),
       tap(val => console.log(val))
     );
-  }
+
+    const campId$ = this.camp$.pipe(
+      map(camp => camp.id)
+    );
+    this.campAvgRatingHandler = ReviewAvgHandler.GetTrailAverages(campId$, this.campReviews$, this.reviewService);
+  } 
 
   initQueryParams(): Observable<Camp> {
     return this.route.paramMap.pipe(
@@ -87,15 +96,15 @@ export class CampInfoPage implements OnInit {
     this.camp$.pipe(
       first()
     ).
-    subscribe(async (camp: Camp) => {
-      const modal = await this.modalCtrl.create({
-        component: AddCampComponent,
-        componentProps: {
-          camp
-        }
+      subscribe(async (camp: Camp) => {
+        const modal = await this.modalCtrl.create({
+          component: AddCampComponent,
+          componentProps: {
+            camp
+          }
+        });
+        modal.present();
       });
-      modal.present();
-    });
   }
 
   onPageChange(page: number) {

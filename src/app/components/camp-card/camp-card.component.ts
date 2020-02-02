@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { CampService } from 'src/app/services/camp.service';
 import { ReviewService } from 'src/app/services/review.service';
 import { map, defaultIfEmpty } from 'rxjs/operators';
+import { ReviewAttrs } from 'src/models/reviews/review';
 
 @Component({
   selector: 'app-camp-card',
@@ -21,7 +22,7 @@ export class CampCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.avgRating = this.reviewService.getAverageRating(this.camp.id);
+    this.avgRating = this.reviewService.getAverageRating(this.camp.id, ReviewAttrs.rating);
     this.numReviews = this.reviewService.getByCampID(this.camp.id).pipe(
       map(reviews => reviews.length)
     );
