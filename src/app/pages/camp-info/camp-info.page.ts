@@ -13,6 +13,7 @@ import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.com
 import { ReviewComponent } from 'src/app/components/review/review.component';
 import { ReviewWriteNewReviewComponent } from 'src/app/components/review-write-new-review/review-write-new-review.component';
 import { TrailReviewAttributes } from 'src/models/reviews/trailReview';
+import { CampReviewAttributes } from 'src/models/reviews/campReview';
 import { ReviewAvgHandler } from 'src/models/reviews/reviewAvgHandler';
 
 @Component({
@@ -27,13 +28,14 @@ export class CampInfoPage implements OnInit {
   isAdmin: Observable<boolean>;
 
   TrailReviewAttributes = TrailReviewAttributes;
+  CampReviewAttributes = CampReviewAttributes;
 
   camp$: Observable<Camp>;
   isTrail$: Observable<boolean>;
   avgRating$: Observable<number>;
   campReviews$: Observable<Review[]>;
   campReviewPhotos$: Observable<any>;
-  campAvgRatingHandler:ReviewAvgHandler;
+  campAvgRatingHandler: ReviewAvgHandler;
 
   constructor(
     protected route: ActivatedRoute,
@@ -72,8 +74,16 @@ export class CampInfoPage implements OnInit {
     const campId$ = this.camp$.pipe(
       map(camp => camp.id)
     );
-    this.campAvgRatingHandler = ReviewAvgHandler.GetTrailAverages(campId$, this.campReviews$, this.reviewService);
-  } 
+    this.isTrail$.pipe(
+      tap(isTrail => {
+        if (isTrail) {
+          this.campAvgRatingHandler = ReviewAvgHandler.GetTrailAverages(campId$, this.campReviews$, this.reviewService);
+        } else {
+          this.campAvgRatingHandler = ReviewAvgHandler.GetCampAverages(campId$, this.campReviews$, this.reviewService);
+        }
+      })
+    ).subscribe();
+  }
 
   initQueryParams(): Observable<Camp> {
     return this.route.paramMap.pipe(

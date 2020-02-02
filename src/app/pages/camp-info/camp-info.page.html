@@ -31,11 +31,13 @@
       </ion-col>
       <ion-col size-lg="6" size="12" size-sm padding>
         <h2>Review images.</h2>
-        <ion-col size="12" *ngFor="let url of campReviewPhotos$ | async | paginate: { id: 'pagination1', itemsPerPage: 2, currentPage: pReviewPhoto}">
+        <ion-col size="12"
+          *ngFor="let url of campReviewPhotos$ | async | paginate: { id: 'pagination1', itemsPerPage: 2, currentPage: pReviewPhoto}">
           <img class="review-photo" src={{url}}>
         </ion-col>
 
-        <pagination-controls id="pagination1" (pageChange)="onReviewPhotoPageChange($event)" *ngIf="campReviewPhotos$ | async">
+        <pagination-controls id="pagination1" (pageChange)="onReviewPhotoPageChange($event)"
+          *ngIf="campReviewPhotos$ | async">
         </pagination-controls>
       </ion-col>
     </ion-row>
@@ -55,7 +57,9 @@
                   <ion-list lines="none">
                     <ion-item no-padding>
                       <ion-icon name="speedometer"></ion-icon> &nbsp;
-                      Difficulty: {{(camp$ | async)?.attributes.difficulty}}
+                      Difficulty
+                      <ion-icon name="arrow-dropright"></ion-icon>
+                      {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.difficulty) | async | number: '1.1-1'}}
                     </ion-item>
                   </ion-list>
                 </ion-col>
@@ -73,27 +77,29 @@
               <ion-col>
                 <ion-list lines="none">
                   <ion-item no-padding>
-                    {{(camp$ | async)?.attributes.waterCrossings}}
-                    <ion-icon name="arrow-dropleft"></ion-icon>
                     Water Crossings
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.difficultyWater) | async | number: '1.1-1'}}
                   </ion-item>
                   <ion-item no-padding>
-                    {{(camp$ | async)?.attributes.bridges}}
-                    <ion-icon name="arrow-dropleft"></ion-icon>
                     Bridges
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.difficultyBridges) | async | number: '1.1-1'}}
                   </ion-item>
                   <ion-item no-padding>
-                    {{(camp$ | async)?.attributes.parking}}
-                    <ion-icon name="arrow-dropleft"></ion-icon>
                     Parking for Rigs
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.parking) | async | number: '1.1-1'}}
                   </ion-item>
                   <ion-item no-padding>
-                    {{(camp$ | async)?.attributes.footing}}
-                    <ion-icon name="arrow-dropleft"></ion-icon>
                     Footing
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.footing) | async | number: '1.1-1'}}
                   </ion-item>
                   <ion-item no-padding>
-                    Trail condition: {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.trailCondition) | async}}
+                    Trail condition
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.trailCondition) | async | number: '1.1-1'}}
                   </ion-item>
                 </ion-list>
               </ion-col>
@@ -102,25 +108,42 @@
         </ng-container>
         <ng-container *ngIf="(isTrail$ | async) == false">
           <ion-row>
-            <ion-col size='6'>
-              <ion-item lines='none'>
-                <ion-icon item-start name="checkbox-outline" padding
-                  [ngClass]="(camp$ | async)?.attributes.bigRigFriendly ? 'icon-sucess' : ''"></ion-icon>
-                Big Rig Friendly
-              </ion-item>
+            <ion-col>
 
-              <ion-item lines='none'>
-                <ion-icon item-start name="checkbox-outline" padding
-                  [ngClass]="(camp$ | async)?.attributes.wifi ? 'icon-sucess' : ''"></ion-icon>
-                Wifi
-              </ion-item>
-            </ion-col>
-            <ion-col size='6'>
-              <ion-item lines='none'>
-                <ion-icon item-start name="checkbox-outline" padding
-                  [ngClass]="(camp$ | async)?.attributes.petFriendly ? 'icon-sucess' : ''"></ion-icon>
-                Pet Friendly
-              </ion-item>
+              <ion-card class="features-card" padding>
+                <ion-row>
+                  <ion-col>
+                    <h2>Features.</h2>
+                  </ion-col>
+                </ion-row>
+                <ion-list lines="none">
+                  <ion-item no-padding>
+                    Big Rig Friendly 
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getCampAttr(CampReviewAttributes.bigRigFriendly) | async | number: '1.1-1'}}
+                  </ion-item>
+                  <ion-item no-padding>
+                    Facility Cleanliness
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getCampAttr(CampReviewAttributes.facilityCleanliness) | async | number: '1.1-1'}}
+                  </ion-item>
+                  <ion-item no-padding>
+                    Horse Facilities
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getCampAttr(CampReviewAttributes.horseFacilities) | async | number: '1.1-1'}}
+                  </ion-item>
+                  <ion-item no-padding>
+                    Pet Friendly
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getCampAttr(CampReviewAttributes.petFriendly) | async | number: '1.1-1'}}
+                  </ion-item>
+                  <ion-item no-padding>
+                    Wifi
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getCampAttr(CampReviewAttributes.wifi) | async | number: '1.1-1'}}
+                  </ion-item>
+                </ion-list>
+              </ion-card>
             </ion-col>
           </ion-row>
 
