@@ -57,7 +57,7 @@
                   <ion-list lines="none">
                     <ion-item no-padding>
                       <ion-icon name="speedometer"></ion-icon> &nbsp;
-                      Difficulty
+                      Trail Difficulty
                       <ion-icon name="arrow-dropright"></ion-icon>
                       {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.difficulty) | async | number: '1.1-1'}}
                     </ion-item>
@@ -77,24 +77,24 @@
               <ion-col>
                 <ion-list lines="none">
                   <ion-item no-padding>
-                    Water Crossings
+                    Ease of navigation (by water)
                     <ion-icon name="arrow-dropright"></ion-icon>
                     {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.difficultyWater) | async | number: '1.1-1'}}
                   </ion-item>
                   <ion-item no-padding>
-                    Bridges
+                    Ease of navigation (terrain)
                     <ion-icon name="arrow-dropright"></ion-icon>
                     {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.difficultyBridges) | async | number: '1.1-1'}}
                   </ion-item>
                   <ion-item no-padding>
-                    Parking for Rigs
-                    <ion-icon name="arrow-dropright"></ion-icon>
-                    {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.parking) | async | number: '1.1-1'}}
-                  </ion-item>
-                  <ion-item no-padding>
-                    Footing
+                    Ease of navigation (on foot)
                     <ion-icon name="arrow-dropright"></ion-icon>
                     {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.footing) | async | number: '1.1-1'}}
+                  </ion-item>
+                  <ion-item no-padding>
+                    Parking 
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                    {{ (campAvgRatingHandler)?.getTrailAttr(TrailReviewAttributes.parking) | async | number: '1.1-1'}}
                   </ion-item>
                   <ion-item no-padding>
                     Trail condition

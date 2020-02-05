@@ -48,14 +48,49 @@
 
             <ng-container *ngIf="(isTrail$ | async) == true">
                 <ion-item>
+                    <ion-label>Overall</ion-label>
+                    <ion-rating [rate]="trailReviewToSubmit?.rating" (rateChange)="trailReviewToSubmit.rating = $event">
+                    </ion-rating>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>Overall Difficulty</ion-label>
+                    <ion-rating [rate]="trailReviewToSubmit?.difficulty"
+                        (rateChange)="onTrailAttributeRateChange($event, TrailReviewAttributes.difficulty)">
+                    </ion-rating>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>Ease of Navigation (by water)</ion-label>
+                    <ion-rating [rate]="trailReviewToSubmit?.difficultyWater"
+                        (rateChange)="onTrailAttributeRateChange($event, TrailReviewAttributes.difficultyWater)">
+                    </ion-rating>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>Ease of Navigation (terrain)</ion-label>
+                    <ion-rating [rate]="trailReviewToSubmit?.difficultyBridges"
+                        (rateChange)="onTrailAttributeRateChange($event, TrailReviewAttributes.difficultyBridges)">
+                    </ion-rating>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>Ease of Navigation (on foot)</ion-label>
+                    <ion-rating [rate]="trailReviewToSubmit?.footing"
+                        (rateChange)="onTrailAttributeRateChange($event, TrailReviewAttributes.footing)">
+                    </ion-rating>
+                </ion-item>
+
+                <ion-item>
                     <ion-label>Trail Condition</ion-label>
                     <ion-rating [rate]="trailReviewToSubmit?.trailCondition"
                         (rateChange)="onTrailAttributeRateChange($event, TrailReviewAttributes.trailCondition)">
                     </ion-rating>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Overall</ion-label>
-                    <ion-rating [rate]="trailReviewToSubmit?.rating" (rateChange)="trailReviewToSubmit.rating = $event">
+                    <ion-label>Parking</ion-label>
+                    <ion-rating [rate]="trailReviewToSubmit?.parking"
+                        (rateChange)="onTrailAttributeRateChange($event, TrailReviewAttributes.parking)">
                     </ion-rating>
                 </ion-item>
                 <ion-textarea name="description" [(ngModel)]="trailReviewToSubmit.description"
