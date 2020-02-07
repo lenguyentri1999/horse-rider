@@ -62,18 +62,22 @@ export class FilterService {
       results = results.filter(camp => camp.name.indexOf(name) >= 0);
     }
 
-    // Filter by attributes
-    const filters: Camp['attributes'] = {
-      bigRigFriendly: values.bigRigFriendly,
-      petFriendly: values.petFriendly,
-      wifi: values.wifi,
-    };
+    // Filter by city
+    if (values.city && values.city.length > 0) {
+      results = results.filter(camp => camp.city == values.city);
+    }
 
-    Object.keys(filters).forEach(key => {
-      if (filters[key]) {
-        results = results.filter(camp => camp.attributes[key]);
-      }
-    });
+    // Filter by state
+    if (values.state && values.state.length > 0) {
+      results = results.filter(camp => camp.state == values.state);
+    }
+
+    // FILTER BY ATTRIBUTES
+    // Object.keys(filters).forEach(key => {
+    //   if (filters[key]) {
+    //     results = results.filter(camp => camp.attributes[key]);
+    //   }
+    // });
 
     return results;
   }

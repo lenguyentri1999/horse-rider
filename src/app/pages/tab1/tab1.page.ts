@@ -191,30 +191,30 @@ export class Tab1Page implements OnInit, AfterViewInit {
     );
 
     // Filter by attributes
-    this.camps = combineLatest(
-      [
-        this.isTrail,
-        this.camps,
-        this.campAttributesFilters,
-        this.trailAttributesFilters,
-      ]).pipe(
-        map(results => {
-          const isTrail: boolean = results[0];
-          const camps: Camp[] = results[1];
-          const campAttributesFilters: CampSearchFormValues = results[2];
-          const trailAttributesFilters: TrailSearchFormValues = results[3];
+    // this.camps = combineLatest(
+    //   [
+    //     this.isTrail,
+    //     this.camps,
+    //     this.campAttributesFilters,
+    //     this.trailAttributesFilters,
+    //   ]).pipe(
+    //     map(results => {
+    //       const isTrail: boolean = results[0];
+    //       const camps: Camp[] = results[1];
+    //       const campAttributesFilters: CampSearchFormValues = results[2];
+    //       const trailAttributesFilters: TrailSearchFormValues = results[3];
 
-          if (isTrail && trailAttributesFilters) {
-            return this.filterService.filterTrailsByAttributes(camps, trailAttributesFilters);
-          }
+    //       if (isTrail && trailAttributesFilters) {
+    //         return this.filterService.filterTrailsByAttributes(camps, trailAttributesFilters);
+    //       }
 
-          if (!isTrail && campAttributesFilters) {
-            return this.filterService.filterCampsByAttributes(camps, campAttributesFilters);
-          }
+    //       if (!isTrail && campAttributesFilters) {
+    //         return this.filterService.filterCampsByAttributes(camps, campAttributesFilters);
+    //       }
 
-          return camps;
-        })
-      );
+    //       return camps;
+    //     })
+    //   );
 
     // Sort by distance
     this.camps = this.camps.pipe(

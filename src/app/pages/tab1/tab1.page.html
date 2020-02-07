@@ -62,7 +62,7 @@
 
       </ion-col>
       <ion-col>
-        <ion-toolbar *ngIf="!(isTrail | async)">
+        <!-- <ion-toolbar *ngIf="!(isTrail | async)">
           <ion-buttons (click)="onFilterButtonClick()">
             <ion-button [disabled]="!(campAttributesFilters | async)?.bigRigFriendly">
               <p padding>
@@ -80,29 +80,14 @@
               </p>
             </ion-button>
           </ion-buttons>
-        </ion-toolbar>
-        <ion-toolbar *ngIf="isTrail | async">
+        </ion-toolbar> -->
+        <!-- <ion-toolbar *ngIf="isTrail | async">
           <ion-buttons (click)="onFilterButtonClick()">
             <ion-button>
               Trail Filters: {{trailFiltersCount | async}} filters active
             </ion-button>
-            <!-- <ion-button *ngIf="(trailAttributesFilters | async)?.bridges != ''" [disabled]="!(trailAttributesFilters | async)?.bridges">
-              <p padding>
-                Bridges: {{(trailAttributesFilters | async)?.bridges}}
-              </p>
-            </ion-button>
-            <ion-button [disabled]="!(campAttributesFilters | async)?.petFriendly">
-              <p padding>
-                Pet Friendly
-              </p>
-            </ion-button>
-            <ion-button [disabled]="!(campAttributesFilters | async)?.wifi">
-              <p padding>
-                Wifi
-              </p>
-            </ion-button> -->
           </ion-buttons>
-        </ion-toolbar>
+        </ion-toolbar> -->
       </ion-col>
 
     </ion-row>
