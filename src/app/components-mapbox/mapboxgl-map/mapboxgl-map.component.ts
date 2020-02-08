@@ -3,7 +3,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange, OnDes
 import { environment } from 'src/environments/environment';
 import { of, Observable, Subject, combineLatest, forkJoin } from 'rxjs';
 import { MapboxMap, MapboxMapOptions, MapboxSourceOptions } from 'src/models/mapboxMap';
-import { MapboxPlace, MapboxSource } from 'src/models/mapboxResult';
+import { MapboxPlace } from 'src/models/mapboxResult';
 import { tap, flatMap, switchMap } from 'rxjs/operators';
 import { DbService } from 'src/app/services/db.service';
 
