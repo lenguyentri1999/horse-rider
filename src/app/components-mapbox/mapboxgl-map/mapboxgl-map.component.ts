@@ -93,21 +93,11 @@ export class MapboxglMapComponent implements OnInit, OnChanges, AfterViewInit {
     this.markers.forEach(marker => marker.remove());
   }
 
+  // Source: https://docs.mapbox.com/mapbox-gl-js/example/cluster/
   private async populateMarkers(myMap: MapboxMap, geoJsonData: MapboxPlace[]) {
     await this.removeAllMarkers();
 
     const sourceName = 'CampData';
-
-
-    // myMap.addSource('earthquakes', {
-    //   type: 'geojson',
-    //   // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-    //   // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-    //   data: source,
-    //   cluster: true,
-    //   clusterMaxZoom: 14, // Max zoom to cluster points on
-    //   clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
-    // })
 
     const options: MapboxSourceOptions = {
       type: 'geojson',
@@ -200,7 +190,6 @@ export class MapboxglMapComponent implements OnInit, OnChanges, AfterViewInit {
     myMap.on('click', 'unclustered-point', function (e) {
       const feature: MapboxPlace = e.features[0];
       feature.properties.id
-      // console.log(e);
       new mapboxgl.Popup({ offset: 25 }) 
       .setLngLat(feature.geometry.coordinates)
       .setHTML(`<a href='camp-info/${feature.properties.id}'>` + feature.properties.title + '</a>')
