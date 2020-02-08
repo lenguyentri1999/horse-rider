@@ -203,6 +203,12 @@ export class MapboxglMapComponent implements OnInit, OnChanges, AfterViewInit {
     myMap.on('mouseleave', 'clusters', function () {
       myMap.getCanvas().style.cursor = '';
     });
+    myMap.on('mouseenter', 'unclustered-point', function () {
+      myMap.getCanvas().style.cursor = 'pointer';
+    });
+    myMap.on('mouseleave', 'unclustered-point', function () {
+      myMap.getCanvas().style.cursor = '';
+    });
 
 
     // make a marker for each feature and add to the map
