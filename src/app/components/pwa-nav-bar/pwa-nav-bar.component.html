@@ -10,6 +10,7 @@
         <ion-button routerLink="/admin" *ngIf="isAdmin | async">Admin</ion-button>
         <ion-button routerLink="/tabs/places/trails">Trails</ion-button>
         <ion-button routerLink="/tabs/places/camps">Camps</ion-button>
+        <ion-button routerLink="/contact">Contact</ion-button>
         <!-- <ion-button>Help</ion-button> -->
 
         <ng-container *ngIf="!(isAuthorized | async)">
@@ -41,6 +42,7 @@
 
         <ion-item (click)="routeAndCloseMenu(['/tabs/places/trails'], 'Trails')">Trails</ion-item>
         <ion-item (click)="routeAndCloseMenu(['/tabs/places/camps'], 'Camps')">Camps</ion-item>
+        <ion-item (click)="routeAndCloseMenu(['/contact'], 'Contact')">Contact</ion-item>
 
         <ng-container *ngIf="!(isAuthorized | async)">
           <ion-item (click)="routeAndCloseMenu(['/login'], 'Login') ">Log in</ion-item>

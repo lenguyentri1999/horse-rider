@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+  <ion-title>{{(camp$ | async)?.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <div padding *ngIf="isAdmin | async">
     <ion-button (click)="onAdminEditButtonClick()">Edit (Admin only)</ion-button>

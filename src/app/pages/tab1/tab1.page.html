@@ -1,10 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title *ngIf="isTrail | async">Trails</ion-title>
+    <ion-title *ngIf="!(isTrail | async)">Camps</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
 
-  <div padding>
+  <!-- <div padding>
     <h2>home/ </h2>
     <h1 *ngIf="isTrail | async">Trails</h1>
     <h1 *ngIf="!(isTrail | async)">Camps</h1>
-  </div>
+  </div> -->
 
 
   <!-- Template for image -->
