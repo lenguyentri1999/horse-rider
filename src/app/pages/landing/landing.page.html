@@ -42,10 +42,13 @@
     <img class="frontphoto" src="assets/frontphoto.jpg">
   </div>
 
-  <!-- <div *ngIf="!environmentSetting">
-    <p>Environment Production: {{environmentSetting}}</p>
-    <p>Environment Version: {{environmentVersion}}</p>
-  </div> -->
+  <ion-grid padding>
+    <h1 class="rec-heading">Map</h1>
+    <ion-card class="map-card">
+      <app-mapboxgl-map [geoJsonData]="mapGeojsonData$ | async"></app-mapboxgl-map>
+    </ion-card>
+  </ion-grid>
+
   <ion-grid padding>
     <ion-row>
       <h1 class="rec-heading">Trails</h1>
@@ -94,13 +97,6 @@
         <app-camp-search-form (submitForm)="onSearchCamps($event)"></app-camp-search-form>
       </ion-col>
     </ion-row> -->
-  </ion-grid>
-
-  <ion-grid padding>
-    <h1 class="rec-heading">Map</h1>
-    <ion-card class="map-card">
-      <app-mapboxgl-map [geoJsonData]="mapGeojsonData$ | async"></app-mapboxgl-map>
-    </ion-card>
   </ion-grid>
 
 </ion-content>

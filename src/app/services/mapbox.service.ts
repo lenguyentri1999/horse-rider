@@ -23,6 +23,7 @@ export class MapboxService implements AutoCompleteService {
   };
 
   private defaultAddress = 'San Francisco, California';
+  private readonly numResults = 3;
 
   constructor(
     protected http: HttpClient,
@@ -54,6 +55,7 @@ export class MapboxService implements AutoCompleteService {
         });
         return convertedMapboxPlaces;
       }),
+      map(results => results.slice(0, this.numResults))
     );
   }
 

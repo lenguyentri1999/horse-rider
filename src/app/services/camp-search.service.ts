@@ -10,7 +10,7 @@ import { of, Observable } from 'rxjs';
 })
 
 export class CampSearchService implements AutoCompleteService {
-  readonly numNonDefaultResults: number = 2;
+  readonly numNonDefaultResults: number = 1;
 
   constructor(
     protected campService: CampService,
