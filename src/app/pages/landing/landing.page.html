@@ -5,8 +5,8 @@
   <div>
     <div class="container">
       <div class="container2">
-        <h1 align="center" class="description">Adventure is out there.</h1>
-        <h2 align="center" class="slogan">Discover, experience and rate horse camps and trails</h2>
+        <h1 align="center" class="description white-outline-text">Adventure is out there.</h1>
+        <!-- <h2 align="center" class="slogan white-outline-text">Discover, experience and rate horse camps and trails</h2> -->
         <ion-grid>
           <ion-row justify-content-end>
             <ion-col size-lg="5" size="12" size-sm>
@@ -31,7 +31,7 @@
                 #locationSearchBar>
               </ion-auto-complete>
             </ion-col>
-            <ion-col size-lg="1" size="12" size-sm>
+            <ion-col size-lg="1" size="12" size-sm style="text-align: center;">
               <ion-button (click)="searchCamps()">Search</ion-button>
             </ion-col>
           </ion-row>
@@ -43,7 +43,7 @@
   </div>
 
   <ion-grid padding>
-    <h1 class="rec-heading">Map</h1>
+    <h1 class="rec-heading">Explore.</h1>
     <ion-card class="map-card">
       <app-mapboxgl-map [geoJsonData]="mapGeojsonData$ | async"></app-mapboxgl-map>
     </ion-card>

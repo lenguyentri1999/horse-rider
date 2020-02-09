@@ -8,7 +8,7 @@ ion-header{
     margin-right: auto;
     margin-top: auto;
     width: 100%;
-    -webkit-mask-image: -webkit-linear-gradient(right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    -webkit-mask-image: -webkit-linear-gradient(right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
     object-fit: cover;
     width: 100%;
     height: 80vh;
@@ -25,7 +25,7 @@ ion-header{
 .container2 {
     z-index: 10;
     position: absolute;
-    top: 11vw;
+    top: 30vh;
     left: 15vw;
     width: 70vw;
 }
@@ -47,7 +47,7 @@ ul {
 .slogan {
     top: 8px;
     left: 16px;
-    font-size: 1.5em;
+    font-size: 2em;
     font-weight: bolder;
     font-family: 'Helvetica Neue';
     src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
@@ -126,4 +126,9 @@ p {
     height: 70vh;
     width: 80vw;
     margin: auto;
+}
+
+.white-outline-text {
+    color: #000;
+    text-shadow: 1px 0 0 #fff, 0 -1px 0 #fff, 0 1px 0 #fff, -1px 0 0 #fff;
 }
