@@ -3,7 +3,7 @@ import { MapboxService } from 'src/app/services/mapbox.service';
 import { MapboxPlace } from 'src/models/mapboxResult';
 import { Router } from '@angular/router';
 import { AutoCompleteComponent } from 'ionic4-auto-complete';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { CampSearchService, SearchResult } from 'src/app/services/camp-search.service';
 import { TrailSearchFormValues } from 'src/app/components/trail-search-form/trail-search-form.component';
@@ -26,6 +26,7 @@ export class LandingPage implements OnInit, AfterViewInit {
   @ViewChild('locationSearchBar', { static: false }) locationSearchBar: AutoCompleteComponent;
   environmentSetting: boolean = environment.production;
   environmentVersion: string = environment.version;
+  isMobile: boolean;
 
   place: MapboxPlace;
 
@@ -44,7 +45,11 @@ export class LandingPage implements OnInit, AfterViewInit {
     protected campService: CampService,
     protected router: Router,
     protected navCtrl: NavController,
+    protected plt: Platform,
   ) {
+
+    this.isMobile = this.plt.is('mobile');
+
     this.threeCamps = this.campService.getAllHorseCampsAsList().pipe(
       map(arr => arr.slice(0, 3))
     );

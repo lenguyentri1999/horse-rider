@@ -9,9 +9,9 @@ ion-header{
     margin-top: auto;
     width: 100%;
     -webkit-mask-image: -webkit-linear-gradient(right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
-    object-fit: cover;
+    // object-fit: cover;
     width: 100%;
-    height: 80vh;
+    // height: 80vh;
     margin-top: 0 !important;
     // -webkit-gradient(linear,left, 
     // from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
@@ -25,7 +25,7 @@ ion-header{
 .container2 {
     z-index: 10;
     position: absolute;
-    top: 30vh;
+    top: 35vh;
     left: 15vw;
     width: 70vw;
 }
