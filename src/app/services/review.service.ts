@@ -11,15 +11,24 @@ import { ReviewImgHandler } from 'src/models/reviews/reviewImgHandler';
 import { CampService } from './camp.service';
 import { TrailReviewAttributes } from 'src/models/reviews/trailReview';
 import { CampReviewAttributes } from 'src/models/reviews/campReview';
+import { IGetAll } from 'src/models/firebase/IGetAll';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByID<Review> {
+export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByID<Review>, IGetAll<Review> {
   constructor(
     protected db: DbService,
     protected campService: CampService,
   ) { }
+
+  getAllAsMap(): Observable<Map<string, Review>> {
+    throw new Error("Method not implemented.");
+  }
+
+  getAllAsList(): Observable<Review[]> {
+    return this.db.getListSortedByFunction(`reviews/review-info`, ref => ref.orderByChild('dateTime'));
+  }
 
   getByCampID(campID: string): Observable<Review[]> {
     try {

@@ -11,6 +11,7 @@ import { AddCampComponent } from 'src/app/components-admin/add-camp/add-camp.com
 import { AdminBlogComponent } from 'src/app/components-admin/admin-blog/admin-blog.component';
 import { AddBlogComponent } from 'src/app/components-admin/add-blog/add-blog.component';
 import { AdminCampsComponent } from 'src/app/components-admin/admin-camps/admin-camps.component';
+import { AdminReviewsComponent } from 'src/app/components-admin/admin-reviews/admin-reviews.component';
 
 const routes: Routes = [
   {
@@ -32,7 +33,11 @@ const routes: Routes = [
       {
         path: 'blog-add',
         component: AddBlogComponent,
-      }
+      },
+      {
+        path: 'reviews',
+        component: AdminReviewsComponent,
+      },
     ]
   }
 ];

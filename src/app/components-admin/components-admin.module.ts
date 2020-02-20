@@ -15,6 +15,7 @@ import { ComponentsModule } from '../components/components.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminCampsComponent } from './admin-camps/admin-camps.component';
 import { PhotoAdderComponentsModule } from '../components-modules/photo-adder.module';
+import { AdminReviewsComponent } from './admin-reviews/admin-reviews.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { PhotoAdderComponentsModule } from '../components-modules/photo-adder.mo
     AddBlogComponent,
     AdminBlogComponent,
     AdminCampsComponent,
+    AdminReviewsComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { PhotoAdderComponentsModule } from '../components-modules/photo-adder.mo
     AddBlogComponent,
     AdminBlogComponent,
     AdminCampsComponent,
+    AdminReviewsComponent,
   ],
   exports: [
     AddCampComponent,
@@ -52,6 +55,7 @@ import { PhotoAdderComponentsModule } from '../components-modules/photo-adder.mo
     AddBlogComponent,
     AdminBlogComponent,
     AdminCampsComponent,
+    AdminReviewsComponent,
   ]
 })
 export class ComponentsAdminModule { }
