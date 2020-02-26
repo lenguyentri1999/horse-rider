@@ -3,9 +3,11 @@ import { User } from 'src/models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, flatMap } from 'rxjs/operators';
-import { auth } from 'firebase/app';
+import { auth, UserInfo } from 'firebase/app';
 import { DbService } from './db.service';
 import { UserData } from 'src/models/userData';
+import { cfaSignIn, mapUserToUserInfo } from 'capacitor-firebase-auth';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,7 @@ export class AuthService {
   constructor(
     protected afAuth: AngularFireAuth,
     public dbService: DbService,
+    protected plt: Platform,
   ) { }
 
   private isAuthenticated(): boolean {
@@ -37,9 +40,9 @@ export class AuthService {
   public isAdmin(): Observable<boolean> {
     return this.tryGetUserId().pipe(
       switchMap(userID => {
-      return this.dbService.getObjectValues<boolean>(`admin/${userID}`).pipe(
-        map(value => value ? true : false)
-      );
+        return this.dbService.getObjectValues<boolean>(`admin/${userID}`).pipe(
+          map(value => value ? true : false)
+        );
       })
     );
   }
@@ -58,7 +61,7 @@ export class AuthService {
       displayName: user.name,
     });
 
-    this.setUserData(r.user.uid, {name: user.name});
+    this.setUserData(r.user.uid, { name: user.name });
     return r;
   }
 
@@ -71,18 +74,30 @@ export class AuthService {
     return r;
   }
 
-  public async googleLogin() {
-    const provider = new auth.GoogleAuthProvider();
-    const credential = await this.afAuth.auth.signInWithPopup(provider);
+  public async googleLogin(): Promise<void> {
+    if (this.plt.is("mobile")) {
 
-    const data: UserData = {
-      name: credential.user.displayName,
-      photoUrl: credential.user.photoURL
-    };
+      cfaSignIn("google.com")
+      .pipe( mapUserToUserInfo())
+      .subscribe((user: UserInfo) => {
+        const data: UserData = {
+          name: user.displayName,
+          photoUrl: user.photoURL
+        }
+        this.setUserData(user.uid, data);
+      })
 
-    await this.setUserData(credential.user.uid, data);
+    } else {
+      const provider = new auth.GoogleAuthProvider();
+      const credential = await this.afAuth.auth.signInWithPopup(provider);
 
-    return credential;
+      const data: UserData = {
+        name: credential.user.displayName,
+        photoUrl: credential.user.photoURL
+      };
+
+      await this.setUserData(credential.user.uid, data);
+    }
   }
 
   public async facebookLogin() {
