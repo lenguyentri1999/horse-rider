@@ -17,10 +17,10 @@
     </div>
     </ion-row>
     <ion-row>
-      <img [src]="(blog$ | async)?.pictureUrl">
+      <img [src]="(blog$ | async)?.pictureUrl" style="max-height: 50vh;">
     </ion-row>
     <ion-row>
-      <div class="description" [innerHTML]="(blog$ | async)?.description"></div>
+      <div class="description" style="font-family: Futura;" [innerHTML]="(blog$ | async)?.description"></div>
     </ion-row>
   </ion-grid>
 
