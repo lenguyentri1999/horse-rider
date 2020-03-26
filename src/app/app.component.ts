@@ -25,6 +25,8 @@ export class AppComponent {
       // this.router.navigate(['landing']);
       this.statusBar.hide();
       this.splashScreen.hide();
+      this.statusBar.overlaysWebView(true);
+      this.statusBar.styleLightContent();
     });
   }
 }
