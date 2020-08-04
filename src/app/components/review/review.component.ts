@@ -1,14 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Review } from 'src/models/review';
+import { Review } from 'src/models/reviews/review';
 import { Camp } from 'src/models/camp';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable, Subject } from 'rxjs';
 import { ModalController } from '@ionic/angular';
-import { tap, first } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { UserData } from 'src/models/userData';
 import { UserProfileService } from 'src/app/services/user-profile.service';
-import { CampReview } from 'src/models/campReview';
 import { CampService } from 'src/app/services/camp.service';
+import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
+import { TrailReview, TrailReviewAttributes } from 'src/models/reviews/trailReview';
+import { CampReview, CampReviewAttributes } from 'src/models/reviews/campReview';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-review',
@@ -32,17 +35,19 @@ export class ReviewComponent implements OnInit, OnChanges {
 
   // When editMode is false
   reviewToSubmit?: Review;
+  trailReviewToSubmit?: TrailReview;
   campReviewToSubmit?: CampReview;
+  TrailReviewAttributes = TrailReviewAttributes;
   CampReviewAttributes = CampReviewAttributes;
 
   isTrail$: Observable<boolean>;
   isTrail: boolean;
   @Output() submitReview = new EventEmitter<Review>();
-  @Output() submitCampReview = new EventEmitter<CampReview>();
   @Output() exitEventEmitter = new EventEmitter<void>();
 
   constructor(
     protected authService: AuthService,
+    protected db: DbService,
     protected userProfileService: UserProfileService,
     protected campService: CampService,
     protected modalController: ModalController,
@@ -65,24 +70,30 @@ export class ReviewComponent implements OnInit, OnChanges {
 
             if (this.isEditMode) {
               // User is creating new review
-              this.reviewToSubmit = {
-                rating: 5,
-                description: '',
-                campID: changes.camp.currentValue.id,
-                userID: this.authService.getUserId(),
-                dateTime: new Date()
-              };
+              // this.reviewToSubmit = {
+              //   rating: 5,
+              //   description: '',
+              //   campID: changes.camp.currentValue.id,
+              //   userID: this.authService.getUserId(),
+              //   dateTime: new Date()
+              // };
+              const defaultRating = 5;
 
-              this.campReviewToSubmit = {
-                campID: changes.camp.currentValue.id,
-                userID: this.authService.getUserId(),
-                dateTime: new Date(),
-                facilityCleanliness: 5,
-                horseFacilities: 5,
-                bigRigFriendly: 5,
-                petFriendly: 5,
-                wifi: 5
-              };
+              this.campReviewToSubmit = new CampReview(
+                this.db.uuidv4(),
+                changes.camp.currentValue.id,
+                this.authService.getUserId(),
+                defaultRating,
+                ''
+              );
+
+              this.trailReviewToSubmit = new TrailReview(
+                this.db.uuidv4(),
+                changes.camp.currentValue.id,
+                this.authService.getUserId(),
+                defaultRating,
+                ''
+              );
 
               this.readyToEdit = Promise.resolve(true);
             }
@@ -102,35 +113,30 @@ export class ReviewComponent implements OnInit, OnChanges {
   }
 
   onCampAttributeRateChange(rating: number, attr: CampReviewAttributes) {
-    this.campReviewToSubmit[attr] = rating;
+    this.campReviewToSubmit.setCampAttribute(attr, rating);
   }
 
-  onFacilityCleanlinessRateChange(rating: number) {
-    this.campReviewToSubmit.facilityCleanliness = rating;
-  }
-
-  onHorseFacilitiesRateChange(rating: number) {
-    this.campReviewToSubmit.horseFacilities = rating;
+  onTrailAttributeRateChange(rating: number, attr: TrailReviewAttributes) {
+    this.trailReviewToSubmit.setTrailAttribute(attr, rating);
   }
 
   // Send review to output
   onSubmit() {
-    if (!this.isTrail) {
-      this.submitCampReview.emit(this.campReviewToSubmit);
+    if (this.isTrail) {
+      this.submitReview.emit(this.trailReviewToSubmit);
     }
-    this.submitReview.emit(this.reviewToSubmit);
+    else {
+      this.submitReview.emit(this.campReviewToSubmit);
+    }
   }
 
   onLoginButtonClick() {
     this.exitEventEmitter.emit();
   }
 
+  onPhotoUrlsChange(urls: PhotoUrlWrapper[]) {
+    console.log(urls);
+  }
+
 }
 
-enum CampReviewAttributes {
-  bigRigFriendly = 'bigRigFriendly',
-  petFriendly = 'petFriendly',
-  facilityCleanliness = 'facilityCleanliness',
-  horseFacilities = 'horseFacilities',
-  wifi = 'wifi',
-}

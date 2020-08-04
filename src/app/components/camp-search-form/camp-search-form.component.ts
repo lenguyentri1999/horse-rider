@@ -26,6 +26,8 @@ export class CampSearchFormComponent implements OnInit {
       bigRigFriendly: [false],
       petFriendly: [false],
       wifi: [false],
+      city: [''],
+      state: [''],
     });
 
     this.filterService.getCampAttributesFilter().subscribe(filter => {
@@ -34,7 +36,9 @@ export class CampSearchFormComponent implements OnInit {
           name: [filter.name],
           bigRigFriendly: [filter.bigRigFriendly],
           petFriendly: [filter.petFriendly],
-          wifi: [filter.wifi]
+          wifi: [filter.wifi],
+          city: [filter.city],
+          state: [filter.state],
         });
       }
     });
@@ -52,4 +56,6 @@ export interface CampSearchFormValues {
   bigRigFriendly: boolean;
   petFriendly: boolean;
   wifi: boolean;
+  city: string;
+  state: string;
 }

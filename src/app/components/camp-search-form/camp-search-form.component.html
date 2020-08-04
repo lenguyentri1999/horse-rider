@@ -3,25 +3,20 @@
     <ion-row>
       <ion-col size-lg="4" size="6" size-sm *ngIf="!nameElementHidden">
         <ion-item>
-          <ion-input placeholder="Name" formControlName="name"></ion-input>
+          <ion-label>Name</ion-label>
+          <ion-input placeholder="Filter by name..." formControlName="name"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size-lg="4" size="6" size-sm>
         <ion-item>
-          <ion-label>Big Rig Friendly</ion-label>
-          <ion-checkbox slot="end" formControlName="bigRigFriendly"></ion-checkbox>
+          <ion-label>City</ion-label>
+          <ion-input placeholder="Filter by city..." formControlName="city"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size-lg="4" size="6" size-sm>
         <ion-item>
-          <ion-label>Pet Friendly</ion-label>
-          <ion-checkbox slot="end" formControlName="petFriendly"></ion-checkbox>
-        </ion-item>
-      </ion-col>
-      <ion-col size-lg="4" size="6" size-sm>
-        <ion-item>
-          <ion-label>Wifi</ion-label>
-          <ion-checkbox slot="end" formControlName="wifi"></ion-checkbox>
+          <ion-label>State</ion-label>
+          <ion-input placeholder="Filter by state..." formControlName="state"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>

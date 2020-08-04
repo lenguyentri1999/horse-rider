@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NavParams, PopoverController, ModalController } from '@ionic/angular';
 import { Camp } from 'src/models/camp';
 import { Observable } from 'rxjs';
-import { Review } from 'src/models/review';
+import { Review } from 'src/models/reviews/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { map, switchMap } from 'rxjs/operators';
 import { CampService } from 'src/app/services/camp.service';
-import { CampReview } from 'src/models/campReview';
+import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
 
 @Component({
   selector: 'app-review-write-new-review',
@@ -16,6 +16,10 @@ import { CampReview } from 'src/models/campReview';
 export class ReviewWriteNewReviewComponent implements OnInit {
   camp$: Observable<Camp>;
   isTrail: Observable<boolean>;
+  reviewImgs: PhotoUrlWrapper[];
+
+  // Template attrs
+  isAddingPhoto: boolean;
 
   constructor(
     protected reviewService: ReviewService,
@@ -37,12 +41,12 @@ export class ReviewWriteNewReviewComponent implements OnInit {
 
   submitReview(review: Review) {
     this.reviewService.submitReview(review);
+    this.reviewService.submitReviewPhotos(review, this.reviewImgs);
     this.exitPopover();
   }
 
-  submitCampReview(campReview: CampReview) {
-    this.reviewService.submitCampReview(campReview);
-    this.exitPopover();
+  onPhotoUrlsChange(urls: PhotoUrlWrapper[]) {
+    this.reviewImgs = urls;
   }
 
   exitPopover() {

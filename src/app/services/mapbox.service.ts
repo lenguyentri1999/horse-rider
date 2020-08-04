@@ -7,6 +7,9 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { Observable, forkJoin, of } from 'rxjs';
 import { Coords } from 'src/models/coords';
 import { Camp } from 'src/models/camp';
+import { Plugins, GeolocationPosition } from '@capacitor/core';
+
+const { Geolocation } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +23,7 @@ export class MapboxService implements AutoCompleteService {
   };
 
   private defaultAddress = 'San Francisco, California';
+  private readonly numResults = 3;
 
   constructor(
     protected http: HttpClient,
@@ -51,6 +55,7 @@ export class MapboxService implements AutoCompleteService {
         });
         return convertedMapboxPlaces;
       }),
+      map(results => results.slice(0, this.numResults))
     );
   }
 
@@ -164,13 +169,15 @@ export class MapboxService implements AutoCompleteService {
       },
       properties: {
         title: camp.name,
-        description: ''
+        description: '',
+        id: camp.id
       }
     };
     return mapboxPlace;
   }
 
   async findMe(): Promise<{ lat: number; long: number }> {
+    
     const pos = await this.getPosition();
 
     localStorage.setItem('currLocation', `${pos.coords.longitude}, ${pos.coords.latitude}`);
@@ -181,10 +188,8 @@ export class MapboxService implements AutoCompleteService {
     };
   }
 
-  private getPosition(options?): Promise<any> {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
-    });
+  private getPosition(): Promise<GeolocationPosition> {
+    return Geolocation.getCurrentPosition();
   }
 
 }

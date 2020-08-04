@@ -23,8 +23,10 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       // this.router.navigate(['landing']);
-      this.statusBar.styleDefault();
+      this.statusBar.hide();
       this.splashScreen.hide();
+      this.statusBar.overlaysWebView(true);
+      this.statusBar.styleLightContent();
     });
   }
 }

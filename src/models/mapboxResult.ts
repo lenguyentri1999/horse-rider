@@ -12,6 +12,7 @@ export interface MapboxPlace {
     properties: {
         title: string;
         description: string;
+        id: string;
     };
     context?: [MapboxContext];
 }

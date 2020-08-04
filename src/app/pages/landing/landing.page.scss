@@ -1,12 +1,18 @@
+ion-header{
+    margin-top: 0%;
+}
+
 .frontphoto {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: auto;
     width: 100%;
-    -webkit-mask-image: -webkit-linear-gradient(right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
-    object-fit: cover;
+    -webkit-mask-image: -webkit-linear-gradient(right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
+    // object-fit: cover;
     width: 100%;
-    height: 80vh;
+    // height: 80vh;
+    margin-top: 0 !important;
     // -webkit-gradient(linear,left, 
     // from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 }
@@ -19,7 +25,7 @@
 .container2 {
     z-index: 10;
     position: absolute;
-    top: 11vw;
+    top: 35vh;
     left: 15vw;
     width: 70vw;
 }
@@ -41,7 +47,7 @@ ul {
 .slogan {
     top: 8px;
     left: 16px;
-    font-size: 1.5em;
+    font-size: 2em;
     font-weight: bolder;
     font-family: 'Helvetica Neue';
     src: url('/src/assets/fonts/HelveticaNeue\ and\ Helvetica/HelveticaNeue.ttf') format("truetype");
@@ -120,4 +126,9 @@ p {
     height: 70vh;
     width: 80vw;
     margin: auto;
+}
+
+.white-outline-text {
+    color: #000;
+    text-shadow: 1px 0 0 #fff, 0 -1px 0 #fff, 0 1px 0 #fff, -1px 0 0 #fff;
 }

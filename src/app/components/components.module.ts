@@ -15,6 +15,7 @@ import { TrailSearchFormComponent } from './trail-search-form/trail-search-form.
 import { CampSearchFormComponent } from './camp-search-form/camp-search-form.component';
 import { RequestNewCampComponent } from './request-new-camp/request-new-camp.component';
 import { BlogPostComponent } from './blog-post/blog-post.component';
+import { PhotoAdderComponentsModule } from '../components-modules/photo-adder.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,8 @@ import { BlogPostComponent } from './blog-post/blog-post.component';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
+    PhotoAdderComponentsModule,
+    // ComponentsAdminModule,
   ],
   entryComponents: [
     FilterModalComponent,

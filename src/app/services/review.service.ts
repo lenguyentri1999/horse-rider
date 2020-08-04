@@ -1,20 +1,34 @@
 import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
-import { Review } from 'src/models/review';
+import { Review, ReviewAttrs } from 'src/models/reviews/review';
 import { Observable, combineLatest, of } from 'rxjs';
 import { IByCampID } from 'src/models/firebase/IByCampID';
 import { IByUserID } from 'src/models/firebase/IByUserID';
 import { IByID } from 'src/models/firebase/IByID';
 import { map, flatMap } from 'rxjs/operators';
-import { CampReview } from 'src/models/campReview';
+import { PhotoUrlWrapper } from 'src/models/photoModalOutput';
+import { ReviewImgHandler } from 'src/models/reviews/reviewImgHandler';
+import { CampService } from './camp.service';
+import { TrailReviewAttributes } from 'src/models/reviews/trailReview';
+import { CampReviewAttributes } from 'src/models/reviews/campReview';
+import { IGetAll } from 'src/models/firebase/IGetAll';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByID<Review> {
+export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByID<Review>, IGetAll<Review> {
   constructor(
-    protected db: DbService
+    protected db: DbService,
+    protected campService: CampService,
   ) { }
+
+  getAllAsMap(): Observable<Map<string, Review>> {
+    throw new Error("Method not implemented.");
+  }
+
+  getAllAsList(): Observable<Review[]> {
+    return this.db.getListSortedByFunction(`reviews/review-info`, ref => ref.orderByChild('dateTime'));
+  }
 
   getByCampID(campID: string): Observable<Review[]> {
     try {
@@ -40,10 +54,75 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
   }
 
   getByID(id: string): Observable<Review> {
-    return this.db.getObjectValues<Review>(`reviews/${id}`);
+    return this.db.getObjectValues<Review>(`reviews/review-info/${id}`);
   }
 
-  getAllReviewRatings(campID: string): Observable<number[]> {
+  public getAllReviewPhotos(campID: string): Observable<string[]> {
+    try {
+      const ids = this.getAllCampReviewIds(campID);
+      const photos = ids.pipe(
+        flatMap(arr => {
+          if (arr.length === 0) {
+            return of([]);
+          }
+
+          let observables: Observable<string[]>[] = [];
+          observables = arr.map(id => this.getReviewPhotos(id));
+
+          return combineLatest(observables);
+        }),
+        map(arr => this.flatten<string>(arr))
+      );
+
+      return photos;
+
+    } catch (err) {
+      throw new Error(err);
+    }
+
+  }
+
+  // Source: https://stackoverflow.com/questions/10865025/merge-flatten-an-array-of-arrays/39000004#39000004
+  // Returns a flattenned array
+  private flatten<T>(arr: T[], result = []): T[] {
+    for (let i = 0, length = arr.length; i < length; i++) {
+      const value = arr[i];
+      if (Array.isArray(value)) {
+        this.flatten(value, result);
+      } else {
+        result.push(value);
+      }
+    }
+    return result;
+  };
+
+  public submitReview(review: Review) {
+    review.submitReview(this.db);
+  }
+
+  public submitReviewPhotos(review: Review, preUploadedImgs: PhotoUrlWrapper[]) {
+    const reviewImgHandler = new ReviewImgHandler(review, preUploadedImgs);
+    reviewImgHandler.uploadPhotos(this.db);
+  }
+
+  // Get the average rating based on all the ratings for the camp
+  public getAverageRating(campID: string, attr: ReviewAttrs | TrailReviewAttributes | CampReviewAttributes): Observable<number> {
+    return this.getAllReviewRatings(campID, attr)
+      .pipe(
+        map(ratings => {
+          if (ratings.length === 0) {
+            return 0;
+          }
+
+          let sum = 0;
+          ratings.forEach(rating => sum += rating);
+          return sum / ratings.length;
+        })
+      );
+  }
+
+  // Get all the ratings for a specific camp
+  public getAllReviewRatings(campID: string, attr: ReviewAttrs | CampReviewAttributes | TrailReviewAttributes): Observable<number[]> {
     try {
       const ids = this.getAllCampReviewIds(campID);
       const ratings = ids.pipe(
@@ -53,7 +132,7 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
           }
 
           let observables: Observable<number>[] = [];
-          observables = arr.map(id => this.getReviewRating(id));
+          observables = arr.map(id => this.getReviewInfo(id, attr));
 
           return combineLatest(observables);
         })
@@ -66,42 +145,18 @@ export class ReviewService implements IByCampID<Review>, IByUserID<Review>, IByI
     }
   }
 
-  submitReview(review: Review) {
-    const writes: Map<string, object> = new Map<string, object>();
-    const id = this.db.uuidv4();
-
-    const ref = `reviews/${id}`;
-    const refByUid = `reviews-by-uid/${review.userID}/${id}`;
-    const refByCampID = `reviews-by-campID/${review.campID}/${id}`;
-
-    writes[ref] = review;
-    writes[refByUid] = true;
-    writes[refByCampID] = true;
-
-    this.db.batchWrite(writes);
+  // Get specific information about a rating
+  private getReviewInfo(id: string, attr: ReviewAttrs | CampReviewAttributes | TrailReviewAttributes): Observable<number> {
+    return this.db.getObjectValues<number>(`reviews/review-info/${id}/${attr}`);
   }
 
-  submitCampReview(campReview: CampReview) {
-    const writes: Map<string, object> = new Map<string, object>();
-    const id = this.db.uuidv4();
 
-    const ref = `campReviews/${id}`;
-    const refByUid = `camp-reviews-by-uid/${campReview.userID}/${id}`;
-    const refByCampId = `camp-reviews-by-campID/${campReview.campID}/${id}`;
-
-    writes[ref] = campReview;
-    writes[refByUid] = true;
-    writes[refByCampId] = true;
-
-    this.db.batchWrite(writes);
-  }
-
-  private getReviewRating(id: string): Observable<number> {
-    return this.db.getObjectValues<number>(`reviews/${id}/rating`);
+  private getReviewPhotos(id: string): Observable<string[]> {
+    return this.db.getObjectValues<string[]>(`reviews/review-imgs/${id}`);
   }
 
   private getAllCampReviewIds(campID: string): Observable<string[]> {
-    const ids = this.db.getObjectValues<Map<string, boolean>>(`reviews-by-campID/${campID}`)
+    const ids = this.db.getObjectValues<Map<string, boolean>>(`reviews/review-by-campID/${campID}`)
       .pipe(
         map(hashmap => {
           if (!(hashmap)) {

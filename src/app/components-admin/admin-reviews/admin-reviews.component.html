@@ -1,0 +1,50 @@
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card padding class="ion-card-total">
+          <ion-card-subtitle style="float:left;font-weight:950;">
+            Total Reviews:
+          </ion-card-subtitle>
+          <h1 class="total-number">
+            {{(dataSource$ | async)?.length}}
+          </h1>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <!-- <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.name" (ionChange)="onAnySearchBarChange($event)" placeholder="Name">
+        </ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.address" (ionChange)="onAnySearchBarChange($event)"
+          placeholder="Address"></ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.city" (ionChange)="onAnySearchBarChange($event)" placeholder="City">
+        </ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-searchbar [(ngModel)]="currQueries.state" (ionChange)="onAnySearchBarChange($event)" placeholder="State">
+        </ion-searchbar>
+      </ion-col>
+      <ion-col size="2"></ion-col> -->
+    </ion-row>
+
+    <ion-row *ngFor="let review of dataSource$ | async | paginate: { itemsPerPage: 11, currentPage: p}"
+     style="border-bottom:0.06em solid #E8E8E8;"> 
+      <ion-col size="3">{{review.dateTime | date: 'medium'}}</ion-col>
+      <ion-col size="9" [routerLink]="['/camp-info', review.campID]">
+        <app-review [isEditMode]="false" [review]="review"></app-review>
+      </ion-col>
+    </ion-row>
+
+    <ion-row justify-content-center>
+      <ion-col size="9">
+        <pagination-controls (pageChange)="onPageChange($event)" *ngIf="dataSource$ | async"></pagination-controls>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

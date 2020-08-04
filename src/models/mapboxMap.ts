@@ -1,6 +1,7 @@
 import { MapboxPlace } from './mapboxResult';
 
 export interface MapboxSource {
+  getClusterExpansionZoom(clusterId: any, arg1: (err: any, zoom: any) => void);
     setData(data: MapboxSourceOptions['data']);
 }
 
@@ -10,9 +11,14 @@ export interface MapboxSourceOptions {
         type: 'FeatureCollection';
         features: MapboxPlace[];
     };
+    cluster?: boolean;
+    clusterRadius?: number;
+    clusterMaxZoom?: number;
 }
 
 export interface MapboxMap {
+  getCanvas();
+  easeTo(arg0: { center: any; zoom: any; });
   setCenter(center: number[]);
   getCenter(): number[];
   addLayer(layer: any);
@@ -20,6 +26,8 @@ export interface MapboxMap {
   getSource(source: string): MapboxSource;
   setZoom(level: number);
   on(event: string, action: any);
+  on(event1: string, event2: string, action: any);
+  queryRenderedFeatures(point: any, layers: any);
   resize();
 }
 

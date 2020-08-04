@@ -10,12 +10,12 @@ import { AddTrailComponent } from './add-trail/add-trail.component';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { AddEventComponent } from './add-event/add-event.component';
 import { AddBlogComponent } from './add-blog/add-blog.component';
-import { PhotoAdderComponent } from './photo-adder/photo-adder.component';
-import { PhotoAdderModalComponent } from './photo-adder-modal/photo-adder-modal.component';
 import { AdminBlogComponent } from './admin-blog/admin-blog.component';
 import { ComponentsModule } from '../components/components.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminCampsComponent } from './admin-camps/admin-camps.component';
+import { PhotoAdderComponentsModule } from '../components-modules/photo-adder.module';
+import { AdminReviewsComponent } from './admin-reviews/admin-reviews.component';
 
 @NgModule({
   declarations: [
@@ -23,10 +23,9 @@ import { AdminCampsComponent } from './admin-camps/admin-camps.component';
     AddTrailComponent,
     AddEventComponent,
     AddBlogComponent,
-    PhotoAdderComponent,
-    PhotoAdderModalComponent,
     AdminBlogComponent,
     AdminCampsComponent,
+    AdminReviewsComponent,
   ],
   imports: [
     CommonModule,
@@ -38,25 +37,25 @@ import { AdminCampsComponent } from './admin-camps/admin-camps.component';
     ComponentsModule,
     NgxPaginationModule,
     CKEditorModule,
+    PhotoAdderComponentsModule,
   ],
   entryComponents: [
     AddCampComponent,
     AddTrailComponent,
     AddEventComponent,
     AddBlogComponent,
-    PhotoAdderComponent,
-    PhotoAdderModalComponent,
     AdminBlogComponent,
     AdminCampsComponent,
+    AdminReviewsComponent,
   ],
   exports: [
     AddCampComponent,
     AddTrailComponent,
     AddEventComponent,
     AddBlogComponent,
-    PhotoAdderComponent,
     AdminBlogComponent,
     AdminCampsComponent,
+    AdminReviewsComponent,
   ]
 })
 export class ComponentsAdminModule { }

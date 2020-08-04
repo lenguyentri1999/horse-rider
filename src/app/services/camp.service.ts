@@ -3,7 +3,6 @@ import { DbService } from './db.service';
 import { Camp } from 'src/models/camp';
 import { Observable, combineLatest, zip, from, of } from 'rxjs';
 import { map, tap, flatMap, switchMap, take, catchError, filter, first } from 'rxjs/operators';
-import { ReviewService } from './review.service';
 import * as stringSim from 'string-similarity';
 import { StringMatch } from 'src/models/string-similarity/stringMatch';
 import { MapboxService } from './mapbox.service';
@@ -18,7 +17,6 @@ export class CampService {
 
   constructor(
     protected db: DbService,
-    protected reviewService: ReviewService,
     protected mapboxService: MapboxService,
   ) { }
 
@@ -58,12 +56,17 @@ export class CampService {
     }
   }
 
-  public isTrail(camp: Camp): Observable<boolean> {
+  public isTrailById(campID: string): Observable<boolean> {
     return this.getAllHorseTrailsAsMap().pipe(
       map(trails =>
-        trails.hasOwnProperty(camp.id)
+        trails.hasOwnProperty(campID)
       )
     );
+
+  }
+
+  public isTrail(camp: Camp): Observable<boolean> {
+    return this.isTrailById(camp.id);
   }
 
   private getAllHorseCampsAsMap(): Observable<FirebaseTable<Camp>> {
@@ -217,20 +220,6 @@ export class CampService {
   }
   // END REGION
 
-  public getAverageRating(campID: string): Observable<number> {
-    return this.reviewService.getAllReviewRatings(campID)
-      .pipe(
-        map(ratings => {
-          if (ratings.length === 0) {
-            return 0;
-          }
-
-          let sum = 0;
-          ratings.forEach(rating => sum += rating);
-          return sum / ratings.length;
-        })
-      );
-  }
 }
 
 export enum SourceEnum {
