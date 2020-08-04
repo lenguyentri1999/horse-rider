@@ -3,7 +3,7 @@ We are High Horse Drifters - soon to be the Yelp for horse enthusiasts.
 # Live Demo
 Give our website a whirl at https://horse-riding-app.firebaseapp.com/landing
 # Screenshots
-1. Landing Page
+-> 1. Landing Page
 ![Landing Page](https://i.imgur.com/45URHRW.png)
 
 2. Interactive Maps
@@ -17,6 +17,7 @@ Give our website a whirl at https://horse-riding-app.firebaseapp.com/landing
 
 5. Keep up with our Blogs
 ![Blog Page](https://i.imgur.com/Ub99igl.png)
+<-
 
 # Install
 `npm install -g ionic@latest`
