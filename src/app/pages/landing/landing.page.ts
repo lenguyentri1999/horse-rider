@@ -48,7 +48,7 @@ export class LandingPage implements OnInit, AfterViewInit {
     protected plt: Platform,
   ) {
 
-    this.isMobile = this.plt.is('mobile');
+    // this.isMobile = this.plt.is('mobile');
 
     this.threeCamps = this.campService.getAllHorseCampsAsList().pipe(
       map(arr => arr.slice(0, 3))
