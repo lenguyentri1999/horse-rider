@@ -1,4 +1,4 @@
-#Live Demo
+# Live Demo
 Give our website a whirl at https://horse-riding-app.firebaseapp.com/landing
 # Install
 `npm install -g ionic@latest`
