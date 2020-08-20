@@ -1,5 +1,5 @@
 # Who We Are
-We are High Horse Drifters - soon to be the Yelp for horse enthusiasts.
+We are High Horse Drifters - soon to be the Yelp for horse enthusiasts. Get in touch with us on Facebook at: https://www.facebook.com/groups/Highhorsedrifters
 # Live Demo
 Give our website a whirl at https://horse-riding-app.firebaseapp.com/landing
 # Screenshots
